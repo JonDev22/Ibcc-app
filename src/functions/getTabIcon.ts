@@ -1,4 +1,6 @@
-function getTabIcon(name: string) {
+import { FontAwesomeIconName } from '@react-native-vector-icons/fontawesome';
+
+function getTabIcon(name: string): FontAwesomeIconName {
     switch (name) {
         case 'Home':
             return 'home';
