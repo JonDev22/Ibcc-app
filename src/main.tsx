@@ -16,10 +16,10 @@ function Main() {
             screenOptions={({ route }) => ({
                 tabBarIcon: renderTabBarIcon(route.name),
                 headerShown: false,
-                tabBarStyle: { backgroundColor: 'lightGrey' },
+                tabBarStyle: { backgroundColor: 'lightgrey' },
             })}
         >
-            <Tab.Screen name="Home" component={HomeStack} />
+            <Tab.Screen name="HomeStack" component={HomeStack} />
         </Tab.Navigator>
     );
 }
