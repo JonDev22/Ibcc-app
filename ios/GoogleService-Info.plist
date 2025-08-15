@@ -2,18 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>83044330620-1k5nku3lga98fs0749dqi88oivl46dgj.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.83044330620-1k5nku3lga98fs0749dqi88oivl46dgj</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAmT0coDvxPSVENS_pG5TJPn33moqPo8nQ</string>
+	<string>AIzaSyC41T0d8zBy7a-yoXBruZELgqB7bKHfXLk</string>
 	<key>GCM_SENDER_ID</key>
-	<string>678456558233</string>
+	<string>83044330620</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>jonny.MyNewReactApp</string>
+	<string>ibcc.ibcc-app</string>
 	<key>PROJECT_ID</key>
-	<string>mytestproject-fc37f</string>
+	<string>cms-tbt</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mytestproject-fc37f.firebasestorage.app</string>
+	<string>cms-tbt.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:678456558233:ios:29c95a8c7ef3b76b31ee08</string>
+	<string>1:83044330620:ios:d92a52fe9f780e3c522df9</string>
 </dict>
 </plist>
