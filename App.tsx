@@ -5,7 +5,6 @@
  * @format
  */
 
-import { useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Main from './src/main';
 import { NavigationContainer } from '@react-navigation/native';
@@ -14,8 +13,6 @@ import { enableScreens } from 'react-native-screens';
 enableScreens();
 
 function App() {
-    const isDarkMode = useColorScheme() === 'dark';
-
     return (
         <SafeAreaProvider>
             <NavigationContainer>
