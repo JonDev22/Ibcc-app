@@ -4,8 +4,8 @@ function getTabIcon(name: string): FontAwesomeIconName {
     switch (name) {
         case 'Home':
             return 'home';
-        case 'About':
-            return 'info-circle';
+        case 'Resources':
+            return 'file-text-o';
         default:
             return 'home';
     }
