@@ -13,6 +13,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8CA64830B026721CE92493FE /* Pods_ibcc_app.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9897C67BCB7E13CD5A3A03E7 /* Pods_ibcc_app.framework */; };
 		CF138A492E4FA7A200C92BFF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF138A482E4FA7A200C92BFF /* GoogleService-Info.plist */; };
+		CFEBE7D12E50F7870053C2C8 /* dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEBE7D02E50F7870053C2C8 /* dummy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ibcc_app/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9897C67BCB7E13CD5A3A03E7 /* Pods_ibcc_app.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ibcc_app.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF138A482E4FA7A200C92BFF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CFEBE7D02E50F7870053C2C8 /* dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dummy.swift; sourceTree = "<group>"; };
+		CFEBE7D22E50F79E0053C2C8 /* tbt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tbt-Bridging-Header.h"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -50,6 +53,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				CFEBE7D02E50F7870053C2C8 /* dummy.swift */,
+				CFEBE7D22E50F79E0053C2C8 /* tbt-Bridging-Header.h */,
 			);
 			name = ibcc_app;
 			sourceTree = "<group>";
@@ -267,6 +272,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFEBE7D12E50F7870053C2C8 /* dummy.swift in Sources */,
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

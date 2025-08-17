@@ -3154,6 +3154,9 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
+  - react-native-track-player (4.1.2):
+    - React-Core
+    - SwiftAudioEx (= 1.1.0)
   - react-native-vector-icons-fontawesome (12.3.0)
   - React-NativeModulesApple (0.81.0):
     - boost
@@ -3787,6 +3790,7 @@ PODS:
     - SocketRocket
     - Yoga
   - SocketRocket (0.7.1)
+  - SwiftAudioEx (1.1.0)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -3832,6 +3836,7 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-track-player (from `../node_modules/react-native-track-player`)
   - "react-native-vector-icons-fontawesome (from `../node_modules/@react-native-vector-icons/fontawesome`)"
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-oscompat (from `../node_modules/react-native/ReactCommon/oscompat`)
@@ -3892,6 +3897,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - SocketRocket
+    - SwiftAudioEx
 
 EXTERNAL SOURCES:
   boost:
@@ -3977,6 +3983,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-track-player:
+    :path: "../node_modules/react-native-track-player"
   react-native-vector-icons-fontawesome:
     :path: "../node_modules/@react-native-vector-icons/fontawesome"
   React-NativeModulesApple:
@@ -4112,6 +4120,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: ed316571f8a6368a044c166dd62db3ff9a19ade9
   React-microtasksnativemodule: 7349a9210ff1fe97f54025fbda2496ed9a2d43cd
   react-native-safe-area-context: 0ef3fd18fd5822fa1a58516b3f11a7927f91376e
+  react-native-track-player: dd56f9948e03756a217c75e0a61aa04aab65b5a1
   react-native-vector-icons-fontawesome: c41fd08991989b71fe79c68ebb3ee30ac221178e
   React-NativeModulesApple: 9c2ece8c6e423b2a13c9c50d2ed25953379cbe4e
   React-oscompat: 34f3d3c06cadcbc470bc4509c717fb9b919eaa8b
@@ -4149,6 +4158,7 @@ SPEC CHECKSUMS:
   RNScreens: 0d3015061927272749a25761ad3aefcb8e834e22
   RNSVG: cb0941a452db697635e0b13d74fece27a8df20fc
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
+  SwiftAudioEx: f6aa653770f3a0d3851edaf8d834a30aee4a7646
   Yoga: be78ddad0c56d06a5e41eaef4bfbbd49b86a4d07
 
 PODFILE CHECKSUM: fa170ccf63daaee52cc21a7df6c963b526c89ea9
