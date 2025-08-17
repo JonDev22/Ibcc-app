@@ -5,6 +5,7 @@ import HomeStack from './tabs/home/HomeStack';
 import { colors } from './theme/colors';
 import useColorMap from './hooks/useColorMap';
 import ResourcesStack from './tabs/resources/ResourcesStack';
+import Audio from './tabs/audio/Audio';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,6 +38,14 @@ function Main() {
             <Tab.Screen
                 name="ResourcesStack"
                 component={ResourcesStack}
+                options={{
+                    tabBarActiveTintColor: colors.white50,
+                    tabBarInactiveTintColor: colors.white50,
+                }}
+            />
+            <Tab.Screen
+                name="Audio Player"
+                component={Audio}
                 options={{
                     tabBarActiveTintColor: colors.white50,
                     tabBarInactiveTintColor: colors.white50,
