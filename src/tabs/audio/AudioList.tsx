@@ -53,7 +53,7 @@ export default function SongList({ songs, onPressSong }: Props) {
 
 const styles = StyleSheet.create({
     list: {
-        padding: 12,
+        paddingVertical: 12,
         backgroundColor: colors.white50,
     },
     itemContainer: {

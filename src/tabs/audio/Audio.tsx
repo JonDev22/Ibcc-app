@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import TrackPlayer, {
     useProgress,
     usePlaybackState,
     State,
     Track,
 } from 'react-native-track-player';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import fetchAudioFiles from './functions/fetchAudioFiles';
 import AudioList from './AudioList';
 import AudioPlayer from './AudioPlayer';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { colors } from '../../theme/colors';
 
 function Audio() {
     // State and progress from player package.
@@ -17,10 +18,46 @@ function Audio() {
     const progress = useProgress();
 
     // Stores current tracks.
-    const [currentTrack, setCurrentTrack] = useState();
+    const [currentTrack, setCurrentTrack] = useState<Track | undefined>();
     const [track, setTrack] = useState<Track[]>();
 
-    // Use effect to fetch items once user navigates to component for first time.
+    const togglePlayPause = () => {
+        playBackState.state === State.Playing
+            ? TrackPlayer.pause()
+            : TrackPlayer.play();
+    };
+
+    const setCurrentTrackFromPlayer = useCallback(() => {
+        TrackPlayer.getActiveTrackIndex().then(index => {
+            if (track && index !== undefined) {
+                setCurrentTrack(track[index]);
+            }
+        });
+    }, [track]);
+
+    const next = async () => {
+        await TrackPlayer.skipToNext();
+        setCurrentTrackFromPlayer();
+    };
+
+    const prev = async () => {
+        await TrackPlayer.skipToPrevious();
+        setCurrentTrackFromPlayer();
+    };
+
+    const pick = async (id: number) => {
+        await TrackPlayer.skip(id);
+
+        if (playBackState.state !== State.Playing) {
+            await TrackPlayer.play();
+        }
+        setCurrentTrackFromPlayer();
+    };
+
+    useEffect(() => {
+        setCurrentTrackFromPlayer();
+    }, [track, setCurrentTrackFromPlayer]);
+
     useEffect(() => {
         const setup = async () => {
             await TrackPlayer.setupPlayer();
@@ -35,94 +72,77 @@ function Audio() {
         setup();
 
         return () => {};
-    }, []);
-
-    const togglePlayPause = () => {
-        playBackState.state === State.Playing
-            ? TrackPlayer.pause()
-            : TrackPlayer.play();
-    };
-
-    const next = async () => {
-        await TrackPlayer.skipToNext();
-    };
-
-    const prev = async () => {
-        await TrackPlayer.skipToPrevious();
-    };
-
-    const pick = async (id: number) => {
-        await TrackPlayer.skip(id);
-
-        if (playBackState.state !== State.Playing) {
-            await TrackPlayer.play();
-        }
-    };
+    }, [setCurrentTrackFromPlayer]);
 
     return (
-        <SafeAreaView>
-            <View style={styles.container}>
-                {track && <AudioList songs={track} onPressSong={pick} />}
-
-                <AudioPlayer
-                    title="A"
-                    artist="B"
-                    isPlaying={false}
-                    onPlay={togglePlayPause}
-                    onNext={next}
-                />
-
-                <View style={styles.timeContainer}>
-                    <Text style={styles.timeText}>
-                        {new Date(
-                            progress.position * 1000,
-                        ).toLocaleTimeString()}
-                    </Text>
-                    <Text style={styles.timeText}>
-                        {new Date(
-                            (progress.duration || 0) * 1000,
-                        ).toLocaleTimeString()}
-                    </Text>
-                </View>
-
-                <View style={styles.controls}>
-                    <TouchableOpacity onPress={prev}>
-                        <Text style={styles.controlText}>Previous</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={togglePlayPause}>
-                        <Text style={styles.controlText}>
-                            {playBackState.state === State.Playing
-                                ? 'Pause'
-                                : 'Play'}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={next}>
-                        <Text style={styles.controlText}>Next</Text>
-                    </TouchableOpacity>
-                </View>
+        <View style={styles.container}>
+            <View style={styles.listContainer}>
+                {track ? (
+                    <AudioList songs={track} onPressSong={pick} />
+                ) : (
+                    <Text style={styles.loadingText}>Loading...</Text>
+                )}
             </View>
-        </SafeAreaView>
+
+            <View style={styles.fixedContainer}>
+                <AudioPlayer
+                    title={currentTrack?.title || 'No Track Playing'}
+                    artist={currentTrack?.artist || 'Unknown Artist'}
+                    isPlaying={playBackState.state === State.Playing}
+                    onPlay={togglePlayPause}
+                    onPrev={prev}
+                    onNext={next}
+                    position={progress.position}
+                    duration={progress.duration}
+                />
+            </View>
+        </View>
     );
 }
 
-export default Audio;
+const Stack = createNativeStackNavigator();
+
+function AudioStack() {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: colors.lightPetrolBlue,
+                },
+                headerTintColor: 'orange',
+                headerTitleStyle: {
+                    fontSize: 24,
+                    fontWeight: 'bold',
+                },
+            }}
+        >
+            <Stack.Screen name="Audio Player" component={Audio} />
+        </Stack.Navigator>
+    );
+}
+
+export default AudioStack;
 
 const styles = StyleSheet.create({
-    container: { flex: 0, justifyContent: 'center', padding: 20 },
+    container: {
+        height: '100%',
+        justifyContent: 'space-between',
+    },
+    listContainer: {
+        width: '100%',
+    },
     title: { fontSize: 24, textAlign: 'center' },
-    artist: {
+    fixedContainer: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
+    loadingText: {
+        alignSelf: 'center',
         fontSize: 18,
-        color: '#666',
-        textAlign: 'center',
-        marginBottom: 20,
+        color: colors.petrolBlue,
+        marginTop: 20,
+        fontWeight: '600',
     },
-    slider: { width: '100%', height: 40 },
-    timeContainer: { flexDirection: 'row', justifyContent: 'space-between' },
-    timeText: { fontSize: 14, color: '#333' },
-    controls: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 30,
-    },
-    controlText: { fontSize: 18, color: '#1FB28A' },
 });

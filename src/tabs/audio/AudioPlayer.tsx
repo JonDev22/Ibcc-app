@@ -10,6 +10,9 @@ type Props = {
     isPlaying: boolean;
     onPlay: () => void;
     onNext: () => void;
+    onPrev: () => void;
+    position: number;
+    duration: number;
 };
 
 export default function MiniPlayer({
@@ -18,7 +21,16 @@ export default function MiniPlayer({
     isPlaying,
     onPlay,
     onNext,
+    onPrev,
+    position,
+    duration,
 }: Props) {
+    const formatTime = (time: number) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor((time % 60) * 100) / 100;
+        return `${minutes}:${seconds}`;
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
@@ -26,11 +38,15 @@ export default function MiniPlayer({
                     {title}
                 </Text>
                 <Text style={styles.artist} numberOfLines={1}>
-                    {artist}
+                    {artist}, {formatTime(position)}, {formatTime(duration)}
                 </Text>
             </View>
 
             <View style={styles.controls}>
+                <TouchableOpacity onPress={onPrev} style={styles.button}>
+                    <Icon name="backward" size={20} color={colors.white100} />
+                </TouchableOpacity>
+
                 <TouchableOpacity onPress={onPlay} style={styles.button}>
                     <Icon
                         name={isPlaying ? 'pause' : 'play'}
@@ -55,8 +71,6 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderTopLeftRadius: 16,
-        borderTopRightRadius: 16,
     },
     textContainer: {
         flex: 1,
@@ -75,9 +89,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     button: {
-        backgroundColor: colors.orange,
         padding: 10,
-        borderRadius: 25,
-        marginLeft: 8,
     },
 });

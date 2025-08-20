@@ -44,7 +44,7 @@ function Main() {
                 }}
             />
             <Tab.Screen
-                name="Audio Player"
+                name="AudioPlayerStack"
                 component={Audio}
                 options={{
                     tabBarActiveTintColor: colors.white50,
