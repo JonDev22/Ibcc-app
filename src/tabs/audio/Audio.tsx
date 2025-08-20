@@ -5,6 +5,7 @@ import TrackPlayer, {
     usePlaybackState,
     State,
     Track,
+    useActiveTrack,
 } from 'react-native-track-player';
 import fetchAudioFiles from './functions/fetchAudioFiles';
 import AudioList from './AudioList';
@@ -16,9 +17,9 @@ function Audio() {
     // State and progress from player package.
     const playBackState = usePlaybackState();
     const progress = useProgress();
+    const activeTrack = useActiveTrack();
 
     // Stores current tracks.
-    const [currentTrack, setCurrentTrack] = useState<Track | undefined>();
     const [track, setTrack] = useState<Track[]>();
 
     const togglePlayPause = () => {
@@ -27,22 +28,12 @@ function Audio() {
             : TrackPlayer.play();
     };
 
-    const setCurrentTrackFromPlayer = useCallback(() => {
-        TrackPlayer.getActiveTrackIndex().then(index => {
-            if (track && index !== undefined) {
-                setCurrentTrack(track[index]);
-            }
-        });
-    }, [track]);
-
     const next = async () => {
         await TrackPlayer.skipToNext();
-        setCurrentTrackFromPlayer();
     };
 
     const prev = async () => {
         await TrackPlayer.skipToPrevious();
-        setCurrentTrackFromPlayer();
     };
 
     const pick = async (id: number) => {
@@ -51,12 +42,7 @@ function Audio() {
         if (playBackState.state !== State.Playing) {
             await TrackPlayer.play();
         }
-        setCurrentTrackFromPlayer();
     };
-
-    useEffect(() => {
-        setCurrentTrackFromPlayer();
-    }, [track, setCurrentTrackFromPlayer]);
 
     useEffect(() => {
         const setup = async () => {
@@ -72,7 +58,7 @@ function Audio() {
         setup();
 
         return () => {};
-    }, [setCurrentTrackFromPlayer]);
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -86,8 +72,8 @@ function Audio() {
 
             <View style={styles.fixedContainer}>
                 <AudioPlayer
-                    title={currentTrack?.title || 'No Track Playing'}
-                    artist={currentTrack?.artist || 'Unknown Artist'}
+                    title={activeTrack?.title || 'No Track Playing'}
+                    artist={activeTrack?.artist || 'Unknown Artist'}
                     isPlaying={playBackState.state === State.Playing}
                     onPlay={togglePlayPause}
                     onPrev={prev}
