@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { IEvent } from '../../../../interfaces/IEvent';
 import EventsDisplayCard from './EventsDisplayCard';
+import Separator from '../../../../functions/Separator';
 
 // Filter and sort upcoming events
 const getUpcomingEvents = (allEvents: IEvent[], today = new Date()) => {
@@ -21,6 +22,7 @@ function UpcomingEventsList() {
                 data={upcoming}
                 keyExtractor={item => item.date.toDateString()}
                 renderItem={({ item }) => <EventsDisplayCard {...item} />}
+                ItemSeparatorComponent={Separator}
             />
         </View>
     );

@@ -5,6 +5,8 @@ import FontAwesome, {
 } from '@react-native-vector-icons/fontawesome';
 import { colors } from '../../../../../theme/colors';
 import { mainStyles } from '../../../../../styles/mainStyle';
+import { useNavigation } from '@react-navigation/native';
+import { HomeNavigationType } from '../../../types/homeNavigationProp';
 
 interface InfoCardProps {
     image: FontAwesomeIconName;
@@ -14,6 +16,7 @@ interface InfoCardProps {
 }
 
 function InfoCard({ image, header, text, onPress }: InfoCardProps) {
+    const navigation = useNavigation<HomeNavigationType<'Ministries'>>();
     return (
         <View style={styles.container}>
             <FontAwesome
@@ -29,7 +32,7 @@ function InfoCard({ image, header, text, onPress }: InfoCardProps) {
 
             <TouchableOpacity
                 style={styles.button}
-                onPress={onPress ?? (() => console.log(header))}
+                onPress={onPress ?? (() => navigation.navigate('Ministries'))}
             >
                 <Text style={styles.buttonText}>Learn More</Text>
             </TouchableOpacity>

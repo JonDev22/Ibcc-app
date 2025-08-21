@@ -3,8 +3,6 @@ import { StyleSheet, FlatList } from 'react-native';
 import FormListItem from './FormListItem';
 import Separator from '../../../../functions/Separator';
 
-const SeparatorComponent = () => <Separator />;
-
 // Type for a form item
 export type FormItem = {
     id: string;
@@ -42,7 +40,7 @@ const Forms: React.FC = () => {
             keyExtractor={item => item.id}
             renderItem={({ item }) => <FormListItem {...item} />}
             contentContainerStyle={styles.listContainer}
-            ItemSeparatorComponent={() => SeparatorComponent()}
+            ItemSeparatorComponent={Separator}
         />
     );
 };

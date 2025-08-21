@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import TrackPlayer, {
     useProgress,
@@ -70,18 +70,18 @@ function Audio() {
                 )}
             </View>
 
-            <View style={styles.fixedContainer}>
-                <AudioPlayer
-                    title={activeTrack?.title || 'No Track Playing'}
-                    artist={activeTrack?.artist || 'Unknown Artist'}
-                    isPlaying={playBackState.state === State.Playing}
-                    onPlay={togglePlayPause}
-                    onPrev={prev}
-                    onNext={next}
-                    position={progress.position}
-                    duration={progress.duration}
-                />
-            </View>
+            {/* <View style={styles.fixedContainer}> */}
+            <AudioPlayer
+                title={activeTrack?.title || 'No Track Playing'}
+                artist={activeTrack?.artist || 'Unknown Artist'}
+                isPlaying={playBackState.state === State.Playing}
+                onPlay={togglePlayPause}
+                onPrev={prev}
+                onNext={next}
+                position={progress.position}
+                duration={progress.duration}
+            />
+            {/* </View> */}
         </View>
     );
 }
@@ -111,18 +111,15 @@ export default AudioStack;
 
 const styles = StyleSheet.create({
     container: {
-        height: '100%',
+        flex: 1,
         justifyContent: 'space-between',
     },
     listContainer: {
-        width: '100%',
+        flex: 1,
     },
     title: { fontSize: 24, textAlign: 'center' },
     fixedContainer: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        bottom: 0,
+        minHeight: 100,
     },
     loadingText: {
         alignSelf: 'center',

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { colors } from '../../theme/colors';
 import { Track } from 'react-native-track-player';
+import Separator from '../../functions/Separator';
 
 type Props = {
     songs: Track[];
@@ -21,8 +22,6 @@ const formatDuration = (seconds: number) => {
 };
 
 export default function SongList({ songs, onPressSong }: Props) {
-    const separatorView = () => <View style={styles.separator} />;
-
     const renderItem = ({ item, index }: { item: Track; index: number }) => (
         <TouchableOpacity
             style={styles.itemContainer}
@@ -46,7 +45,7 @@ export default function SongList({ songs, onPressSong }: Props) {
             keyExtractor={item => item.title ?? item.url}
             renderItem={renderItem}
             contentContainerStyle={styles.list}
-            ItemSeparatorComponent={() => separatorView()}
+            ItemSeparatorComponent={Separator}
         />
     );
 }
@@ -88,8 +87,5 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: colors.orange,
         marginLeft: 8,
-    },
-    separator: {
-        height: 12,
     },
 });

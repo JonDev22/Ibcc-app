@@ -5,6 +5,9 @@ import { colors } from '../../theme/colors';
 import { HomeNavigationParamList } from './types/navigationTypes';
 import UpcomingEvents from './stacks/upcomingEvents/UpcomingEvents';
 import UpcomingEventsDetails from './stacks/upcomingEvents/UpcomingEventsDetails';
+import MinistryList from './stacks/ministries/Ministries';
+import Leaders from './stacks/leaders/Leaders';
+import LifeGroupList from './stacks/lifegroups/Lifegroups';
 
 const Stack = createNativeStackNavigator<HomeNavigationParamList>();
 
@@ -13,9 +16,10 @@ function HomeStack() {
         <Stack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: colors.lightPetrolBlue,
+                    backgroundColor: colors.white50,
                 },
-                headerTintColor: 'orange',
+                headerShadowVisible: true,
+                headerTintColor: colors.petrolBlue,
                 headerTitleStyle: {
                     fontSize: 24,
                     fontWeight: 'bold',
@@ -29,6 +33,9 @@ function HomeStack() {
                 name="Upcoming Events Details"
                 component={UpcomingEventsDetails}
             />
+            <Stack.Screen name="Ministries" component={MinistryList} />
+            <Stack.Screen name="Leaders" component={Leaders} />
+            <Stack.Screen name="Lifegroups" component={LifeGroupList} />
         </Stack.Navigator>
     );
 }

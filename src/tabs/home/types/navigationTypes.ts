@@ -8,4 +8,7 @@ export type HomeNavigationParamList = {
         text: string;
         details: string;
     };
+    Ministries: undefined;
+    Leaders: undefined;
+    Lifegroups: undefined;
 };

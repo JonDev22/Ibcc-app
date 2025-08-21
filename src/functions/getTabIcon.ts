@@ -2,9 +2,11 @@ import { FontAwesomeIconName } from '@react-native-vector-icons/fontawesome';
 
 function getTabIcon(name: string): FontAwesomeIconName {
     switch (name) {
-        case 'Home':
+        case 'HomeTab':
             return 'home';
-        case 'Resources':
+        case 'AudioPlayerTab':
+            return 'music';
+        case 'ResourcesTab':
             return 'file-text-o';
         default:
             return 'home';
