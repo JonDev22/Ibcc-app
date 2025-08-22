@@ -4,6 +4,7 @@ export type ResourceNavigationParamList = {
     'Course Detail': {
         header: string;
         text: string;
+        details: string;
     };
     Forms: undefined;
 };
