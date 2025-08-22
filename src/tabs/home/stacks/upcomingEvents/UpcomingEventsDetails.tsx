@@ -15,12 +15,12 @@ interface EventsDetailProps {
 }
 
 const UpcomingEventsDetails: React.FC<EventsDetailProps> = ({ route }) => {
-    const { title, date, location, details } = route.params;
-    const eventDate = new Date(date);
+    const { item } = route.params;
+    const eventDate = new Date(item.date);
 
     return (
         <ScrollView style={styles.container}>
-            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.title}>{item.title}</Text>
 
             <View style={styles.infoRow}>
                 <FontAwesome
@@ -32,7 +32,7 @@ const UpcomingEventsDetails: React.FC<EventsDetailProps> = ({ route }) => {
                 <Text style={styles.infoText}>{eventDate.toDateString()}</Text>
             </View>
 
-            {location && (
+            {item.location && (
                 <View style={styles.infoRow}>
                     <FontAwesome
                         name="map-pin"
@@ -40,14 +40,14 @@ const UpcomingEventsDetails: React.FC<EventsDetailProps> = ({ route }) => {
                         color={colors.orange}
                         style={styles.icon}
                     />
-                    <Text style={styles.infoText}>{location}</Text>
+                    <Text style={styles.infoText}>{item.location}</Text>
                 </View>
             )}
 
-            {details && (
+            {item.details && (
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Details</Text>
-                    <Text style={styles.sectionContent}>{details}</Text>
+                    <Text style={styles.sectionContent}>{item.details}</Text>
                 </View>
             )}
 
@@ -55,7 +55,7 @@ const UpcomingEventsDetails: React.FC<EventsDetailProps> = ({ route }) => {
                 <Text style={styles.sectionTitle}>Contact</Text>
                 <Text style={styles.sectionContent}>
                     For any questions, please contact{' '}
-                    <Text style={styles.contactName}>Rumpel</Text>.
+                    <Text style={styles.contactName}>{item.contact}</Text>.
                 </Text>
             </View>
         </ScrollView>

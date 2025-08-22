@@ -4,4 +4,5 @@ export interface IEvent {
     text: string;
     location: string;
     details: string;
+    contact?: string;
 }

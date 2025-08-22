@@ -11,17 +11,11 @@ type NavigationProps = NativeStackNavigationProp<
     'Upcoming Events Details'
 >;
 
-function EventsDisplayCard({ date, location, title, text, details }: IEvent) {
+function EventsDisplayCard(props: IEvent) {
     const navigation = useNavigation<NavigationProps>();
 
     const handlePress = () => {
-        navigation.navigate('Upcoming Events Details', {
-            location,
-            title,
-            text,
-            date: date.toDateString(),
-            details: details,
-        }); // Pass the full event object to EventDetail
+        navigation.navigate('Upcoming Events Details', { item: props }); // Pass the full event object to EventDetail
     };
 
     return (
@@ -32,24 +26,24 @@ function EventsDisplayCard({ date, location, title, text, details }: IEvent) {
                     size={14}
                     color={colors.petrolBlue}
                 />
-                <Text style={styles.date}>{date.toDateString()}</Text>
-                {location && (
-                    <View style={styles.locationRow}>
-                        <FontAwesome
-                            name="map-pin"
-                            size={14}
-                            color={colors.orange}
-                        />
-                        <Text style={styles.location}>{location}</Text>
-                    </View>
-                )}
+                <Text style={styles.datetime}>{props.date.toDateString()}</Text>
+                <View style={styles.timeView}>
+                    <FontAwesome
+                        name="clock-o"
+                        size={14}
+                        color={colors.petrolBlue}
+                    />
+                    <Text style={styles.datetime}>
+                        {props.date.toDateString()}
+                    </Text>
+                </View>
             </View>
 
             <TouchableOpacity
                 onPress={handlePress}
                 style={styles.touchableStyle}
             >
-                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.title}>{props.title}</Text>
                 <FontAwesome
                     name="chevron-right"
                     size={20}
@@ -57,14 +51,24 @@ function EventsDisplayCard({ date, location, title, text, details }: IEvent) {
                 />
             </TouchableOpacity>
 
-            <Text style={styles.description}>{text}</Text>
+            <Text style={styles.description}>{props.text}</Text>
+
+            {props.location && (
+                <View style={styles.locationRow}>
+                    <FontAwesome
+                        name="map-pin"
+                        size={14}
+                        color={colors.orange}
+                    />
+                    <Text style={styles.location}>{props.location}</Text>
+                </View>
+            )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#FFFFFF',
         borderRadius: 12,
         padding: 16,
         shadowColor: '#000',
@@ -77,30 +81,34 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 8,
     },
-    date: {
+    datetime: {
         fontSize: 14,
-        color: '#666',
+        color: colors.lightPetrolBlue,
         marginLeft: 4,
+    },
+    timeView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingLeft: 10,
     },
     locationRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 12,
+        marginTop: 8,
     },
     location: {
         fontSize: 14,
-        color: '#555',
+        color: colors.lightPetrolBlue,
         marginLeft: 4,
     },
     title: {
         fontSize: 20,
         fontWeight: '700',
-        color: '#111',
+        color: colors.petrolBlue,
         marginBottom: 6,
     },
     description: {
         fontSize: 14,
-        color: '#444',
     },
     touchableStyle: {
         flexDirection: 'row',

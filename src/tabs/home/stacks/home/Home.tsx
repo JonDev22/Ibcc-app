@@ -1,10 +1,11 @@
 import { FlatList, ScrollView } from 'react-native';
-import InfoCard from './components/InfoCard';
 import type { FontAwesomeIconName } from '@react-native-vector-icons/fontawesome';
 import VerseViewer from './components/VerseViewer';
 import TopUpcomingEvents from './components/TopUpcomingEvents';
 import { HomeNavigationType } from '../../types/homeNavigationProp';
 import { useNavigation } from '@react-navigation/native';
+import OnlineResources from './components/OnlineResources';
+import InfoCard from '../../../../components/InfoCard';
 
 function Home() {
     const navigation = useNavigation<HomeNavigationType<'Ministries'>>();
@@ -49,6 +50,8 @@ function Home() {
                     />
                 )}
             />
+
+            <OnlineResources />
         </ScrollView>
     );
 }

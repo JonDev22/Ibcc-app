@@ -40,107 +40,48 @@ export default UpcomingEventsList;
 
 const events: IEvent[] = [
     {
-        date: new Date('2024-01-01'),
+        date: new Date('2024-08-31'),
+        title: 'Community Meal',
+        text: 'Community Meal with IBC Cologne, AIC and IGK.',
+        location: 'IBC Cologne',
+        details:
+            'As the church plant in Aachen grows, it is finally time to commit and send the team officially to reach the city of Aachen. Therefore, we use the community meal to celebrate church multiplication. Part of the team and therefore which we will officially be sending is our Pastor David Martin, Lucas Santos and the Barretos.',
+        contact: 'Jonny',
+    },
+    {
+        date: new Date('2024-09-13'),
+        title: 'Renovation Part I',
+        text: 'Renovation of the new church building in Herbigstraße.',
+        location: 'IBC Cologne',
+        details:
+            'Our host church has kindly offered us a room we will be able to use. To be able to offer it as a cosy, and welcoming room, it needs some renovation. We will be painting the walls, cleaning the floors, and setting up furniture. No special skills are required, just a willingness to help out. We will provide all the materials needed.',
+        contact: 'Wurstmann',
+    },
+    {
+        date: new Date('2024-09-14'),
         title: 'Baptism',
-        text: 'Something is happening, you want to join!',
-        location: 'ajhsdajkfh',
+        text: 'Making a faithful and public commitment to Jesus Christ.',
+        location: 'IBC Cologne',
         details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
+            'Excitingly, we will be baptizing in our church. As always, baptism is a reason to celebrate as Christ in His sovereign Grace leads another soul to Himself. If you are interested in being baptized, please contact us at!',
+        contact: 'Klaus',
     },
     {
-        date: new Date('2024-02-14'),
-        title: 'Valentine’s Day Dinner',
-        text: 'Romantic evening with live music and a special menu.',
-        location: 'Riverside Restaurant',
+        date: new Date('2024-09-27'),
+        title: 'Renovation Part II',
+        text: 'Renovation of the new church building in Herbigstraße.',
+        location: 'IBC Cologne',
         details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
+            'Our host church has kindly offered us a room we will be able to use. To be able to offer it as a cosy, and welcoming room, it needs some renovation. We will be painting the walls, cleaning the floors, and setting up furniture. No special skills are required, just a willingness to help out. We will provide all the materials needed.',
+        contact: 'Den Mann vorne an der Tür',
     },
     {
-        date: new Date('2024-03-10'),
-        title: 'Spring Festival',
-        text: 'Celebrate the arrival of spring with food, games, and music.',
-        location: 'City Park',
+        date: new Date('2024-10-12'),
+        title: 'AGM',
+        text: 'Mark the date! Our autumn AGM is coming up.',
+        location: 'IBC Cologne',
         details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
-    },
-    {
-        date: new Date('2024-04-01'),
-        title: 'Community Clean-Up',
-        text: 'Join us to help clean and beautify our neighborhood.',
-        location: 'Main Street Plaza',
-        details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
-    },
-    {
-        date: new Date('2024-05-05'),
-        title: 'Cinco de Mayo Celebration',
-        text: 'Live performances, authentic food, and cultural activities.',
-        location: 'Downtown Square',
-        details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
-    },
-    {
-        date: new Date('2024-06-15'),
-        title: 'Summer Kickoff BBQ',
-        text: 'Grilled food, outdoor games, and a friendly volleyball match.',
-        location: 'Lakeside Beach',
-        details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
-    },
-    {
-        date: new Date('2024-07-04'),
-        title: 'Independence Day Fireworks',
-        text: 'Spectacular fireworks display after sunset.',
-        location: 'Harborfront',
-        details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
-    },
-    {
-        date: new Date('2024-08-12'),
-        title: 'Outdoor Movie Night',
-        text: 'Family-friendly movie under the stars. Bring blankets!',
-        location: 'Central Park Lawn',
-        details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
-    },
-    {
-        date: new Date('2024-09-08'),
-        title: 'Back-to-School Fair',
-        text: 'School supplies giveaway, games, and free snacks.',
-        location: 'Community Center',
-        details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
-    },
-    {
-        date: new Date('2024-10-31'),
-        title: 'Halloween Costume Parade',
-        text: 'Show off your costume and enjoy trick-or-treating.',
-        location: 'Main Street',
-        details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
-    },
-    {
-        date: new Date('2024-11-28'),
-        title: 'Thanksgiving Potluck',
-        text: 'Share a meal and give thanks with friends and neighbors.',
-        location: 'Church Hall',
-        details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
-    },
-    {
-        date: new Date('2024-12-24'),
-        title: 'Christmas Eve Candlelight Service',
-        text: 'A warm and peaceful evening of carols and reflection.',
-        location: 'St. Mary’s Church',
-        details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
-    },
-    {
-        date: new Date('2024-12-31'),
-        title: 'New Year’s Eve Countdown Party',
-        text: 'Ring in the new year with music, dancing, and fireworks.',
-        location: 'City Square',
-        details:
-            'This is some more detail. Some auto generated text just to see, if details might be a good idea, or total crap. It sfaklfjdklsfjklsdfjslkdfjlskdflksdjfdlöfg ökldjglökdgnalöd gnlöd fgnd öjlfngakjd ngdkf gnkln gldjkfakdj nfgnajkdgn adljfgnan ajdgn',
+            'The autumn AGM is coming up. We will be discussing the church plant in Aachen, the renovation of the new church building in Herbigstraße, and other important topics. Please make sure to attend and bring your questions and suggestions. As always, we will be welcoming new members.',
+        contact: 'Rumpel',
     },
 ];

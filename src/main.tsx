@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './tabs/home/HomeStack';
 import { colors } from './theme/colors';
 import ResourcesStack from './tabs/resources/ResourcesStack';
-import Audio from './tabs/audio/Audio';
+import AudioStack from './tabs/audio/AudioStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,7 +45,7 @@ function Main() {
             />
             <Tab.Screen
                 name="AudioPlayerTab"
-                component={Audio}
+                component={AudioStack}
                 options={{
                     title: 'Audio Player',
                 }}

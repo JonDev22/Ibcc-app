@@ -11,7 +11,7 @@ export type Leader = {
 };
 
 const leaders: Leader[] = [
-    { id: 1, name: 'Werner', ministry: 'Music', type: 'Ministry Leader' },
+    { id: 1, name: 'Werner', ministry: 'Clean Up', type: 'Ministry Leader' },
     { id: 2, name: 'Dieter', ministry: 'Homeless', type: 'Ministry Leader' },
     { id: 3, name: 'Frank', ministry: 'Fiances', type: 'Deacon' },
     { id: 10, name: 'Gerhard', ministry: 'Chair', type: 'Deacon' },

@@ -23,7 +23,7 @@ interface CourseDetailProps {
 }
 
 function CourseDetail({ route }: CourseDetailProps) {
-    const { header, text } = route.params;
+    const { header, text, details } = route.params;
 
     const fetchDocFromStorage = async () => {
         const url = await fetchFileFromStorage('audios/rainbow_song.aac');
@@ -45,7 +45,7 @@ function CourseDetail({ route }: CourseDetailProps) {
                     name="map-o"
                     size={20}
                 />
-                <Text style={styles.title}>Questions</Text>
+                <Text style={styles.title}>Scope</Text>
                 <Text style={styles.centeredText}>{text}</Text>
             </View>
 
@@ -55,13 +55,11 @@ function CourseDetail({ route }: CourseDetailProps) {
                     name="comment-o"
                     size={20}
                 />
-                <Text style={styles.title}>Discussion</Text>
-                <Text style={styles.centeredText}>
-                    This is what we will be discussing and learning.
-                </Text>
+                <Text style={styles.title}>Content</Text>
+                <Text style={styles.centeredText}>{details}</Text>
             </View>
 
-            <View style={styles.centeredView}>
+            {/* <View style={styles.centeredView}>
                 <FontAwesome
                     style={mainStyles.circleIcon}
                     name="lightbulb-o"
@@ -71,7 +69,7 @@ function CourseDetail({ route }: CourseDetailProps) {
                 <Text style={styles.centeredText}>
                     This is what we want you to understand.
                 </Text>
-            </View>
+            </View> */}
 
             <Pressable
                 style={styles.pressableStyle}
@@ -109,7 +107,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     centeredText: {
-        textAlign: 'center',
+        textAlign: 'justify',
+        lineHeight: 25,
     },
     pressableStyle: {
         backgroundColor: colors.petrolBlue,

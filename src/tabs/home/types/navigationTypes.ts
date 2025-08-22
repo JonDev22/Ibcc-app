@@ -1,12 +1,10 @@
+import { IEvent } from '../../../interfaces/IEvent';
+
 export type HomeNavigationParamList = {
     Home: undefined;
     'Upcoming Events': undefined;
     'Upcoming Events Details': {
-        title: string;
-        date: string;
-        location: string;
-        text: string;
-        details: string;
+        item: IEvent;
     };
     Ministries: undefined;
     Leaders: undefined;

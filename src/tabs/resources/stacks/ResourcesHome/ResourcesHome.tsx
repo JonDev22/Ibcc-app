@@ -1,7 +1,7 @@
 import { ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import ResourceCard from '../components/ResourceCard';
 import { NavigationType } from '../../types/navigationProps';
+import InfoCard from '../../../../components/InfoCard';
 
 function ResourcesHome() {
     const navigationCourses = useNavigation<NavigationType<'Courses'>>();
@@ -10,31 +10,32 @@ function ResourcesHome() {
 
     return (
         <ScrollView>
-            <ResourceCard
-                title="Materials"
+            <InfoCard
                 header="T.B.T."
                 text="T.B.T. stands for Through the Bible Together. We offer multiple resources as we study together through the Bible."
-                icon="comments-o"
-                navigation={() =>
+                image="comments-o"
+                onPress={() =>
                     navigationCourses.navigate('Course Detail', {
                         text: 'A',
                         header: 'B',
+                        details: 'C',
                     })
                 }
+                headerLeft
             />
-            <ResourceCard
-                title="Course"
+            <InfoCard
                 header="Courses"
-                text="Look at the courses that we offer."
-                icon="book"
-                navigation={() => navigationCourses.navigate('Courses')}
+                text="Knowing Jesus; Becoming like Jesus; Participating in Jesus' mission. Our courses are designed to help you grow in your faith and understanding of Jesus."
+                image="book"
+                onPress={() => navigationCourses.navigate('Courses')}
+                headerLeft
             />
-            <ResourceCard
-                title="Forms"
+            <InfoCard
                 header="User Forms"
                 text="Looking for forms you need to fill and submit? Click here to see our forms."
-                icon="file-o"
-                navigation={() => navigationForms.navigate('Forms')}
+                image="file-o"
+                onPress={() => navigationForms.navigate('Forms')}
+                headerLeft
             />
         </ScrollView>
     );
