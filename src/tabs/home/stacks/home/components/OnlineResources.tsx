@@ -105,19 +105,22 @@ const data: ServiceCardProps[] = [
                 ),
             },
             {
-                url: 'https://www.facebook.com/ibc.cologne/',
-                icon: (
-                    <Image
-                        source={FaceBookPng}
-                        style={{ height: HEIGHT, width: WIDTH }}
-                    />
-                ),
-            },
-            {
                 url: 'https://m.youtube.com/@ibccologneonline4271',
                 icon: (
                     <Image
                         source={YouTubePng}
+                        style={{
+                            height: HEIGHT + 20,
+                            width: WIDTH + 5,
+                        }}
+                    />
+                ),
+            },
+            {
+                url: 'https://www.facebook.com/ibc.cologne/',
+                icon: (
+                    <Image
+                        source={FaceBookPng}
                         style={{ height: HEIGHT, width: WIDTH }}
                     />
                 ),
@@ -147,6 +150,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 20,
         gap: 30,
+        alignItems: 'center',
     },
     card: { paddingBottom: 10 },
     text: {
