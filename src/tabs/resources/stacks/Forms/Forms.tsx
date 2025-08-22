@@ -16,21 +16,23 @@ const Forms: React.FC = () => {
     const forms: FormItem[] = [
         {
             id: '1',
-            title: 'Leave Request',
-            description: 'Submit your leave request for approval.',
-            submitTo: 'HR Department',
+            title: 'GDPR Consent Form',
+            description:
+                'Consent to use your personal data solely for church ministry purposes.',
+            submitTo: 'admin@ibc-cologne.com',
         },
         {
             id: '2',
-            title: 'Expense Claim',
-            description: 'Claim your business expenses.',
-            submitTo: 'Finance Department',
+            title: 'Reimbursement Claim',
+            description:
+                'Claim your ministry expenses (Ministry leaders only!).',
+            submitTo: 'finance@ibc-cologne.com',
         },
         {
             id: '3',
-            title: 'Incident Report',
-            description: 'Report a workplace incident or hazard.',
-            submitTo: 'Safety Team',
+            title: 'Constitution',
+            description: 'Want to have a look at our constitution?',
+            submitTo: 'Questions to the Elders',
         },
     ];
 

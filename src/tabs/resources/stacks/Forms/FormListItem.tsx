@@ -39,11 +39,10 @@ const styles = StyleSheet.create({
     formCard: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        backgroundColor: colors.white100,
         borderRadius: 12,
         padding: 16,
         marginBottom: 12,
-        shadowColor: '#000',
+        shadowColor: colors.white100,
         shadowOpacity: 0.05,
         shadowRadius: 4,
         elevation: 2,
