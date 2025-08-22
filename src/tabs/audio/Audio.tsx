@@ -10,7 +10,6 @@ import TrackPlayer, {
 import fetchAudioFiles from './functions/fetchAudioFiles';
 import AudioList from './AudioList';
 import AudioPlayer from './AudioPlayer';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { colors } from '../../theme/colors';
 
 function Audio() {
@@ -86,28 +85,7 @@ function Audio() {
     );
 }
 
-const Stack = createNativeStackNavigator();
-
-function AudioStack() {
-    return (
-        <Stack.Navigator
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: colors.lightPetrolBlue,
-                },
-                headerTintColor: 'orange',
-                headerTitleStyle: {
-                    fontSize: 24,
-                    fontWeight: 'bold',
-                },
-            }}
-        >
-            <Stack.Screen name="Audio Player" component={Audio} />
-        </Stack.Navigator>
-    );
-}
-
-export default AudioStack;
+export default Audio;
 
 const styles = StyleSheet.create({
     container: {
