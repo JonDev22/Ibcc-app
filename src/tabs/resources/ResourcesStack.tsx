@@ -5,6 +5,7 @@ import { ResourceNavigationParamList } from './types/navigationTypes';
 import Courses from './stacks/Courses/Courses';
 import Forms from './stacks/Forms/Forms';
 import getStackScreenOptions from '../../functions/getStackScreenOptions';
+import TBT from './stacks/tbt/TBT';
 
 const Stack = createNativeStackNavigator<ResourceNavigationParamList>();
 
@@ -13,6 +14,7 @@ function ResourcesStack() {
         <Stack.Navigator screenOptions={getStackScreenOptions()}>
             <Stack.Screen name="Resources" component={ResourcesHome} />
             <Stack.Screen name="Courses" component={Courses} />
+            <Stack.Screen name="TBT" component={TBT} />
             <Stack.Screen
                 options={{ title: '' }}
                 name="Course Detail"

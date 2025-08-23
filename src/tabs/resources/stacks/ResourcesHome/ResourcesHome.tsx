@@ -5,7 +5,7 @@ import InfoCard from '../../../../components/InfoCard';
 
 function ResourcesHome() {
     const navigationCourses = useNavigation<NavigationType<'Courses'>>();
-    const navigationDetail = useNavigation<NavigationType<'Course Detail'>>();
+    const tbtNavigation = useNavigation<NavigationType<'TBT'>>();
     const navigationForms = useNavigation<NavigationType<'Forms'>>();
 
     return (
@@ -14,13 +14,7 @@ function ResourcesHome() {
                 header="T.B.T."
                 text="T.B.T. stands for Through the Bible Together. We offer multiple resources as we study together through the Bible."
                 image="comments-o"
-                onPress={() =>
-                    navigationCourses.navigate('Course Detail', {
-                        text: 'A',
-                        header: 'B',
-                        details: 'C',
-                    })
-                }
+                onPress={() => tbtNavigation.navigate('TBT')}
                 headerLeft
             />
             <InfoCard
