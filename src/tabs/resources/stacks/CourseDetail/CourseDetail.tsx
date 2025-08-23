@@ -59,18 +59,6 @@ function CourseDetail({ route }: CourseDetailProps) {
                 <Text style={styles.centeredText}>{details}</Text>
             </View>
 
-            {/* <View style={styles.centeredView}>
-                <FontAwesome
-                    style={mainStyles.circleIcon}
-                    name="lightbulb-o"
-                    size={20}
-                />
-                <Text style={styles.title}>Goal</Text>
-                <Text style={styles.centeredText}>
-                    This is what we want you to understand.
-                </Text>
-            </View> */}
-
             <Pressable
                 style={styles.pressableStyle}
                 onPress={fetchDocFromStorage}
