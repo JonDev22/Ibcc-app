@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeNavigationParamList } from '../../types/navigationTypes';
 import { IEvent } from '../../../../interfaces/IEvent';
+import formatFirebaseDate from '../../../../functions/formatFirebaseDate';
+import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
 
 type NavigationProps = NativeStackNavigationProp<
     HomeNavigationParamList,
@@ -26,7 +28,9 @@ function EventsDisplayCard(props: IEvent) {
                     size={14}
                     color={colors.petrolBlue}
                 />
-                <Text style={styles.datetime}>{props.date.toDateString()}</Text>
+                <Text style={styles.datetime}>
+                    {formatFirebaseDate(props.date)}
+                </Text>
                 <View style={styles.timeView}>
                     <FontAwesome
                         name="clock-o"
@@ -34,7 +38,7 @@ function EventsDisplayCard(props: IEvent) {
                         color={colors.petrolBlue}
                     />
                     <Text style={styles.datetime}>
-                        {props.date.toDateString()}
+                        {formatFirebaseTime(props.date)}
                     </Text>
                 </View>
             </View>

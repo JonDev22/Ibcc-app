@@ -11,6 +11,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeNavigationParamList } from '../../../types/navigationTypes';
 import { useNavigation } from '@react-navigation/native';
 import { IEvent } from '../../../../../interfaces/IEvent';
+import { Timestamp } from '@react-native-firebase/firestore';
 
 type NavigationProps = NativeStackNavigationProp<
     HomeNavigationParamList,
@@ -19,7 +20,7 @@ type NavigationProps = NativeStackNavigationProp<
 
 const events: IEvent[] = [
     {
-        date: new Date('2024-08-31'),
+        date: Timestamp.fromDate(new Date('2024-08-31')),
         title: 'Community Meal',
         text: 'Community Meal with IBC Cologne, AIC and IGK.',
         location: 'IBC Cologne',
@@ -28,7 +29,7 @@ const events: IEvent[] = [
         contact: 'Rumpel',
     },
     {
-        date: new Date('2024-09-13'),
+        date: Timestamp.fromDate(new Date('2024-09-13')),
         title: 'Renovation Part I',
         text: 'Renovation of the new church building in Herbigstraße.',
         location: 'IBC Cologne',
@@ -36,7 +37,7 @@ const events: IEvent[] = [
             'Our host church has kindly offered us a room we will be able to use. To be able to offer it as a cosy, and welcoming room, it needs some renovation. We will be painting the walls, cleaning the floors, and setting up furniture. No special skills are required, just a willingness to help out. We will provide all the materials needed.',
     },
     {
-        date: new Date('2024-09-14'),
+        date: Timestamp.fromDate(new Date('2024-09-14')),
         title: 'Baptism',
         text: 'Making a faithful and public commitment to Jesus Christ.',
         location: 'IBC Cologne',
@@ -44,7 +45,7 @@ const events: IEvent[] = [
             'Excitingly, we will be baptizing in our church. As always, baptism is a reason to celebrate as Christ in His sovereign Grace leads another soul to Himself. If you are interested in being baptized, please contact us at!',
     },
     {
-        date: new Date('2024-09-27'),
+        date: Timestamp.fromDate(new Date('2024-09-27')),
         title: 'Renovation Part II',
         text: 'Renovation of the new church building in Herbigstraße.',
         location: 'IBC Cologne',
@@ -52,7 +53,7 @@ const events: IEvent[] = [
             'Our host church has kindly offered us a room we will be able to use. To be able to offer it as a cosy, and welcoming room, it needs some renovation. We will be painting the walls, cleaning the floors, and setting up furniture. No special skills are required, just a willingness to help out. We will provide all the materials needed.',
     },
     {
-        date: new Date('2024-10-12'),
+        date: Timestamp.fromDate(new Date('2024-10-12')),
         title: 'AGM',
         text: 'Mark the date! Our autumn AGM is coming up.',
         location: 'IBC Cologne',
@@ -63,7 +64,7 @@ const events: IEvent[] = [
 
 const getUpcomingEvents = (allEvents: IEvent[], today = new Date()) => {
     return allEvents
-        .filter(e => e.date <= today)
+        .filter(e => e.date <= Timestamp.fromDate(today))
         .sort((a, b) => (a.date < b.date ? -1 : 1))
         .slice(0, 2);
 };
@@ -94,7 +95,7 @@ function TopUpcomingEvents() {
 
             <FlatList
                 data={upcoming}
-                keyExtractor={item => item.date.toDateString()}
+                keyExtractor={item => item.date.toDate().toDateString()}
                 scrollEnabled={false}
                 renderItem={({ item }) => (
                     <View style={styles.card}>
@@ -107,12 +108,10 @@ function TopUpcomingEvents() {
                             <Text style={styles.title}>{item.title}</Text>
                         </View>
                         <Text style={styles.date}>
-                            {item.date.toDateString()}
+                            {item.date.toDate().toDateString()}
                         </Text>
                         {item.details && (
-                            <Text style={styles.description}>
-                                {item.details}
-                            </Text>
+                            <Text style={styles.description}>{item.text}</Text>
                         )}
                         <View style={styles.locationRow}>
                             <FontAwesome

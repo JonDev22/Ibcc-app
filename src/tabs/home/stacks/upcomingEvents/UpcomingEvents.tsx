@@ -3,6 +3,7 @@ import { View, StyleSheet, FlatList } from 'react-native';
 import { IEvent } from '../../../../interfaces/IEvent';
 import EventsDisplayCard from './EventsDisplayCard';
 import Separator from '../../../../functions/Separator';
+import { Timestamp } from '@react-native-firebase/firestore';
 
 // Filter and sort upcoming events
 const getUpcomingEvents = (allEvents: IEvent[], today = new Date()) => {
@@ -20,7 +21,7 @@ function UpcomingEventsList() {
         <View style={styles.container}>
             <FlatList
                 data={upcoming}
-                keyExtractor={item => item.date.toDateString()}
+                keyExtractor={item => item.date.toDate().toDateString()}
                 renderItem={({ item }) => <EventsDisplayCard {...item} />}
                 ItemSeparatorComponent={Separator}
             />
@@ -40,7 +41,7 @@ export default UpcomingEventsList;
 
 const events: IEvent[] = [
     {
-        date: new Date('2024-08-31'),
+        date: Timestamp.fromDate(new Date('2024-08-31')),
         title: 'Community Meal',
         text: 'Community Meal with IBC Cologne, AIC and IGK.',
         location: 'IBC Cologne',
@@ -49,7 +50,7 @@ const events: IEvent[] = [
         contact: 'Jonny',
     },
     {
-        date: new Date('2024-09-13'),
+        date: Timestamp.fromDate(new Date('2024-09-13')),
         title: 'Renovation Part I',
         text: 'Renovation of the new church building in Herbigstraße.',
         location: 'IBC Cologne',
@@ -58,7 +59,7 @@ const events: IEvent[] = [
         contact: 'Wurstmann',
     },
     {
-        date: new Date('2024-09-14'),
+        date: Timestamp.fromDate(new Date('2024-09-14')),
         title: 'Baptism',
         text: 'Making a faithful and public commitment to Jesus Christ.',
         location: 'IBC Cologne',
@@ -67,7 +68,7 @@ const events: IEvent[] = [
         contact: 'Klaus',
     },
     {
-        date: new Date('2024-09-27'),
+        date: Timestamp.fromDate(new Date('2024-09-27')),
         title: 'Renovation Part II',
         text: 'Renovation of the new church building in Herbigstraße.',
         location: 'IBC Cologne',
@@ -76,7 +77,7 @@ const events: IEvent[] = [
         contact: 'Den Mann vorne an der Tür',
     },
     {
-        date: new Date('2024-10-12'),
+        date: Timestamp.fromDate(new Date('2024-10-12')),
         title: 'AGM',
         text: 'Mark the date! Our autumn AGM is coming up.',
         location: 'IBC Cologne',
