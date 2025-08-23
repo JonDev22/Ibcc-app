@@ -1,4 +1,4 @@
-import { FlatList, ScrollView } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import type { FontAwesomeIconName } from '@react-native-vector-icons/fontawesome';
 import VerseViewer from './components/VerseViewer';
 import TopUpcomingEvents from './components/TopUpcomingEvents';
@@ -6,6 +6,7 @@ import { HomeNavigationType } from '../../types/homeNavigationProp';
 import { useNavigation } from '@react-navigation/native';
 import OnlineResources from './components/OnlineResources';
 import InfoCard from '../../../../components/InfoCard';
+import VisitUs from './components/VisitUs';
 
 function Home() {
     const navigation = useNavigation<HomeNavigationType<'Ministries'>>();
@@ -52,8 +53,18 @@ function Home() {
             />
 
             <OnlineResources />
+
+            <VisitUs />
+
+            <View style={styles.breather} />
         </ScrollView>
     );
 }
 
 export default Home;
+
+const styles = StyleSheet.create({
+    breather: {
+        height: 30,
+    },
+});
