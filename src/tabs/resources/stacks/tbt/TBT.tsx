@@ -1,7 +1,15 @@
-import { FlatList, ScrollView, StyleSheet, Text } from 'react-native';
+import {
+    Alert,
+    FlatList,
+    Linking,
+    ScrollView,
+    StyleSheet,
+    Text,
+} from 'react-native';
 import Separator from '../../../../functions/Separator';
 import InfoCard from '../../../../components/InfoCard';
 import { FontAwesomeIconName } from '@react-native-vector-icons/fontawesome';
+import fetchFileFromStorage from '../../../../functions/fetchFileFromStorage';
 
 const listItem = ({ item }: { item: { text: string } }) => (
     <Text style={styles.listText}>{item.text}</Text>
@@ -17,6 +25,20 @@ const getTypeImage = (type: string): FontAwesomeIconName => {
 };
 
 function TBT() {
+    const handlePress = async () => {
+        const res = await fetchFileFromStorage('tbt/A.pdf');
+
+        if (res) {
+            Linking.canOpenURL(res).then(canOpen => {
+                if (canOpen) {
+                    Linking.openURL(res);
+                }
+            });
+        } else {
+            Alert.alert('Resource not found');
+        }
+    };
+
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.header}>Through The Bible Together</Text>
@@ -38,7 +60,7 @@ function TBT() {
                         image={getTypeImage(item.type)}
                         text={item.displayText}
                         header={item.title}
-                        onPress={() => {}}
+                        onPress={handlePress}
                         headerLeft
                         buttonText="Download"
                     />
