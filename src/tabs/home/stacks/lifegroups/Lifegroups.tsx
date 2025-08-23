@@ -40,7 +40,7 @@ const LifeGroupItem: React.FC<{ group: HomeGroup }> = ({ group }) => (
     <View style={styles.card}>
         <Text style={styles.location}>{group.title}</Text>
         <View style={styles.view}>
-            <FontAwesome name="map-pin" size={14} color={colors.petrolBlue} />
+            <FontAwesome name="map-pin" size={14} color={colors.orange} />
             <Text style={styles.text}>{group.location}</Text>
         </View>
         <View style={styles.view}>
@@ -48,7 +48,7 @@ const LifeGroupItem: React.FC<{ group: HomeGroup }> = ({ group }) => (
             <Text style={styles.text}>{group.meetingTime}</Text>
         </View>
         <View style={styles.view}>
-            <FontAwesome name="phone" size={14} color={colors.petrolBlue} />
+            <FontAwesome name="phone" size={14} color={colors.orchid} />
             <Text style={styles.text}>Contact: {group.contact}</Text>
         </View>
     </View>
@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     },
     card: {
         padding: 16,
-        shadowColor: '#000',
         gap: 4,
     },
     view: {
@@ -88,7 +87,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 14,
-        color: '#333',
         marginTop: 2,
     },
     separator: {
