@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    Linking,
+} from 'react-native';
 import { colors } from '../../../../../theme/colors';
 
 function VisitUs() {
@@ -16,6 +22,13 @@ function VisitUs() {
                     Herbigstraße 18-20, 50825 Cologne
                 </Text>
             </View>
+
+            <TouchableOpacity
+                onPress={() => Linking.openURL('https://www.ibc-cologne.com')}
+                style={styles.visitWebsiteTouchable}
+            >
+                <Text style={styles.touchableText}>Visit our website</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -45,5 +58,15 @@ const styles = StyleSheet.create({
     value: {
         fontSize: 18,
         marginTop: 2,
+    },
+    visitWebsiteTouchable: {
+        padding: 12,
+        marginTop: 12,
+        borderWidth: 1,
+        borderRadius: 12,
+        borderColor: colors.petrolBlue,
+    },
+    touchableText: {
+        color: colors.petrolBlue,
     },
 });
