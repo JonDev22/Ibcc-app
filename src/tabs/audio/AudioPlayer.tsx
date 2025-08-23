@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from '@react-native-vector-icons/fontawesome';
 import { colors } from '../../theme/colors';
+import formatDurationTime from './functions/formatDurationTime';
 
 type Props = {
     title: string;
@@ -25,12 +26,6 @@ export default function MiniPlayer({
     position,
     duration,
 }: Props) {
-    const formatTime = (time: number) => {
-        const minutes = Math.floor(time / 60);
-        const seconds = Math.floor((time % 60) * 100) / 100;
-        return `${minutes}:${seconds}`;
-    };
-
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
@@ -38,7 +33,7 @@ export default function MiniPlayer({
                     {title}
                 </Text>
                 <Text style={styles.artist} numberOfLines={1}>
-                    {artist}, {formatTime(position)}, {formatTime(duration)}
+                    {artist}, {formatDurationTime(duration - position)}
                 </Text>
             </View>
 

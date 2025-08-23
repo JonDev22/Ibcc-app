@@ -9,16 +9,11 @@ import {
 import { colors } from '../../theme/colors';
 import { Track } from 'react-native-track-player';
 import Separator from '../../functions/Separator';
+import formatDurationTime from './functions/formatDurationTime';
 
 type Props = {
     songs: Track[];
     onPressSong: (songId: number) => void;
-};
-
-const formatDuration = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
 };
 
 export default function SongList({ songs, onPressSong }: Props) {
@@ -34,7 +29,7 @@ export default function SongList({ songs, onPressSong }: Props) {
                 </Text>
             </View>
             <Text style={styles.duration}>
-                {formatDuration(item.duration ?? 0)}
+                {formatDurationTime(item.duration ?? 0)}
             </Text>
         </TouchableOpacity>
     );
@@ -58,16 +53,9 @@ const styles = StyleSheet.create({
     itemContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: colors.white100,
-        borderRadius: 12,
         paddingVertical: 12,
         paddingHorizontal: 16,
         justifyContent: 'space-between',
-        shadowColor: '#000',
-        shadowOpacity: 0.05,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 4,
-        elevation: 2,
     },
     textContainer: {
         flexShrink: 1,
