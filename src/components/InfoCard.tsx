@@ -26,7 +26,7 @@ function InfoCard(props: InfoCardProps) {
                         style={styles.biggerIcon}
                         color={colors.petrolBlue}
                     />
-                    <Text>{props.header}</Text>
+                    <Text style={styles.headerLeftText}>{props.header}</Text>
                 </View>
             );
         } else {
@@ -109,5 +109,8 @@ const styles = StyleSheet.create({
     },
     biggerIcon: {
         fontSize: 24,
+    },
+    headerLeftText: {
+        fontWeight: 'bold',
     },
 });
