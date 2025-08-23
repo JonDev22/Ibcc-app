@@ -109,9 +109,9 @@ function TopUpcomingEvents() {
                         <Text style={styles.date}>
                             {item.date.toDateString()}
                         </Text>
-                        {item.description && (
+                        {item.details && (
                             <Text style={styles.description}>
-                                {item.description}
+                                {item.details}
                             </Text>
                         )}
                         <View style={styles.locationRow}>

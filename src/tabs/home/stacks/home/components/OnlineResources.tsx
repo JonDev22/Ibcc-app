@@ -7,8 +7,8 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-
 import React from 'react';
+import appUrls from '../../../../../utils/appUrls';
 
 import ApplePodcastIcon from '../../../../../assets/Apple_Podcasts_Icon_RGB_lg_060623.svg';
 import AppleMusicIcon from '../../../../../assets/Apple_Music_Icon_RGB_lg_073120.svg';
@@ -69,11 +69,11 @@ const data: ServiceCardProps[] = [
         subHeader: 'Listen to our Sermon-Podcast',
         items: [
             {
-                url: 'https://podcasts.apple.com/de/podcast/cologne-international-baptist-church/id1742416920',
+                url: appUrls.APPLE_PODCAST,
                 icon: <ApplePodcastIcon width={WIDTH} height={HEIGHT} />,
             },
             {
-                url: 'https://open.spotify.com/show/1DR5382pZ18BZbqJYalIpg',
+                url: appUrls.SPOTIFY_PODCAST,
                 icon: <SpotifyIcon width={WIDTH} height={HEIGHT} />,
             },
         ],
@@ -82,11 +82,11 @@ const data: ServiceCardProps[] = [
         subHeader: 'Listen to the songs that we sing',
         items: [
             {
-                url: 'https://music.apple.com/de/playlist/ibc-cologne-music-playlist/pl.u-xlyNqMdCJxRDKNP?l=en',
+                url: appUrls.APPLE_MUSIC,
                 icon: <AppleMusicIcon width={WIDTH} height={HEIGHT} />,
             },
             {
-                url: 'https://open.spotify.com/artist/your-artist-id',
+                url: appUrls.SPOTIFY_MUSIC,
                 icon: <SpotifyIcon width={WIDTH} height={HEIGHT} />,
             },
         ],
@@ -95,7 +95,7 @@ const data: ServiceCardProps[] = [
         subHeader: 'Follow us on Social Media',
         items: [
             {
-                url: 'https://www.instagram.com/ibccologne/',
+                url: appUrls.INSTAGRAM,
                 icon: (
                     <InstagramIcon
                         width={WIDTH}
@@ -105,7 +105,7 @@ const data: ServiceCardProps[] = [
                 ),
             },
             {
-                url: 'https://m.youtube.com/@ibccologneonline4271',
+                url: appUrls.YOUTUBE,
                 icon: (
                     <Image
                         source={YouTubePng}
@@ -117,7 +117,7 @@ const data: ServiceCardProps[] = [
                 ),
             },
             {
-                url: 'https://www.facebook.com/ibc.cologne/',
+                url: appUrls.FACEBOOK,
                 icon: (
                     <Image
                         source={FaceBookPng}

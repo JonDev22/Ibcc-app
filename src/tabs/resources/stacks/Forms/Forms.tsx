@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import FormListItem from './FormListItem';
 import Separator from '../../../../functions/Separator';
+import appUrls from '../../../../utils/appUrls';
 
 // Type for a form item
 export type FormItem = {
@@ -55,9 +56,7 @@ const Forms: React.FC = () => {
             />
 
             <TouchableOpacity
-                onPress={() =>
-                    Linking.openURL('https://www.ibc-cologne.com/about-us')
-                }
+                onPress={() => Linking.openURL(`${appUrls.IBC}/about-us`)}
                 style={styles.touchableElement}
             >
                 <Text style={styles.touchableText}>

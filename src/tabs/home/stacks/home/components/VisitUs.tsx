@@ -7,6 +7,7 @@ import {
     Linking,
 } from 'react-native';
 import { colors } from '../../../../../theme/colors';
+import appUrls from '../../../../../utils/appUrls';
 
 function VisitUs() {
     return (
@@ -24,7 +25,7 @@ function VisitUs() {
             </View>
 
             <TouchableOpacity
-                onPress={() => Linking.openURL('https://www.ibc-cologne.com')}
+                onPress={() => Linking.openURL(appUrls.IBC)}
                 style={styles.visitWebsiteTouchable}
             >
                 <Text style={styles.touchableText}>Visit our website</Text>

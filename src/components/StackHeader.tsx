@@ -8,13 +8,14 @@ import {
 import Logo from '../assets/IBCC_Logo-icon-square.jpg';
 import { mainStyles } from '../styles/mainStyle';
 import { colors } from '../theme/colors';
+import appUrls from '../utils/appUrls';
 
 function StackHeader({}) {
     return (
         <View style={styles.container}>
             <TouchableOpacity
                 style={styles.imageContainer}
-                onPress={() => Linking.openURL('https://www.ibc-cologne.com')}
+                onPress={() => Linking.openURL(appUrls.IBC)}
             >
                 <Image
                     source={Logo}
