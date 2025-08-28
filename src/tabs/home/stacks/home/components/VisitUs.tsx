@@ -12,7 +12,7 @@ import appUrls from '../../../../../utils/appUrls';
 function VisitUs() {
     return (
         <View style={styles.container}>
-            <Text style={styles.heading}>Visit Us</Text>
+            <Text style={styles.heading}>Sunday Service</Text>
 
             <View>
                 <Text style={styles.label}>Time of Service:</Text>

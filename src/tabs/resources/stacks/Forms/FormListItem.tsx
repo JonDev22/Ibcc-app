@@ -1,18 +1,38 @@
 import { FontAwesome } from '@react-native-vector-icons/fontawesome';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+    Alert,
+    Linking,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 import { colors } from '../../../../theme/colors';
+import { IForm } from '../../../../interfaces/IForm';
+import fetchFileFromStorage from '../../../../functions/fetchFileFromStorage';
 
-// Type for a form item
-export type FormItem = {
-    id: string;
-    title: string;
-    description?: string;
-    submitTo: string; // text telling the user where to send it
-};
+const FormListItem: React.FC<IForm> = ({
+    title,
+    description,
+    contact,
+    form,
+}) => {
+    const handlePress = () => {
+        fetchFileFromStorage(form).then(url => {
+            if (url) {
+                Linking.openURL(url);
+            } else {
+                Alert.alert('Resource not found!');
+            }
+        });
+    };
 
-const FormListItem: React.FC<FormItem> = ({ title, description, submitTo }) => {
     return (
-        <TouchableOpacity style={styles.formCard} activeOpacity={0.85}>
+        <TouchableOpacity
+            style={styles.formCard}
+            activeOpacity={0.85}
+            onPress={handlePress}
+        >
             <FontAwesome
                 name="file"
                 size={28}
@@ -24,7 +44,7 @@ const FormListItem: React.FC<FormItem> = ({ title, description, submitTo }) => {
                 {description ? (
                     <Text style={styles.formDescription}>{description}</Text>
                 ) : null}
-                <Text style={styles.formSubmit}>Send to: {submitTo}</Text>
+                <Text style={styles.formSubmit}>Send to: {contact}</Text>
             </View>
         </TouchableOpacity>
     );
