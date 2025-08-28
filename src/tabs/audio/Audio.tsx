@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import TrackPlayer, {
     useProgress,
     usePlaybackState,
@@ -48,8 +48,13 @@ function Audio() {
             await TrackPlayer.setupPlayer();
             fetchAudioFiles().then(async res => {
                 if (res) {
-                    await TrackPlayer.add(res);
-                    setTrack(res);
+                    const sortedRes = res.sort((a, b) => {
+                        const albumA = a.album ?? '';
+                        const albumB = b.album ?? '';
+                        return albumA.localeCompare(albumB);
+                    });
+                    await TrackPlayer.add(sortedRes);
+                    setTrack(sortedRes);
                 }
             });
         };
@@ -61,13 +66,13 @@ function Audio() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.listContainer}>
+            <ScrollView style={styles.listContainer}>
                 {track ? (
                     <AudioList songs={track} onPressSong={pick} />
                 ) : (
                     <Text style={styles.loadingText}>Loading...</Text>
                 )}
-            </View>
+            </ScrollView>
 
             {/* <View style={styles.fixedContainer}> */}
             <AudioPlayer

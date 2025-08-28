@@ -11,16 +11,30 @@ import { Track } from 'react-native-track-player';
 import Separator from '../../functions/Separator';
 import formatDurationTime from './functions/formatDurationTime';
 
+interface IPlayerTrack extends Track {
+    index: number;
+}
+
 type Props = {
     songs: Track[];
     onPressSong: (songId: number) => void;
 };
 
 export default function SongList({ songs, onPressSong }: Props) {
-    const renderItem = ({ item, index }: { item: Track; index: number }) => (
+    const categorized = songs.reduce<Record<string, IPlayerTrack[]>>(
+        (acc, track, num) => {
+            const key = track.album ?? 'Other';
+            if (!acc[key]) acc[key] = [];
+            acc[key].push({ ...track, index: num });
+            return acc;
+        },
+        {},
+    );
+
+    const renderItem = ({ item }: { item: IPlayerTrack }) => (
         <TouchableOpacity
             style={styles.itemContainer}
-            onPress={() => onPressSong(index)}
+            onPress={() => onPressSong(item.index)}
         >
             <View style={styles.textContainer}>
                 <Text style={styles.title}>{item.title}</Text>
@@ -35,13 +49,21 @@ export default function SongList({ songs, onPressSong }: Props) {
     );
 
     return (
-        <FlatList
-            data={songs}
-            keyExtractor={item => item.title ?? item.url}
-            renderItem={renderItem}
-            contentContainerStyle={styles.list}
-            ItemSeparatorComponent={Separator}
-        />
+        <>
+            {Object.entries(categorized).map(([album, list]) => (
+                <View key={album}>
+                    <Text style={styles.header}>{album}</Text>
+                    <FlatList
+                        data={list}
+                        keyExtractor={item => item.title ?? item.url}
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.list}
+                        ItemSeparatorComponent={Separator}
+                        scrollEnabled={false}
+                    />
+                </View>
+            ))}
+        </>
     );
 }
 
@@ -75,5 +97,14 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: colors.orange,
         marginLeft: 8,
+    },
+    header: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 15,
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: colors.petrolBlue,
     },
 });
