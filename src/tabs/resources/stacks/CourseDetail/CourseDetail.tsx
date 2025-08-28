@@ -1,17 +1,10 @@
 import { RouteProp } from '@react-navigation/native';
 import { ResourceNavigationParamList } from '../../types/navigationTypes';
-import {
-    View,
-    Text,
-    StyleSheet,
-    ScrollView,
-    Pressable,
-    Linking,
-} from 'react-native';
-import { colors } from '../../../../theme/colors';
+import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { mainStyles } from '../../../../styles/mainStyle';
-import fetchFileFromStorage from '../../../../functions/fetchFileFromStorage';
+import DownloadButton from './DownloadButton';
+import Spacer from '../../../../components/Spacer';
 
 type CourseDetailRouteProp = RouteProp<
     ResourceNavigationParamList,
@@ -23,20 +16,20 @@ interface CourseDetailProps {
 }
 
 function CourseDetail({ route }: CourseDetailProps) {
-    const { header, text, details } = route.params;
+    const { item } = route.params;
 
-    const fetchDocFromStorage = async () => {
-        const url = await fetchFileFromStorage('audios/rainbow_song.aac');
-        console.log(url);
-        if (url) {
-            Linking.openURL(url);
-        }
-    };
+    const resources = item.resources ? Object.entries(item.resources) : null;
+    const externalResources = item.externalResources
+        ? Object.entries(item.externalResources)
+        : null;
+    const relatedResources = item.relatedResources
+        ? Object.entries(item.relatedResources)
+        : null;
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.centeredView}>
-                <Text style={styles.header}>{header}</Text>
+                <Text style={styles.header}>{item.title}</Text>
             </View>
 
             <View style={styles.centeredView}>
@@ -46,7 +39,7 @@ function CourseDetail({ route }: CourseDetailProps) {
                     size={20}
                 />
                 <Text style={styles.title}>Scope</Text>
-                <Text style={styles.centeredText}>{text}</Text>
+                <Text style={styles.centeredText}>{item.scope}</Text>
             </View>
 
             <View style={styles.centeredView}>
@@ -56,20 +49,72 @@ function CourseDetail({ route }: CourseDetailProps) {
                     size={20}
                 />
                 <Text style={styles.title}>Content</Text>
-                <Text style={styles.centeredText}>{details}</Text>
+                <Text style={styles.centeredText}>{item.description}</Text>
             </View>
 
-            <Pressable
-                style={styles.pressableStyle}
-                onPress={fetchDocFromStorage}
-            >
-                <Text style={styles.pressableText}>Download Course</Text>
-                <FontAwesome
-                    name="download"
-                    size={20}
-                    style={styles.pressableText}
-                />
-            </Pressable>
+            <DownloadButton text={'Download Course'} url={item.course} />
+
+            {resources && (
+                <View style={styles.centeredView}>
+                    <Text style={styles.title}>Appendixes</Text>
+                    <Text style={styles.centeredText}>
+                        These are resources you need for the course.
+                    </Text>
+                    <FlatList
+                        data={resources}
+                        keyExtractor={([key]) => key}
+                        renderItem={({ item: [key, value] }) => (
+                            <DownloadButton
+                                text={`Appendix ${key}`}
+                                url={value.url}
+                            />
+                        )}
+                        scrollEnabled={false}
+                        style={styles.flatList}
+                    />
+                </View>
+            )}
+
+            {externalResources && (
+                <View style={styles.centeredView}>
+                    <Text style={styles.title}>External resources</Text>
+                    <Text style={styles.centeredText}>
+                        We cannot provide external resources. If you are
+                        interested in the course and need access to all
+                        resources, please talk to your mentor.
+                    </Text>
+                    <FlatList
+                        data={externalResources}
+                        keyExtractor={([key]) => key}
+                        renderItem={({ item: [key, value] }) => (
+                            <Text key={key}>
+                                {key}: {value.url}
+                            </Text>
+                        )}
+                        scrollEnabled={false}
+                        style={styles.flatList}
+                    />
+                </View>
+            )}
+
+            {relatedResources && (
+                <View style={styles.centeredView}>
+                    <Text style={styles.title}>Related resources</Text>
+                    <FlatList
+                        data={relatedResources}
+                        keyExtractor={([key]) => key}
+                        renderItem={({ item: [key, value] }) => (
+                            <Text key={key}>
+                                {key}: {value.url}
+                            </Text>
+                        )}
+                        scrollEnabled={false}
+                        style={styles.flatList}
+                    />
+                </View>
+            )}
+
+            <Spacer />
         </ScrollView>
     );
 }
@@ -98,16 +143,7 @@ const styles = StyleSheet.create({
         textAlign: 'justify',
         lineHeight: 25,
     },
-    pressableStyle: {
-        backgroundColor: colors.petrolBlue,
-        flexDirection: 'row',
-        padding: 10,
-        alignItems: 'center',
-        gap: 10,
-        borderRadius: 20,
-        marginTop: 20,
-    },
-    pressableText: {
-        color: colors.white100,
+    flatList: {
+        flexGrow: 0,
     },
 });

@@ -1,11 +1,11 @@
+import { ICourse } from '../../../interfaces/ICourse';
+
 export type ResourceNavigationParamList = {
     Resources: undefined;
     TBT: undefined;
     Courses: undefined;
     'Course Detail': {
-        header: string;
-        text: string;
-        details: string;
+        item: ICourse;
     };
     Forms: undefined;
 };
