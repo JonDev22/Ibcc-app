@@ -23,6 +23,7 @@ function TBT() {
     const handlePress = async (resource: string) => {
         const res = await fetchFileFromStorage(resource);
 
+        console.log(res);
         if (res) {
             Linking.canOpenURL(res).then(canOpen => {
                 if (canOpen) {

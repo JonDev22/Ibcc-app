@@ -89,8 +89,11 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
             }
         });
 
-        getCollectionData<ITbtResource>('tbtResources').then(tbt => {
-            if (tbt) {
+        getCollectionData<ITbtResource>('tbtResources').then(tbtRes => {
+            if (tbtRes) {
+                const tbt = tbtRes.sort(
+                    (a, b) => a.date.toMillis() - b.date.toMillis(),
+                );
                 setValue(prev => ({ ...prev, tbt }));
             }
         });
