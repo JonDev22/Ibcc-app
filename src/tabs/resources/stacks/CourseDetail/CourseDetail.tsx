@@ -5,6 +5,8 @@ import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { mainStyles } from '../../../../styles/mainStyle';
 import DownloadButton from './DownloadButton';
 import Spacer from '../../../../components/Spacer';
+import ResourceListView from './ResourceListView';
+import sortByNumOfText from '../../../../functions/sortByNumOfText';
 
 type CourseDetailRouteProp = RouteProp<
     ResourceNavigationParamList,
@@ -52,7 +54,7 @@ function CourseDetail({ route }: CourseDetailProps) {
                 <Text style={styles.centeredText}>{item.description}</Text>
             </View>
 
-            <DownloadButton text={'Download Course'} url={item.course} />
+            <DownloadButton text={'Complete Course'} url={item.course} />
 
             {resources && (
                 <View style={styles.centeredView}>
@@ -61,7 +63,7 @@ function CourseDetail({ route }: CourseDetailProps) {
                         These are resources you need for the course.
                     </Text>
                     <FlatList
-                        data={resources}
+                        data={sortByNumOfText(resources)}
                         keyExtractor={([key]) => key}
                         renderItem={({ item: [key, value] }) => (
                             <DownloadButton
@@ -76,42 +78,21 @@ function CourseDetail({ route }: CourseDetailProps) {
             )}
 
             {externalResources && (
-                <View style={styles.centeredView}>
-                    <Text style={styles.title}>External resources</Text>
-                    <Text style={styles.centeredText}>
-                        We cannot provide external resources. If you are
+                <ResourceListView
+                    items={externalResources}
+                    header="External resources"
+                    text="We cannot provide external resources. If you are
                         interested in the course and need access to all
-                        resources, please talk to your mentor.
-                    </Text>
-                    <FlatList
-                        data={externalResources}
-                        keyExtractor={([key]) => key}
-                        renderItem={({ item: [key, value] }) => (
-                            <Text key={key}>
-                                {key}: {value.url}
-                            </Text>
-                        )}
-                        scrollEnabled={false}
-                        style={styles.flatList}
-                    />
-                </View>
+                        resources, please talk to your mentor."
+                />
             )}
 
             {relatedResources && (
-                <View style={styles.centeredView}>
-                    <Text style={styles.title}>Related resources</Text>
-                    <FlatList
-                        data={relatedResources}
-                        keyExtractor={([key]) => key}
-                        renderItem={({ item: [key, value] }) => (
-                            <Text key={key}>
-                                {key}: {value.url}
-                            </Text>
-                        )}
-                        scrollEnabled={false}
-                        style={styles.flatList}
-                    />
-                </View>
+                <ResourceListView
+                    items={relatedResources}
+                    header="Related resources"
+                    text="Related resources are related to the course, but not mandatory to complete the course."
+                />
             )}
 
             <Spacer />

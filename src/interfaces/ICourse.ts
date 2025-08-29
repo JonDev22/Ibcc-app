@@ -9,14 +9,10 @@ export interface ICourse {
         };
     };
     externalResources?: {
-        [key: string]: {
-            url: string;
-        };
+        [key: string]: string;
     };
     relatedResources?: {
-        [key: string]: {
-            url: string;
-        };
+        [key: string]: string;
     };
     sortOrder: number;
 }
