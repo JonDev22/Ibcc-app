@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>83044330620-1k5nku3lga98fs0749dqi88oivl46dgj.apps.googleusercontent.com</string>
+	<string>83044330620-n4t4ig7skivmhsm4av9leg9ebedhgjvg.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.83044330620-1k5nku3lga98fs0749dqi88oivl46dgj</string>
+	<string>com.googleusercontent.apps.83044330620-n4t4ig7skivmhsm4av9leg9ebedhgjvg</string>
 	<key>API_KEY</key>
 	<string>AIzaSyC41T0d8zBy7a-yoXBruZELgqB7bKHfXLk</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>ibcc.ibcc-app</string>
+	<string>ibc.tbt</string>
 	<key>PROJECT_ID</key>
 	<string>cms-tbt</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:83044330620:ios:d92a52fe9f780e3c522df9</string>
+	<string>1:83044330620:ios:30454f5dc7d7d6f1522df9</string>
 </dict>
 </plist>
