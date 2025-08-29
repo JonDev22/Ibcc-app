@@ -1,17 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native';
-import FontAwesome, {
-    FontAwesomeIconName,
-} from '@react-native-vector-icons/fontawesome';
+import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { colors } from '../../../../theme/colors';
 import { IMinistry } from '../../../../interfaces/IMinistry';
+import getIconFromString from '../../../../functions/getIconFromString';
 
 const MinistryListItem: React.FC<{ ministry: IMinistry }> = ({ ministry }) => {
     return (
         <View style={styles.card}>
             <View style={styles.centeredView}>
                 <FontAwesome
-                    name={ministry.icon as FontAwesomeIconName}
-                    size={28}
+                    name={getIconFromString(ministry.icon)}
+                    size={24}
                     color={colors.petrolBlue}
                 />
                 <Text style={styles.title}>{ministry.name}</Text>
@@ -42,12 +41,12 @@ const styles = StyleSheet.create({
         elevation: 3,
         borderWidth: 1,
         borderColor: colors.petrolBlue,
+        gap: 4,
     },
     title: {
         fontSize: 18,
         color: colors.petrolBlue,
         fontWeight: '700',
-        marginBottom: 4,
     },
     subtitle: {
         fontSize: 14,
