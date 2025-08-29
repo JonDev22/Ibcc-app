@@ -4,4 +4,5 @@ export interface ILifeGroup {
     location: string;
     contact: string;
     time: string;
+    day?: string;
 }
