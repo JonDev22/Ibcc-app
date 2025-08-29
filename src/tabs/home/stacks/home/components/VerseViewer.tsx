@@ -2,9 +2,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import getAdjacentSundays from '../../../../../functions/getAdjacentSundays';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { colors } from '../../../../../theme/colors';
+import { use } from 'react';
+import { ResourceContext } from '../../../../../contexts/ResourceContext';
+import formatFirebaseDate from '../../../../../functions/formatFirebaseDate';
 
 function VerseViewer() {
-    const { prev, next } = getAdjacentSundays();
+    const { passages } = use(ResourceContext);
+
+    const { prev, next } = getAdjacentSundays(passages);
 
     return (
         <View style={styles.container}>
@@ -23,7 +28,9 @@ function VerseViewer() {
                         />{' '}
                         Previous Sunday
                     </Text>
-                    <Text style={styles.date}>{prev.date.toDateString()}</Text>
+                    <Text style={styles.date}>
+                        {formatFirebaseDate(prev.date)}
+                    </Text>
                     <Text style={styles.passage}>{prev.passage}</Text>
                 </View>
             )}
@@ -38,7 +45,9 @@ function VerseViewer() {
                             color={colors.lightPetrolBlue}
                         />
                     </Text>
-                    <Text style={styles.date}>{next.date.toDateString()}</Text>
+                    <Text style={styles.date}>
+                        {formatFirebaseDate(next.date)}
+                    </Text>
                     <Text style={styles.passage}>{next.passage}</Text>
                 </View>
             )}

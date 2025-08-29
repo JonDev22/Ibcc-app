@@ -4,6 +4,8 @@ import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { RouteProp } from '@react-navigation/native';
 import { HomeNavigationParamList } from '../../types/navigationTypes';
 import { colors } from '../../../../theme/colors';
+import formatFirebaseDate from '../../../../functions/formatFirebaseDate';
+import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
 
 type EventsDetailRouteProp = RouteProp<
     HomeNavigationParamList,
@@ -16,7 +18,6 @@ interface EventsDetailProps {
 
 const UpcomingEventsDetails: React.FC<EventsDetailProps> = ({ route }) => {
     const { item } = route.params;
-    const eventDate = new Date(item.date);
 
     return (
         <ScrollView style={styles.container}>
@@ -29,7 +30,21 @@ const UpcomingEventsDetails: React.FC<EventsDetailProps> = ({ route }) => {
                     color={colors.petrolBlue}
                     style={styles.icon}
                 />
-                <Text style={styles.infoText}>{eventDate.toDateString()}</Text>
+                <Text style={styles.infoText}>
+                    {formatFirebaseDate(item.date)}
+                </Text>
+            </View>
+
+            <View style={styles.infoRow}>
+                <FontAwesome
+                    name="clock-o"
+                    size={18}
+                    color={colors.petrolBlue}
+                    style={styles.icon}
+                />
+                <Text style={styles.infoText}>
+                    {formatFirebaseTime(item.date)}
+                </Text>
             </View>
 
             {item.location && (
