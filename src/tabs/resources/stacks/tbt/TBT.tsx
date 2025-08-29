@@ -8,25 +8,20 @@ import {
 } from 'react-native';
 import Separator from '../../../../functions/Separator';
 import InfoCard from '../../../../components/InfoCard';
-import { FontAwesomeIconName } from '@react-native-vector-icons/fontawesome';
 import fetchFileFromStorage from '../../../../functions/fetchFileFromStorage';
+import getIconFromString from '../../../../functions/getIconFromString';
+import { use } from 'react';
+import { ResourceContext } from '../../../../contexts/ResourceContext';
 
 const listItem = ({ item }: { item: { text: string } }) => (
     <Text style={styles.listText}>{item.text}</Text>
 );
 
-const getTypeImage = (type: string): FontAwesomeIconName => {
-    switch (type) {
-        case 'poster':
-            return 'object-group';
-        default:
-            return 'yoast';
-    }
-};
-
 function TBT() {
-    const handlePress = async () => {
-        const res = await fetchFileFromStorage('tbt/A.pdf');
+    const { tbt } = use(ResourceContext);
+
+    const handlePress = async (resource: string) => {
+        const res = await fetchFileFromStorage(resource);
 
         if (res) {
             Linking.canOpenURL(res).then(canOpen => {
@@ -53,14 +48,14 @@ function TBT() {
 
             <Text style={styles.subheader}>Resources</Text>
             <FlatList
-                data={tbtResources}
+                data={tbt}
                 keyExtractor={item => item.title}
                 renderItem={({ item }) => (
                     <InfoCard
-                        image={getTypeImage(item.type)}
-                        text={item.displayText}
+                        image={getIconFromString(item.resourceType)}
+                        text={item.text}
                         header={item.title}
-                        onPress={handlePress}
+                        onPress={() => handlePress(item.resource)}
                         headerLeft
                         buttonText="Download"
                     />
@@ -79,34 +74,6 @@ const tbtDisclaimData = [
     },
     {
         text: 'We support one another as we learn. Each week, our church community gathers around the same Bible text. Our homegroups (Life Groups) discuss the same passage as was taught during our Sunday gathering, and our activities and material for the children is based on the same content. With TBT, we approach the study of the Bible as a whole community. ',
-    },
-];
-
-const tbtResources = [
-    {
-        type: 'poster',
-        title: 'Mark',
-        displayText: 'Poster overview for Mark',
-    },
-    {
-        type: 'poster',
-        title: 'Deuteronomy',
-        displayText: 'Poster overview for Deuteronomy',
-    },
-    {
-        type: 'poster',
-        title: 'Exodus',
-        displayText: 'Poster overview for Exodus',
-    },
-    {
-        type: 'poster',
-        title: 'Leviticus',
-        displayText: 'Poster overview for Leviticus',
-    },
-    {
-        type: 'poster',
-        title: '2. Corinthians',
-        displayText: 'Poster overview for 2. Corinthians',
     },
 ];
 
