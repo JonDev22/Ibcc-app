@@ -13,6 +13,23 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8CA64830B026721CE92493FE /* Pods_ibcc_app.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9897C67BCB7E13CD5A3A03E7 /* Pods_ibcc_app.framework */; };
 		CF682B3C2E62463B0007257B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF682B3B2E62463B0007257B /* GoogleService-Info.plist */; };
+		CF682B402E62538D0007257B /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = CF682B3F2E62538D0007257B /* main.jsbundle */; };
+		CF682B5E2E62553B0007257B /* clear-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B492E62553B0007257B /* clear-icon.png */; };
+		CF682B5F2E62553B0007257B /* close-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B4C2E62553B0007257B /* close-icon.png */; };
+		CF682B602E62553B0007257B /* close-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B4E2E62553B0007257B /* close-icon@3x.png */; };
+		CF682B612E62553B0007257B /* back-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B452E62553B0007257B /* back-icon.png */; };
+		CF682B622E62553B0007257B /* yt_icon_red_digital.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B5A2E62553B0007257B /* yt_icon_red_digital.png */; };
+		CF682B632E62553B0007257B /* search-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B4F2E62553B0007257B /* search-icon.png */; };
+		CF682B642E62553B0007257B /* clear-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B4A2E62553B0007257B /* clear-icon@2x.png */; };
+		CF682B652E62553B0007257B /* search-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B512E62553B0007257B /* search-icon@3x.png */; };
+		CF682B662E62553B0007257B /* IBCC_Logo-icon-square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF682B592E62553B0007257B /* IBCC_Logo-icon-square.jpg */; };
+		CF682B672E62553B0007257B /* Facebook_Logo_Primary.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B582E62553B0007257B /* Facebook_Logo_Primary.png */; };
+		CF682B682E62553B0007257B /* search-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B502E62553B0007257B /* search-icon@2x.png */; };
+		CF682B692E62553B0007257B /* back-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B482E62553B0007257B /* back-icon@3x.png */; };
+		CF682B6A2E62553B0007257B /* back-icon-mask.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B462E62553B0007257B /* back-icon-mask.png */; };
+		CF682B6B2E62553B0007257B /* close-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B4D2E62553B0007257B /* close-icon@2x.png */; };
+		CF682B6C2E62553B0007257B /* back-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B472E62553B0007257B /* back-icon@2x.png */; };
+		CF682B6D2E62553B0007257B /* clear-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF682B4B2E62553B0007257B /* clear-icon@3x.png */; };
 		CFEBE7D12E50F7870053C2C8 /* dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEBE7D02E50F7870053C2C8 /* dummy.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +44,24 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ibcc_app/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9897C67BCB7E13CD5A3A03E7 /* Pods_ibcc_app.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ibcc_app.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF682B3B2E62463B0007257B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CF682B3F2E62538D0007257B /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		CF682B412E62553B0007257B /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		CF682B452E62553B0007257B /* back-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-icon.png"; sourceTree = "<group>"; };
+		CF682B462E62553B0007257B /* back-icon-mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-icon-mask.png"; sourceTree = "<group>"; };
+		CF682B472E62553B0007257B /* back-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-icon@2x.png"; sourceTree = "<group>"; };
+		CF682B482E62553B0007257B /* back-icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-icon@3x.png"; sourceTree = "<group>"; };
+		CF682B492E62553B0007257B /* clear-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clear-icon.png"; sourceTree = "<group>"; };
+		CF682B4A2E62553B0007257B /* clear-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clear-icon@2x.png"; sourceTree = "<group>"; };
+		CF682B4B2E62553B0007257B /* clear-icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clear-icon@3x.png"; sourceTree = "<group>"; };
+		CF682B4C2E62553B0007257B /* close-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-icon.png"; sourceTree = "<group>"; };
+		CF682B4D2E62553B0007257B /* close-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-icon@2x.png"; sourceTree = "<group>"; };
+		CF682B4E2E62553B0007257B /* close-icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-icon@3x.png"; sourceTree = "<group>"; };
+		CF682B4F2E62553B0007257B /* search-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-icon.png"; sourceTree = "<group>"; };
+		CF682B502E62553B0007257B /* search-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-icon@2x.png"; sourceTree = "<group>"; };
+		CF682B512E62553B0007257B /* search-icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-icon@3x.png"; sourceTree = "<group>"; };
+		CF682B582E62553B0007257B /* Facebook_Logo_Primary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Facebook_Logo_Primary.png; sourceTree = "<group>"; };
+		CF682B592E62553B0007257B /* IBCC_Logo-icon-square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "IBCC_Logo-icon-square.jpg"; sourceTree = "<group>"; };
+		CF682B5A2E62553B0007257B /* yt_icon_red_digital.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yt_icon_red_digital.png; sourceTree = "<group>"; };
 		CFEBE7D02E50F7870053C2C8 /* dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dummy.swift; sourceTree = "<group>"; };
 		CFEBE7D22E50F79E0053C2C8 /* tbt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tbt-Bridging-Header.h"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -78,11 +113,13 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				CF682B3E2E62537D0007257B /* Resources */,
 				13B07FAE1A68108700A75B9A /* ibcc_app */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				CF682B5D2E62553B0007257B /* assets */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -104,6 +141,126 @@
 				5709B34CF0A7D63546082F79 /* Pods-ibcc_app.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		CF682B3E2E62537D0007257B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B3F2E62538D0007257B /* main.jsbundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CF682B422E62553B0007257B /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B412E62553B0007257B /* FontAwesome.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
+		CF682B432E62553B0007257B /* fontawesome */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B422E62553B0007257B /* fonts */,
+			);
+			path = fontawesome;
+			sourceTree = "<group>";
+		};
+		CF682B442E62553B0007257B /* @react-native-vector-icons */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B432E62553B0007257B /* fontawesome */,
+			);
+			path = "@react-native-vector-icons";
+			sourceTree = "<group>";
+		};
+		CF682B522E62553B0007257B /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B452E62553B0007257B /* back-icon.png */,
+				CF682B462E62553B0007257B /* back-icon-mask.png */,
+				CF682B472E62553B0007257B /* back-icon@2x.png */,
+				CF682B482E62553B0007257B /* back-icon@3x.png */,
+				CF682B492E62553B0007257B /* clear-icon.png */,
+				CF682B4A2E62553B0007257B /* clear-icon@2x.png */,
+				CF682B4B2E62553B0007257B /* clear-icon@3x.png */,
+				CF682B4C2E62553B0007257B /* close-icon.png */,
+				CF682B4D2E62553B0007257B /* close-icon@2x.png */,
+				CF682B4E2E62553B0007257B /* close-icon@3x.png */,
+				CF682B4F2E62553B0007257B /* search-icon.png */,
+				CF682B502E62553B0007257B /* search-icon@2x.png */,
+				CF682B512E62553B0007257B /* search-icon@3x.png */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+		CF682B532E62553B0007257B /* module */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B522E62553B0007257B /* assets */,
+			);
+			path = module;
+			sourceTree = "<group>";
+		};
+		CF682B542E62553B0007257B /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B532E62553B0007257B /* module */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		CF682B552E62553B0007257B /* elements */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B542E62553B0007257B /* lib */,
+			);
+			path = elements;
+			sourceTree = "<group>";
+		};
+		CF682B562E62553B0007257B /* @react-navigation */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B552E62553B0007257B /* elements */,
+			);
+			path = "@react-navigation";
+			sourceTree = "<group>";
+		};
+		CF682B572E62553B0007257B /* node_modules */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B442E62553B0007257B /* @react-native-vector-icons */,
+				CF682B562E62553B0007257B /* @react-navigation */,
+			);
+			path = node_modules;
+			sourceTree = "<group>";
+		};
+		CF682B5B2E62553B0007257B /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B582E62553B0007257B /* Facebook_Logo_Primary.png */,
+				CF682B592E62553B0007257B /* IBCC_Logo-icon-square.jpg */,
+				CF682B5A2E62553B0007257B /* yt_icon_red_digital.png */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+		CF682B5C2E62553B0007257B /* src */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B5B2E62553B0007257B /* assets */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		CF682B5D2E62553B0007257B /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				CF682B572E62553B0007257B /* node_modules */,
+				CF682B5C2E62553B0007257B /* src */,
+			);
+			path = assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,6 +329,23 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				CF682B3C2E62463B0007257B /* GoogleService-Info.plist in Resources */,
+				CF682B5E2E62553B0007257B /* clear-icon.png in Resources */,
+				CF682B5F2E62553B0007257B /* close-icon.png in Resources */,
+				CF682B602E62553B0007257B /* close-icon@3x.png in Resources */,
+				CF682B612E62553B0007257B /* back-icon.png in Resources */,
+				CF682B622E62553B0007257B /* yt_icon_red_digital.png in Resources */,
+				CF682B632E62553B0007257B /* search-icon.png in Resources */,
+				CF682B642E62553B0007257B /* clear-icon@2x.png in Resources */,
+				CF682B652E62553B0007257B /* search-icon@3x.png in Resources */,
+				CF682B662E62553B0007257B /* IBCC_Logo-icon-square.jpg in Resources */,
+				CF682B672E62553B0007257B /* Facebook_Logo_Primary.png in Resources */,
+				CF682B682E62553B0007257B /* search-icon@2x.png in Resources */,
+				CF682B692E62553B0007257B /* back-icon@3x.png in Resources */,
+				CF682B6A2E62553B0007257B /* back-icon-mask.png in Resources */,
+				CF682B6B2E62553B0007257B /* close-icon@2x.png in Resources */,
+				CF682B6C2E62553B0007257B /* back-icon@2x.png in Resources */,
+				CF682B6D2E62553B0007257B /* clear-icon@3x.png in Resources */,
+				CF682B402E62538D0007257B /* main.jsbundle in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				06B79F9470FE01A7A18FFCF3 /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -193,7 +367,7 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
+			shellPath = /bin/zsh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
 		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
