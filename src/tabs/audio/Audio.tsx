@@ -11,6 +11,7 @@ import fetchAudioFiles from './functions/fetchAudioFiles';
 import AudioList from './AudioList';
 import AudioPlayer from './AudioPlayer';
 import { colors } from '../../theme/colors';
+import sortByBibleBook from '../../functions/sortByBibleBook';
 
 function Audio() {
     // State and progress from player package.
@@ -48,11 +49,7 @@ function Audio() {
             await TrackPlayer.setupPlayer();
             fetchAudioFiles().then(async res => {
                 if (res) {
-                    const sortedRes = res.sort((a, b) => {
-                        const albumA = a.album ?? '';
-                        const albumB = b.album ?? '';
-                        return albumA.localeCompare(albumB);
-                    });
+                    const sortedRes = sortByBibleBook(res, 'album');
                     await TrackPlayer.add(sortedRes);
                     setTrack(sortedRes);
                 }
