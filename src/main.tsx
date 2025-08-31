@@ -6,6 +6,7 @@ import { colors } from './theme/colors';
 import ResourcesStack from './tabs/resources/ResourcesStack';
 import AudioStack from './tabs/audio/AudioStack';
 import { ResourceProvider } from './contexts/ResourceContext';
+import ChurchLifeStack from './tabs/churchLife/ChurchLifeStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,6 +37,13 @@ function Main() {
                     component={HomeStack}
                     options={{
                         title: 'Home',
+                    }}
+                />
+                <Tab.Screen
+                    name="ChurchLifeTab"
+                    component={ChurchLifeStack}
+                    options={{
+                        title: 'Church Life',
                     }}
                 />
                 <Tab.Screen
