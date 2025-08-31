@@ -32,7 +32,6 @@ function ChurchLifeHome() {
         <FlatList
             data={homeData}
             keyExtractor={item => item.header}
-            scrollEnabled={false}
             renderItem={({ item }) => (
                 <InfoCard
                     image={item.image as FontAwesomeIconName}
