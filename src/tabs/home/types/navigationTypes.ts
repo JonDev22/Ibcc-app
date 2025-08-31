@@ -1,3 +1,4 @@
+import { IAnnouncement } from '../../../interfaces/IAnnouncement';
 import { IEvent } from '../../../interfaces/IEvent';
 
 export type HomeNavigationParamList = {
@@ -6,7 +7,8 @@ export type HomeNavigationParamList = {
     'Upcoming Events Details': {
         item: IEvent;
     };
-    Ministries: undefined;
-    Leaders: undefined;
-    Lifegroups: undefined;
+    Announcements: undefined;
+    'Announcements Details': {
+        announcement: IAnnouncement;
+    };
 };
