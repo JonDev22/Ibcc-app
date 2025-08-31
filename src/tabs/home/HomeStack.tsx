@@ -3,10 +3,9 @@ import Home from './stacks/home/Home';
 import { HomeNavigationParamList } from './types/navigationTypes';
 import UpcomingEvents from './stacks/upcomingEvents/UpcomingEvents';
 import UpcomingEventsDetails from './stacks/upcomingEvents/UpcomingEventsDetails';
-import MinistryList from './stacks/ministries/Ministries';
-import Leaders from './stacks/leaders/Leaders';
-import LifeGroupList from './stacks/lifegroups/Lifegroups';
 import getStackScreenOptions from '../../functions/getStackScreenOptions';
+import Announcements from './stacks/announcements/Announcements';
+import AnnouncementDetail from './stacks/announcements/AnnouncementsDetail';
 
 const Stack = createNativeStackNavigator<HomeNavigationParamList>();
 
@@ -20,9 +19,11 @@ function HomeStack() {
                 name="Upcoming Events Details"
                 component={UpcomingEventsDetails}
             />
-            <Stack.Screen name="Ministries" component={MinistryList} />
-            <Stack.Screen name="Leaders" component={Leaders} />
-            <Stack.Screen name="Lifegroups" component={LifeGroupList} />
+            <Stack.Screen name="Announcements" component={Announcements} />
+            <Stack.Screen
+                name="Announcements Details"
+                component={AnnouncementDetail}
+            />
         </Stack.Navigator>
     );
 }
