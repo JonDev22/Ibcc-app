@@ -21,6 +21,7 @@ function HomeStack() {
             />
             <Stack.Screen name="Announcements" component={Announcements} />
             <Stack.Screen
+                options={{ headerTitle: '' }}
                 name="Announcements Details"
                 component={AnnouncementDetail}
             />
