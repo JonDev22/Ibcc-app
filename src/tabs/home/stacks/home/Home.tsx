@@ -17,7 +17,7 @@ function Home() {
 
             <InfoCard
                 image="bullhorn"
-                text="Stay updated and see our latest church announcements!"
+                text="Be part of the journey — explore the newest updates and announcements from our church family."
                 onPress={() => navigate.navigate('Announcements')}
                 header="Announcements"
                 headerLeft
