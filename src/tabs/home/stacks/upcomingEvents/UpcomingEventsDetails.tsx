@@ -59,6 +59,12 @@ const UpcomingEventsDetails: React.FC<EventsDetailProps> = ({ route }) => {
                 </View>
             )}
 
+            {item.text && (
+                <View style={styles.section}>
+                    <Text style={styles.sectionContent}>{item.text}</Text>
+                </View>
+            )}
+
             {item.details && (
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Details</Text>
