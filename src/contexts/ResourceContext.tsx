@@ -10,6 +10,8 @@ import { IPassage } from '../interfaces/IPassage';
 import { IEvent } from '../interfaces/IEvent';
 import { ITbtResource } from '../interfaces/ITbtResource';
 import sortByDay from '../functions/sortByDay';
+import { IAnnouncement } from '../interfaces/IAnnouncement';
+import { Timestamp, where } from '@react-native-firebase/firestore';
 
 interface IResourceContext {
     courses: ICourse[];
@@ -20,6 +22,7 @@ interface IResourceContext {
     passages: IPassage[];
     events: IEvent[];
     tbt: ITbtResource[];
+    announcements: IAnnouncement[];
 }
 
 const initialValue: IResourceContext = {
@@ -31,6 +34,7 @@ const initialValue: IResourceContext = {
     passages: [],
     events: [],
     tbt: [],
+    announcements: [],
 };
 
 export const ResourceContext = createContext<IResourceContext>(initialValue);
@@ -39,64 +43,64 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
     const [value, setValue] = useState<IResourceContext>(initialValue);
 
     useEffect(() => {
-        getCollectionData<ICourse>('courses').then(coursesRes => {
-            if (coursesRes) {
-                const courses = coursesRes.sort(
-                    (a, b) => a.sortOrder - b.sortOrder,
-                );
-                setValue(prev => ({ ...prev, courses }));
-            }
-        });
+        const now = Timestamp.fromDate(new Date());
 
-        getCollectionData<IForm>('forms').then(forms => {
-            if (forms) {
-                setValue(prev => ({ ...prev, forms }));
-            }
-        });
+        Promise.all([
+            getCollectionData<ICourse>('courses'),
+            getCollectionData<IForm>('forms'),
+            getCollectionData<ILeader>('leaders'),
+            getCollectionData<ILifeGroup>('lifegroups'),
+            getCollectionData<IMinistry>('ministries'),
+            getCollectionData<IPassage>('passages'),
+            getCollectionData<IEvent>('events', where('date', '>=', now)),
+            getCollectionData<ITbtResource>('tbtResources'),
+            getCollectionData<IAnnouncement>('announcements'),
+        ]).then(
+            ([
+                coursesRef,
+                forms,
+                leaders,
+                lifeGroupsRes,
+                ministries,
+                passages,
+                eventsRes,
+                tbtRes,
+                announcementsRes,
+            ]) => {
+                const courses =
+                    coursesRef?.sort((a, b) => a.sortOrder - b.sortOrder) ?? [];
+                const lifeGroups = lifeGroupsRes
+                    ? sortByDay<ILifeGroup>(lifeGroupsRes)
+                    : [];
+                const events =
+                    eventsRes?.sort(
+                        (a, b) =>
+                            b.date.toDate().getTime() -
+                            a.date.toDate().getTime(),
+                    ) ?? [];
+                const tbt =
+                    tbtRes?.sort(
+                        (a, b) => a.date.toMillis() - b.date.toMillis(),
+                    ) ?? [];
+                const announcements =
+                    announcementsRes?.sort(
+                        (a, b) => b.date.toMillis() - a.date.toMillis(),
+                    ) ?? [];
 
-        getCollectionData<ILeader>('leaders').then(leaders => {
-            if (leaders) {
-                setValue(prev => ({ ...prev, leaders }));
-            }
-        });
-
-        getCollectionData<ILifeGroup>('lifegroups').then(lifeGroupsRes => {
-            if (lifeGroupsRes) {
-                const lifeGroups = sortByDay<ILifeGroup>(lifeGroupsRes);
-                setValue(prev => ({ ...prev, lifeGroups }));
-            }
-        });
-
-        getCollectionData<IMinistry>('ministries').then(ministries => {
-            if (ministries) {
-                setValue(prev => ({ ...prev, ministries }));
-            }
-        });
-
-        getCollectionData<IPassage>('passages').then(passages => {
-            if (passages) {
-                setValue(prev => ({ ...prev, passages }));
-            }
-        });
-
-        getCollectionData<IEvent>('events').then(eventsRes => {
-            if (eventsRes) {
-                const events = eventsRes.sort(
-                    (a, b) =>
-                        a.date.toDate().getTime() - b.date.toDate().getTime(),
-                );
-                setValue(prev => ({ ...prev, events }));
-            }
-        });
-
-        getCollectionData<ITbtResource>('tbtResources').then(tbtRes => {
-            if (tbtRes) {
-                const tbt = tbtRes.sort(
-                    (a, b) => a.date.toMillis() - b.date.toMillis(),
-                );
-                setValue(prev => ({ ...prev, tbt }));
-            }
-        });
+                setValue(prev => ({
+                    ...prev,
+                    courses,
+                    forms: forms ?? [],
+                    leaders: leaders ?? [],
+                    lifeGroups,
+                    ministries: ministries ?? [],
+                    passages: passages ?? [],
+                    events,
+                    tbt,
+                    announcements,
+                }));
+            },
+        );
     }, []);
 
     return (
