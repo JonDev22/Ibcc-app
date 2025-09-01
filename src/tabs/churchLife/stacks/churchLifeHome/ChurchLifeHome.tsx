@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 import { ChurchNavigationType } from '../../types/churchNavigationProps';
 import InfoCard from '../../../../components/InfoCard';
 import { FontAwesomeIconName } from '@react-native-vector-icons/fontawesome';
@@ -11,19 +11,19 @@ function ChurchLifeHome() {
         {
             image: 'comments',
             header: 'Lifegroups',
-            text: 'Every week we meet in lifegroups to enjoy fellowship as God`s people',
+            text: 'Our small group communities (Life Groups) meet weekly throughout the city to fellowship, pray, learn the word, and praise the Lord.',
             navigation: () => navigation.navigate('Lifegroups'),
         },
         {
             image: 'group',
             header: 'Ministries',
-            text: 'Theres is plenty of opportunity for you to serve your local church. Check out our ministries.',
+            text: "Most of the ministry of our church community is done by the unpaid members of our church. We are people called to offer their whole lives to participate in Jesus' mission.",
             navigation: () => navigation.navigate('Ministries'),
         },
         {
             image: 'handshake-o',
             header: 'Our Elders and deacons',
-            text: 'These are our leaders. They will be able to help you with any question, concern, or anything you need.',
+            text: 'We have a dedicated team of elders and deacons who faithfully serve in accordance with the qualifications outlined in 1 Timothy 3:1-13 and Titus 1:5-9',
             navigation: () => navigation.navigate('Leaders'),
         },
     ];
@@ -45,9 +45,3 @@ function ChurchLifeHome() {
 }
 
 export default ChurchLifeHome;
-
-const styles = StyleSheet.create({
-    breather: {
-        height: 30,
-    },
-});
