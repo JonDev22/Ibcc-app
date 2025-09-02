@@ -75,8 +75,8 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
                 const events =
                     eventsRes?.sort(
                         (a, b) =>
-                            b.date.toDate().getTime() -
-                            a.date.toDate().getTime(),
+                            a.date.toDate().getTime() -
+                            b.date.toDate().getTime(),
                     ) ?? [];
                 const tbt =
                     tbtRes?.sort(
