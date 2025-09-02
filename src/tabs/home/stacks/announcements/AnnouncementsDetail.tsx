@@ -37,8 +37,12 @@ function AnnouncementDetail({ route }: AnnouncementDetailProps) {
 
             <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Contact</Text>
-                <Text style={styles.sectionText}>
-                    For any questions, please contact: {announcement.contact}
+                <Text style={styles.sectionContent}>
+                    For any questions, please contact{' '}
+                    <Text style={styles.contactName}>
+                        {announcement.contact}
+                    </Text>
+                    .
                 </Text>
             </View>
         </ScrollView>
@@ -84,5 +88,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 8,
+    },
+    sectionContent: {
+        fontSize: 16,
+        lineHeight: 22,
+    },
+    contactName: {
+        fontWeight: '700',
+        color: colors.orange,
     },
 });
