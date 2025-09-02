@@ -1,54 +1,70 @@
 import { View, Text, StyleSheet } from 'react-native';
 import getAdjacentSundays from '../../../../../functions/getAdjacentSundays';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
-import { colors } from '../../../../../theme/colors';
 import { use } from 'react';
 import { ResourceContext } from '../../../../../contexts/ResourceContext';
 import formatFirebaseDate from '../../../../../functions/formatFirebaseDate';
+import useStyle from '../../../../../hooks/useStyle';
+import useColorMap from '../../../../../hooks/useColorMap';
 
 function VerseViewer() {
     const { passages } = use(ResourceContext);
+    const colorMap = useColorMap();
+    const generateStyle = useStyle();
+
+    const labelStyle = generateStyle(
+        'fontXS',
+        'flexRow',
+        'itemsCenter',
+        'primary',
+    );
+
+    const dateStyle = generateStyle('fontS', 'weight600');
+    const headerStyle = {
+        ...generateStyle('fontXL', 'bold', 'flexRow', 'itemsCenter'),
+        padding: 16,
+    };
 
     const { prev, next } = getAdjacentSundays(passages);
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>
-                <FontAwesome name="book" size={24} color={colors.petrolBlue} />{' '}
+            <Text style={headerStyle}>
+                <FontAwesome name="book" size={24} color={colorMap.primary} />{' '}
                 Sunday Bible Passages
             </Text>
 
             {prev && (
                 <View style={styles.card}>
-                    <Text style={styles.label}>
+                    <Text style={labelStyle}>
                         <FontAwesome
                             name="arrow-left"
                             size={16}
-                            color={colors.lightPetrolBlue}
+                            color={colorMap.secondary}
                         />{' '}
                         Previous Sunday
                     </Text>
-                    <Text style={styles.date}>
+                    <Text style={dateStyle}>
                         {formatFirebaseDate(prev.date)}
                     </Text>
-                    <Text style={styles.passage}>{prev.passage}</Text>
+                    <Text style={generateStyle('fontM')}>{prev.passage}</Text>
                 </View>
             )}
 
             {next && (
                 <View style={styles.card}>
-                    <Text style={styles.label}>
+                    <Text style={labelStyle}>
                         Next Sunday{' '}
                         <FontAwesome
                             name="arrow-right"
                             size={16}
-                            color={colors.lightPetrolBlue}
+                            color={colorMap.secondary}
                         />
                     </Text>
-                    <Text style={styles.date}>
+                    <Text style={dateStyle}>
                         {formatFirebaseDate(next.date)}
                     </Text>
-                    <Text style={styles.passage}>{next.passage}</Text>
+                    <Text style={generateStyle('fontM')}>{next.passage}</Text>
                 </View>
             )}
         </View>
@@ -62,30 +78,9 @@ const styles = StyleSheet.create({
         padding: 16,
         flex: 1,
     },
-    header: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 16,
-    },
     card: {
         padding: 16,
         elevation: 3,
-    },
-    label: {
-        fontSize: 14,
-        color: colors.petrolBlue,
-        marginBottom: 4,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    date: {
-        fontSize: 16,
-        fontWeight: '600',
-        marginBottom: 8,
-    },
-    passage: {
-        fontSize: 18,
+        gap: 4,
     },
 });
