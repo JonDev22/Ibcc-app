@@ -1,48 +1,35 @@
-import { StyleSheet, useColorScheme, StyleProp, ViewStyle } from 'react-native';
+import { useColorScheme } from 'react-native';
 import { Color, colors } from '../theme/colors';
 
 export interface IAppColors {
     primary: Color;
     secondary: Color;
     third: Color;
-    style: { [key: string]: StyleProp<ViewStyle> };
-    bgColor: { [key: string]: string };
+    color: Color;
+    bgColor: Color;
 }
 
 const useColorMap = (): IAppColors => {
     const scheme = useColorScheme();
-    const isDark = scheme === 'light';
+    const isDark = scheme !== 'light';
 
     if (isDark) {
         return {
-            primary: colors.orange,
-            secondary: colors.petrolBlue,
+            primary: colors.petrolBlue,
+            secondary: colors.lightPetrolBlue,
             third: colors.darkKhaki,
-            style: mainStyle,
-            bgColor: { backgroundColor: 'white' },
+            color: colors.black,
+            bgColor: colors.white100,
         } as IAppColors;
     } else {
         return {
-            primary: colors.petrolBlue,
-            secondary: colors.orange,
+            primary: colors.white50,
+            secondary: colors.turquoise,
             third: colors.darkKhaki,
-            style: mainStyleDark,
-            bgColor: { backgroundColor: 'black' },
+            color: colors.white100,
+            bgColor: colors.black,
         } as IAppColors;
     }
 };
 
 export default useColorMap;
-
-const mainStyle = StyleSheet.create({
-    header: {
-        padding: 10,
-    },
-});
-
-const mainStyleDark = StyleSheet.create({
-    headerBlack: {
-        ...mainStyle.header,
-        color: 'black',
-    },
-});

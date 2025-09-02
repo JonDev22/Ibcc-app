@@ -6,11 +6,15 @@ import VisitUs from './components/VisitUs';
 import InfoCard from '../../../../components/InfoCard';
 import { useNavigation } from '@react-navigation/native';
 import { HomeNavigationType } from '../../types/homeNavigationProp';
+import useStyle from '../../../../hooks/useStyle';
 
 function Home() {
     const navigate = useNavigation<HomeNavigationType<'Announcements'>>();
+
+    const generateStyle = useStyle();
+
     return (
-        <ScrollView>
+        <ScrollView style={generateStyle()}>
             <VerseViewer />
 
             <TopUpcomingEvents />

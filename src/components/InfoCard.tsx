@@ -5,6 +5,8 @@ import FontAwesome, {
 } from '@react-native-vector-icons/fontawesome';
 import { mainStyles } from '../styles/mainStyle';
 import { colors } from '../theme/colors';
+import useStyle from '../hooks/useStyle';
+import useColorMap from '../hooks/useColorMap';
 
 interface InfoCardProps {
     image: FontAwesomeIconName;
@@ -16,6 +18,18 @@ interface InfoCardProps {
 }
 
 function InfoCard(props: InfoCardProps) {
+    const colorMap = useColorMap();
+    const generateStyle = useStyle();
+
+    const headerTextLeft = generateStyle('bold');
+    const contentTitle = generateStyle(
+        'fontXL',
+        'weight700',
+        'textCenter',
+        'primary',
+    );
+    const contentText = generateStyle('fontS', 'textJustify', 'hMarginS');
+
     const getHeader = () => {
         if (props.headerLeft) {
             return (
@@ -24,9 +38,9 @@ function InfoCard(props: InfoCardProps) {
                         name={props.image}
                         size={20}
                         style={styles.biggerIcon}
-                        color={colors.petrolBlue}
+                        color={colorMap.primary}
                     />
-                    <Text style={styles.headerLeftText}>{props.header}</Text>
+                    <Text style={headerTextLeft}>{props.header}</Text>
                 </View>
             );
         } else {
@@ -36,9 +50,9 @@ function InfoCard(props: InfoCardProps) {
                         name={props.image}
                         size={30}
                         style={mainStyles.circleIcon}
-                        color={colors.petrolBlue}
+                        color={colorMap.primary}
                     />
-                    <Text style={styles.contentTitle}>{props.header}</Text>
+                    <Text style={contentTitle}>{props.header}</Text>
                 </>
             );
         }
@@ -48,7 +62,7 @@ function InfoCard(props: InfoCardProps) {
         <View style={styles.container}>
             {getHeader()}
 
-            <Text style={styles.contentText}>{props.text}</Text>
+            <Text style={contentText}>{props.text}</Text>
 
             <TouchableOpacity style={styles.button} onPress={props.onPress}>
                 <Text style={styles.buttonText}>
@@ -76,18 +90,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 3 },
         elevation: 3,
         gap: 8,
-    },
-    contentTitle: {
-        fontSize: 20,
-        fontWeight: '700',
-        marginVertical: 8,
-        textAlign: 'center',
-        color: colors.petrolBlue,
-    },
-    contentText: {
-        fontSize: 15,
-        textAlign: 'justify',
-        marginBottom: 12,
     },
     headerLeftView: {
         alignSelf: 'flex-start',
