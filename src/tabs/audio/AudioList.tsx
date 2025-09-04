@@ -39,7 +39,7 @@ export default function SongList({ songs, onPressSong }: Props) {
             <View style={styles.textContainer}>
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.subtitle}>
-                    {item.artist} {item.album ? `• ${item.album}` : ''}
+                    {item.artist} {item.subtitle ? `• ${item.subtitle}` : ''}
                 </Text>
             </View>
             <Text style={styles.duration}>
