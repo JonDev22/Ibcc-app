@@ -16,6 +16,8 @@ import SpotifyIcon from '../../../../../assets/Primary_Logo_Green_CMYK.svg';
 import InstagramIcon from '../../../../../assets/Instagram_Glyph_Gradient.svg';
 import FaceBookPng from '../../../../../assets/Facebook_Logo_Primary.png';
 import YouTubePng from '../../../../../assets/yt_icon_red_digital.png';
+import useStyle from '../../../../../hooks/useStyle';
+import Spacer from '../../../../../components/Spacer';
 
 const WIDTH = 50;
 const HEIGHT = 50;
@@ -29,9 +31,13 @@ interface ServiceCardProps {
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ subHeader, items }) => {
+    const generateStyle = useStyle();
+    const subheadingStyle = generateStyle('fontM', 'bold', 'textCenter');
+
     return (
         <>
-            <Text style={styles.subheading}>{subHeader}</Text>
+            <Text style={subheadingStyle}>{subHeader}</Text>
+            <Spacer />
             <View style={styles.row}>
                 {items.map(item => (
                     <TouchableOpacity
@@ -48,10 +54,13 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ subHeader, items }) => {
 };
 
 function OnlineResources() {
+    const generateStyle = useStyle();
+
+    const headingStyle = generateStyle('fontXL', 'bold', 'textCenter');
     return (
         <View style={styles.container}>
-            <Text style={styles.heading}>Get Connected:</Text>
-
+            <Text style={headingStyle}>Get Connected:</Text>
+            <Spacer />
             <FlatList
                 data={data}
                 keyExtractor={item => item.subHeader}
@@ -132,18 +141,6 @@ const data: ServiceCardProps[] = [
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-    },
-    heading: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        marginBottom: 15,
-        textAlign: 'center',
-    },
-    subheading: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 15,
-        textAlign: 'center',
     },
     row: {
         flexDirection: 'row',

@@ -1,11 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { ChurchNavigationType } from '../../types/churchNavigationProps';
 import InfoCard from '../../../../components/InfoCard';
 import { FontAwesomeIconName } from '@react-native-vector-icons/fontawesome';
+import useStyle from '../../../../hooks/useStyle';
+import Spacer from '../../../../components/Spacer';
 
 function ChurchLifeHome() {
     const navigation = useNavigation<ChurchNavigationType<'Ministries'>>();
+
+    const generateStyle = useStyle();
 
     const homeData = [
         {
@@ -28,19 +32,24 @@ function ChurchLifeHome() {
         },
     ];
 
+    const containerStyle = generateStyle('hMinMax', 'hPaddingM', 'wPaddingM');
+
     return (
-        <FlatList
-            data={homeData}
-            keyExtractor={item => item.header}
-            renderItem={({ item }) => (
-                <InfoCard
-                    image={item.image as FontAwesomeIconName}
-                    header={item.header}
-                    text={item.text}
-                    onPress={item.navigation}
-                />
-            )}
-        />
+        <View style={containerStyle}>
+            <FlatList
+                data={homeData}
+                keyExtractor={item => item.header}
+                renderItem={({ item }) => (
+                    <InfoCard
+                        image={item.image as FontAwesomeIconName}
+                        header={item.header}
+                        text={item.text}
+                        onPress={item.navigation}
+                    />
+                )}
+                ItemSeparatorComponent={Spacer}
+            />
+        </View>
     );
 }
 

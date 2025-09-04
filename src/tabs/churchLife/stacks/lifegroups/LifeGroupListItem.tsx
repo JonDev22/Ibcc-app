@@ -2,24 +2,43 @@ import { FontAwesome } from '@react-native-vector-icons/fontawesome';
 import { StyleSheet, Text, View } from 'react-native';
 import { ILifeGroup } from '../../../../interfaces/ILifeGroup';
 import { colors } from '../../../../theme/colors';
+import useStyle from '../../../../hooks/useStyle';
+import useColorMap from '../../../../hooks/useColorMap';
 
-const LifeGroupItem: React.FC<{ group: ILifeGroup }> = ({ group }) => (
-    <View style={styles.card}>
-        <Text style={styles.location}>{group.name}</Text>
-        <View style={styles.view}>
-            <FontAwesome name="map-pin" size={14} color={colors.orange} />
-            <Text style={styles.text}>{group.location}</Text>
+interface LifeGroupItemProps {
+    group: ILifeGroup;
+}
+
+function LifeGroupItem({ group }: LifeGroupItemProps) {
+    const generateStyle = useStyle();
+    const colorMap = useColorMap();
+
+    const textStyle = generateStyle('fontS');
+    const locationStyle = generateStyle('fontM', 'primary', 'weight600');
+
+    return (
+        <View style={styles.card}>
+            <Text style={locationStyle}>{group.name}</Text>
+            <View style={styles.customSpacer} />
+            <View style={styles.view}>
+                <FontAwesome name="map-pin" size={14} color={colorMap.third} />
+                <Text style={textStyle}>{group.location}</Text>
+            </View>
+            <View style={styles.view}>
+                <FontAwesome
+                    name="calendar"
+                    size={14}
+                    color={colorMap.primary}
+                />
+                <Text style={textStyle}>{group.time}</Text>
+            </View>
+            <View style={styles.view}>
+                <FontAwesome name="phone" size={14} color={colors.orchid} />
+                <Text style={textStyle}>Contact: {group.contact}</Text>
+            </View>
         </View>
-        <View style={styles.view}>
-            <FontAwesome name="calendar" size={14} color={colors.petrolBlue} />
-            <Text style={styles.text}>{group.time}</Text>
-        </View>
-        <View style={styles.view}>
-            <FontAwesome name="phone" size={14} color={colors.orchid} />
-            <Text style={styles.text}>Contact: {group.contact}</Text>
-        </View>
-    </View>
-);
+    );
+}
 
 export default LifeGroupItem;
 
@@ -33,14 +52,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 6,
     },
-    location: {
-        fontSize: 16,
-        fontWeight: '600',
+    customSpacer: {
         marginBottom: 4,
-        color: colors.petrolBlue,
-    },
-    text: {
-        fontSize: 14,
-        marginTop: 2,
     },
 });

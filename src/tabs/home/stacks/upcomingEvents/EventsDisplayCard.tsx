@@ -1,12 +1,13 @@
 import { FontAwesome } from '@react-native-vector-icons/fontawesome';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { colors } from '../../../../theme/colors';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeNavigationParamList } from '../../types/navigationTypes';
 import { IEvent } from '../../../../interfaces/IEvent';
 import formatFirebaseDate from '../../../../functions/formatFirebaseDate';
 import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
+import useStyle from '../../../../hooks/useStyle';
+import useColorMap from '../../../../hooks/useColorMap';
 
 type NavigationProps = NativeStackNavigationProp<
     HomeNavigationParamList,
@@ -16,28 +17,39 @@ type NavigationProps = NativeStackNavigationProp<
 function EventsDisplayCard(props: IEvent) {
     const navigation = useNavigation<NavigationProps>();
 
+    const generateStyle = useStyle();
+    const colorMap = useColorMap();
+
     const handlePress = () => {
         navigation.navigate('Upcoming Events Details', { item: props }); // Pass the full event object to EventDetail
     };
 
+    const dateTimeStyle = generateStyle('fontS', 'secondary');
+    const titleStyle = generateStyle('fontL', 'weight700', 'primary');
+    const descriptionStyle = generateStyle('fontS');
+    const locationStyle = generateStyle('fontS', 'secondary');
+
     return (
         <View style={styles.card}>
             <View style={styles.topRow}>
-                <FontAwesome
-                    name="calendar"
-                    size={14}
-                    color={colors.petrolBlue}
-                />
-                <Text style={styles.datetime}>
-                    {formatFirebaseDate(props.date)}
-                </Text>
+                <View style={styles.dateTimeContainer}>
+                    <FontAwesome
+                        name="calendar"
+                        size={14}
+                        color={colorMap.primary}
+                    />
+                    <Text style={dateTimeStyle}>
+                        {formatFirebaseDate(props.date)}
+                    </Text>
+                </View>
+
                 <View style={styles.timeView}>
                     <FontAwesome
                         name="clock-o"
                         size={14}
-                        color={colors.petrolBlue}
+                        color={colorMap.primary}
                     />
-                    <Text style={styles.datetime}>
+                    <Text style={dateTimeStyle}>
                         {formatFirebaseTime(props.date)}
                     </Text>
                 </View>
@@ -47,24 +59,24 @@ function EventsDisplayCard(props: IEvent) {
                 onPress={handlePress}
                 style={styles.touchableStyle}
             >
-                <Text style={styles.title}>{props.title}</Text>
+                <Text style={titleStyle}>{props.title}</Text>
                 <FontAwesome
                     name="chevron-right"
                     size={20}
-                    color={colors.petrolBlue}
+                    color={colorMap.primary}
                 />
             </TouchableOpacity>
 
-            <Text style={styles.description}>{props.text}</Text>
+            <Text style={descriptionStyle}>{props.text}</Text>
 
             {props.location && (
                 <View style={styles.locationRow}>
                     <FontAwesome
                         name="map-pin"
                         size={14}
-                        color={colors.orange}
+                        color={colorMap.third}
                     />
-                    <Text style={styles.location}>{props.location}</Text>
+                    <Text style={locationStyle}>{props.location}</Text>
                 </View>
             )}
         </View>
@@ -75,49 +87,31 @@ const styles = StyleSheet.create({
     card: {
         borderRadius: 12,
         padding: 16,
-        shadowColor: '#000',
-        shadowOpacity: 0.08,
-        shadowRadius: 6,
-        elevation: 3,
     },
     topRow: {
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 8,
+        gap: 6,
     },
-    datetime: {
-        fontSize: 14,
-        color: colors.lightPetrolBlue,
-        marginLeft: 4,
-    },
+    dateTimeContainer: { flexDirection: 'row', gap: 6 },
     timeView: {
         flexDirection: 'row',
         alignItems: 'center',
+        gap: 6,
         paddingLeft: 10,
     },
     locationRow: {
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 8,
-    },
-    location: {
-        fontSize: 14,
-        color: colors.lightPetrolBlue,
-        marginLeft: 4,
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: '700',
-        color: colors.petrolBlue,
-        marginBottom: 6,
-    },
-    description: {
-        fontSize: 14,
+        gap: 6,
     },
     touchableStyle: {
         flexDirection: 'row',
-        gap: 6,
+        gap: 10,
         alignItems: 'center',
+        paddingBottom: 6,
     },
 });
 

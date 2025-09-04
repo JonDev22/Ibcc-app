@@ -9,10 +9,20 @@ import Logo from '../assets/IBCC_Logo-icon-square.jpg';
 import { mainStyles } from '../styles/mainStyle';
 import { colors } from '../theme/colors';
 import appUrls from '../utils/appUrls';
+import useStyle from '../hooks/useStyle';
 
 function StackHeader({}) {
+    const generateStyle = useStyle();
+
+    const containerStyle = generateStyle(
+        'flexRow',
+        'itemsCenter',
+        'justifyBetween',
+        'hPaddingL',
+    );
+
     return (
-        <View style={styles.container}>
+        <View style={containerStyle}>
             <TouchableOpacity
                 style={styles.imageContainer}
                 onPress={() => Linking.openURL(appUrls.IBC)}
@@ -29,13 +39,6 @@ function StackHeader({}) {
 export default StackHeader;
 
 const styles = StyleSheet.create({
-    container: {
-        // width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 10,
-    },
     imageContainer: {
         flexDirection: 'row',
         marginLeft: 'auto',

@@ -21,6 +21,16 @@ function InfoCard(props: InfoCardProps) {
     const colorMap = useColorMap();
     const generateStyle = useStyle();
 
+    const containerStyle = generateStyle(
+        'wPadding3XL',
+        'hPadding3XL',
+        'gap7',
+        'justifyBetween',
+        'itemsCenter',
+        'border1',
+        'rounded3',
+        'borderPrimary',
+    );
     const headerTextLeft = generateStyle('bold');
     const contentTitle = generateStyle(
         'fontXL',
@@ -59,7 +69,7 @@ function InfoCard(props: InfoCardProps) {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={containerStyle}>
             {getHeader()}
 
             <Text style={contentText}>{props.text}</Text>
@@ -84,11 +94,6 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: 'center',
         justifyContent: 'space-between',
-        shadowColor: colors.white100,
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
-        shadowOffset: { width: 0, height: 3 },
-        elevation: 3,
         gap: 8,
     },
     headerLeftView: {

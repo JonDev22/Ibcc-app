@@ -19,14 +19,16 @@ function Home() {
 
             <TopUpcomingEvents />
 
-            <InfoCard
-                image="bullhorn"
-                text="Be part of the journey — explore the newest updates and announcements from our church family."
-                onPress={() => navigate.navigate('Announcements')}
-                header="Announcements"
-                headerLeft
-                buttonText="See announcements"
-            />
+            <View style={styles.announcementView}>
+                <InfoCard
+                    image="bullhorn"
+                    text="Be part of the journey — explore the newest updates and announcements from our church family."
+                    onPress={() => navigate.navigate('Announcements')}
+                    header="Announcements"
+                    headerLeft
+                    buttonText="See announcements"
+                />
+            </View>
 
             <OnlineResources />
 
@@ -42,5 +44,8 @@ export default Home;
 const styles = StyleSheet.create({
     breather: {
         height: 30,
+    },
+    announcementView: {
+        padding: 10,
     },
 });

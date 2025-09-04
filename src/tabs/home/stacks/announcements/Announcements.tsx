@@ -9,10 +9,11 @@ import {
 } from 'react-native';
 import { IAnnouncement } from '../../../../interfaces/IAnnouncement';
 import Separator from '../../../../functions/Separator';
-import { colors } from '../../../../theme/colors';
 import { useNavigation } from '@react-navigation/native';
 import { HomeNavigationType } from '../../types/homeNavigationProp';
 import { ResourceContext } from '../../../../contexts/ResourceContext';
+import useStyle from '../../../../hooks/useStyle';
+import useColorMap from '../../../../hooks/useColorMap';
 
 function Announcements() {
     const navigation =
@@ -20,12 +21,19 @@ function Announcements() {
 
     const { announcements } = use(ResourceContext);
 
+    const colorMap = useColorMap();
+    const generateStyle = useStyle();
+
     const renderItem = ({ item }: { item: IAnnouncement }) => {
         const formattedDate = item.date.toDate().toLocaleDateString('en-GB', {
             year: 'numeric',
             month: 'short',
             day: 'numeric',
         });
+
+        const titleStyle = generateStyle('fontM', 'weight600', 'primary');
+        const disclaimerStyle = generateStyle('secondary', 'fontS');
+        const dateStyle = generateStyle('fontS');
 
         return (
             <TouchableOpacity
@@ -41,40 +49,44 @@ function Announcements() {
                         <FontAwesome
                             name="info-circle"
                             size={22}
-                            color={colors.lightPetrolBlue}
+                            color={colorMap.secondary}
                         />
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={styles.title}>{item.title}</Text>
-                        <Text style={styles.disclaimer}>{item.disclaimer}</Text>
-                        <Text style={styles.date}>{formattedDate}</Text>
+                        <Text style={titleStyle}>{item.title}</Text>
+                        <View style={styles.customSpacer} />
+                        <Text style={disclaimerStyle}>{item.disclaimer}</Text>
+                        <View style={styles.customSpacer} />
+                        <Text style={dateStyle}>{formattedDate}</Text>
                     </View>
                 </View>
                 <FontAwesome
                     name="chevron-right"
                     size={20}
-                    color={colors.petrolBlue}
+                    color={colorMap.primary}
                     style={styles.chevron}
                 />
             </TouchableOpacity>
         );
     };
 
+    const viewStyle = generateStyle('hMinMax');
+    const flatListStyle = generateStyle('hPadding3XL', 'wPadding3XL');
+
     return (
-        <FlatList
-            data={announcements}
-            keyExtractor={item => item.id}
-            renderItem={renderItem}
-            contentContainerStyle={styles.listContainer}
-            ItemSeparatorComponent={Separator}
-        />
+        <View style={viewStyle}>
+            <FlatList
+                data={announcements}
+                keyExtractor={item => item.id}
+                renderItem={renderItem}
+                contentContainerStyle={flatListStyle}
+                ItemSeparatorComponent={Separator}
+            />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    listContainer: {
-        padding: 16,
-    },
     card: {
         flexDirection: 'row',
         borderRadius: 10,
@@ -95,20 +107,7 @@ const styles = StyleSheet.create({
     textContainer: {
         flex: 1,
     },
-    title: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: colors.petrolBlue,
-    },
-    date: {
-        fontSize: 13,
-        marginTop: 4,
-    },
-    disclaimer: {
-        fontSize: 14,
-        color: colors.lightPetrolBlue,
-        marginTop: 6,
-    },
+    customSpacer: { marginTop: 6 },
     chevron: {
         marginLeft: 10,
     },

@@ -13,6 +13,9 @@ import sortByDay from '../functions/sortByDay';
 import { IAnnouncement } from '../interfaces/IAnnouncement';
 import { Timestamp, where } from '@react-native-firebase/firestore';
 
+type Theme = 'light' | 'dark';
+type Size = 'Small' | 'Medium' | 'Large';
+
 interface IResourceContext {
     courses: ICourse[];
     forms: IForm[];
@@ -23,6 +26,12 @@ interface IResourceContext {
     events: IEvent[];
     tbt: ITbtResource[];
     announcements: IAnnouncement[];
+
+    theme: Theme;
+    setTheme: (theme: Theme) => void;
+
+    size: Size;
+    setSize: (site: Size) => void;
 }
 
 const initialValue: IResourceContext = {
@@ -35,12 +44,30 @@ const initialValue: IResourceContext = {
     events: [],
     tbt: [],
     announcements: [],
+
+    theme: 'light',
+    setTheme: () => {},
+
+    size: 'Medium',
+    setSize: () => {},
 };
 
 export const ResourceContext = createContext<IResourceContext>(initialValue);
 
 export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
-    const [value, setValue] = useState<IResourceContext>(initialValue);
+    const toggleTheme = (theme: Theme) => {
+        setValue(prev => ({ ...prev, theme }));
+    };
+
+    const toggleSize = (size: Size) => {
+        setValue(prev => ({ ...prev, size }));
+    };
+
+    const [value, setValue] = useState<IResourceContext>({
+        ...initialValue,
+        setTheme: toggleTheme,
+        setSize: toggleSize,
+    });
 
     useEffect(() => {
         const now = Timestamp.fromDate(new Date());

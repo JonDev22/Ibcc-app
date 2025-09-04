@@ -10,6 +10,7 @@ import { colors } from '../../theme/colors';
 import { Track } from 'react-native-track-player';
 import Separator from '../../functions/Separator';
 import formatDurationTime from './functions/formatDurationTime';
+import useStyle from '../../hooks/useStyle';
 
 interface IPlayerTrack extends Track {
     index: number;
@@ -21,6 +22,30 @@ type Props = {
 };
 
 export default function SongList({ songs, onPressSong }: Props) {
+    const generateStyle = useStyle();
+
+    const containerStyle = generateStyle();
+    const listStyle = generateStyle('wPadding3XL');
+    const touchableStyle = generateStyle(
+        'hPadding4XL',
+        'wPadding2XL',
+        'flexRow',
+        'itemsCenter',
+        'justifyBetween',
+    );
+    const headerStyle = generateStyle(
+        'justifyContentCenter',
+        'font2XL',
+        'bold',
+        'itemsCenter',
+        'hPadding2XL',
+        'wPadding2XL',
+        'primary',
+    );
+    const titleStyle = generateStyle('fontS', 'weight600', 'primary');
+    const subtitleStyle = generateStyle('wMarginS', 'secondary');
+    const durationStyle = generateStyle('fontXS', 'third', 'weight500');
+
     const categorized = songs.reduce<Record<string, IPlayerTrack[]>>(
         (acc, track, num) => {
             const key = track.album ?? 'Other';
@@ -33,16 +58,16 @@ export default function SongList({ songs, onPressSong }: Props) {
 
     const renderItem = ({ item }: { item: IPlayerTrack }) => (
         <TouchableOpacity
-            style={styles.itemContainer}
+            style={touchableStyle}
             onPress={() => onPressSong(item.index)}
         >
             <View style={styles.textContainer}>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.subtitle}>
+                <Text style={titleStyle}>{item.title}</Text>
+                <Text style={subtitleStyle}>
                     {item.artist} {item.album ? `• ${item.album}` : ''}
                 </Text>
             </View>
-            <Text style={styles.duration}>
+            <Text style={durationStyle}>
                 {formatDurationTime(item.duration ?? 0)}
             </Text>
         </TouchableOpacity>
@@ -51,13 +76,13 @@ export default function SongList({ songs, onPressSong }: Props) {
     return (
         <>
             {Object.entries(categorized).map(([album, list]) => (
-                <View key={album}>
-                    <Text style={styles.header}>{album}</Text>
+                <View key={album} style={containerStyle}>
+                    <Text style={headerStyle}>{album}</Text>
                     <FlatList
                         data={list}
                         keyExtractor={item => item.title ?? item.url}
                         renderItem={renderItem}
-                        contentContainerStyle={styles.list}
+                        contentContainerStyle={listStyle}
                         ItemSeparatorComponent={Separator}
                         scrollEnabled={false}
                     />
@@ -68,43 +93,7 @@ export default function SongList({ songs, onPressSong }: Props) {
 }
 
 const styles = StyleSheet.create({
-    list: {
-        paddingVertical: 12,
-        backgroundColor: colors.white50,
-    },
-    itemContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 16,
-        justifyContent: 'space-between',
-    },
     textContainer: {
         flexShrink: 1,
-    },
-    title: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: colors.petrolBlue,
-    },
-    subtitle: {
-        fontSize: 14,
-        color: colors.slateBlue,
-        marginTop: 2,
-    },
-    duration: {
-        fontSize: 14,
-        fontWeight: '500',
-        color: colors.orange,
-        marginLeft: 8,
-    },
-    header: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 15,
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: colors.petrolBlue,
     },
 });

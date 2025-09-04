@@ -3,24 +3,41 @@ import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { colors } from '../../../../theme/colors';
 import { IMinistry } from '../../../../interfaces/IMinistry';
 import getIconFromString from '../../../../functions/getIconFromString';
+import useStyle from '../../../../hooks/useStyle';
+import useColorMap from '../../../../hooks/useColorMap';
 
-const MinistryListItem: React.FC<{ ministry: IMinistry }> = ({ ministry }) => {
+function MinistryListItem({ ministry }: { ministry: IMinistry }) {
+    const generateStyle = useStyle();
+    const colorMap = useColorMap();
+
+    const cardStyle = generateStyle(
+        'rounded6',
+        'border1',
+        'borderPrimary',
+        'hPadding4XL',
+        'wPadding4XL',
+        'gap2',
+    );
+    const titleStyle = generateStyle('fontM', 'weight700');
+    const subTitleStyle = generateStyle('fontXS', 'weight500');
+    const textStyle = generateStyle('fontXS');
+
     return (
-        <View style={styles.card}>
+        <View style={cardStyle}>
             <View style={styles.centeredView}>
                 <FontAwesome
                     name={getIconFromString(ministry.icon)}
                     size={24}
-                    color={colors.petrolBlue}
+                    color={colorMap.primary}
                 />
-                <Text style={styles.title}>{ministry.name}</Text>
+                <Text style={titleStyle}>{ministry.name}</Text>
             </View>
-            <Text style={styles.subtitle}>Leader: {ministry.leader}</Text>
-            <Text style={styles.text}>Time: {ministry.time}</Text>
-            <Text style={styles.text}>Responsibility: {ministry.task}</Text>
+            <Text style={subTitleStyle}>Leader: {ministry.leader}</Text>
+            <Text style={textStyle}>Time: {ministry.time}</Text>
+            <Text style={textStyle}>Responsibility: {ministry.task}</Text>
         </View>
     );
-};
+}
 
 export default MinistryListItem;
 
@@ -30,32 +47,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 8,
         paddingBottom: 8,
-    },
-    card: {
-        borderRadius: 16,
-        padding: 16,
-        marginBottom: 12,
-        shadowColor: '#000',
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
-        borderWidth: 1,
-        borderColor: colors.petrolBlue,
-        gap: 4,
-    },
-    title: {
-        fontSize: 18,
-        color: colors.petrolBlue,
-        fontWeight: '700',
-    },
-    subtitle: {
-        fontSize: 14,
-        fontWeight: '500',
-        marginBottom: 4,
-    },
-    text: {
-        fontSize: 13,
-        marginBottom: 2,
     },
     vision: {
         fontSize: 13,

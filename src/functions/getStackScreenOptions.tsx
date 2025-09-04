@@ -1,14 +1,17 @@
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
-import { colors } from '../theme/colors';
+import { Color } from '../theme/colors';
 import StackHeader from '../components/StackHeader';
 
-function getStackScreenOptions(): NativeStackNavigationOptions {
+function getStackScreenOptions(
+    primary: Color,
+    bg: Color,
+): NativeStackNavigationOptions {
     return {
         headerStyle: {
-            backgroundColor: colors.white50,
+            backgroundColor: bg,
         },
         headerShadowVisible: true,
-        headerTintColor: colors.petrolBlue,
+        headerTintColor: primary,
         headerTitleStyle: {
             fontSize: 24,
             fontWeight: 'bold',

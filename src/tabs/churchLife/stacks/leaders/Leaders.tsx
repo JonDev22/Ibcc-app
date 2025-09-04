@@ -1,10 +1,12 @@
 import React, { use } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import LeaderSection from './LeaderSection';
 import { ResourceContext } from '../../../../contexts/ResourceContext';
 import Spacer from '../../../../components/Spacer';
+import useStyle from '../../../../hooks/useStyle';
 
 const Leaders: React.FC = () => {
+    const generateStyle = useStyle();
     const { leaders } = use(ResourceContext);
 
     const elders = leaders.filter(leader => leader.type === 'elder');
@@ -13,13 +15,20 @@ const Leaders: React.FC = () => {
         leader => leader.type === 'ministry leader',
     );
 
+    const containerStyle = generateStyle('hMinMax');
+
     return (
-        <ScrollView>
-            <LeaderSection title="Elders" data={elders} />
-            <LeaderSection title="Deacons" data={deacons} />
-            <LeaderSection title="Ministry Leaders" data={ministryLeaders} />
-            <Spacer />
-        </ScrollView>
+        <View style={containerStyle}>
+            <ScrollView>
+                <LeaderSection title="Elders" data={elders} />
+                <LeaderSection title="Deacons" data={deacons} />
+                <LeaderSection
+                    title="Ministry Leaders"
+                    data={ministryLeaders}
+                />
+                <Spacer />
+            </ScrollView>
+        </View>
     );
 };
 
