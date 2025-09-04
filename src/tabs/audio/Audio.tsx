@@ -49,7 +49,7 @@ function Audio() {
             await TrackPlayer.setupPlayer();
             fetchAudioFiles().then(async res => {
                 if (res) {
-                    const sortedRes = sortByBibleBook(res, 'album');
+                    const sortedRes = sortByBibleBook(res, 'subtitle');
                     await TrackPlayer.add(sortedRes);
                     setTrack(sortedRes);
                 }
