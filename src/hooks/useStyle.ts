@@ -6,9 +6,9 @@ const useStyle = () => {
     const colorMap = useColorMap();
     const { size } = use(ResourceContext);
 
-    const smallSizeOffset = size === 'Small' ? -2 : 0;
+    const smallSizeOffset = size === 'Small' ? -3 : 0;
     const mediumSizeOffset = size === 'Medium' ? 0 : 0;
-    const largeSizeOffset = size === 'Large' ? 2 : 0;
+    const largeSizeOffset = size === 'Large' ? 4 : 0;
     const offset = smallSizeOffset + mediumSizeOffset + largeSizeOffset;
 
     const stylePresets: Record<string, Record<string, string | number>> = {
