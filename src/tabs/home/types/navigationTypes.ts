@@ -11,4 +11,5 @@ export type HomeNavigationParamList = {
     'Announcements Details': {
         announcement: IAnnouncement;
     };
+    'New Event': undefined;
 };
