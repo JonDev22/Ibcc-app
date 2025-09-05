@@ -10,10 +10,22 @@ import TrackPlayer, {
 import fetchAudioFiles from './functions/fetchAudioFiles';
 import AudioList from './AudioList';
 import AudioPlayer from './AudioPlayer';
-import { colors } from '../../theme/colors';
 import sortByBibleBook from '../../functions/sortByBibleBook';
+import useStyle from '../../hooks/useStyle';
 
 function Audio() {
+    const generateStyle = useStyle();
+    
+    const containerStyle = generateStyle('hMinMax', 'flex', 'justifyBetween');
+    const loadingTextStyle = generateStyle(
+        'weight600',
+        'selfCenter',
+        'fontL',
+        'primary',
+        'wMargin3XL',
+        'wPadding4XL',
+    );
+
     // State and progress from player package.
     const playBackState = usePlaybackState();
     const progress = useProgress();
@@ -62,12 +74,12 @@ function Audio() {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <View style={containerStyle}>
             <ScrollView style={styles.listContainer}>
                 {track ? (
                     <AudioList songs={track} onPressSong={pick} />
                 ) : (
-                    <Text style={styles.loadingText}>Loading...</Text>
+                    <Text style={loadingTextStyle}>Loading...</Text>
                 )}
             </ScrollView>
 
@@ -100,12 +112,5 @@ const styles = StyleSheet.create({
     title: { fontSize: 24, textAlign: 'center' },
     fixedContainer: {
         minHeight: 100,
-    },
-    loadingText: {
-        alignSelf: 'center',
-        fontSize: 18,
-        color: colors.petrolBlue,
-        marginTop: 20,
-        fontWeight: '600',
     },
 });

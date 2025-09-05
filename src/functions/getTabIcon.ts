@@ -10,6 +10,8 @@ function getTabIcon(name: string): FontAwesomeIconName {
             return 'file-text-o';
         case 'ChurchLifeTab':
             return 'users';
+        case 'Settings':
+            return 'gear';
         default:
             return 'home';
     }

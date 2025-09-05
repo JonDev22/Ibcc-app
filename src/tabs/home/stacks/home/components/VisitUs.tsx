@@ -6,68 +6,61 @@ import {
     TouchableOpacity,
     Linking,
 } from 'react-native';
-import { colors } from '../../../../../theme/colors';
 import appUrls from '../../../../../utils/appUrls';
+import useStyle from '../../../../../hooks/useStyle';
+import Spacer from '../../../../../components/Spacer';
 
 function VisitUs() {
+    const generateStyle = useStyle();
+
+    const containerStyle = generateStyle(
+        'flex',
+        'itemsCenter',
+        'border1',
+        'borderPrimary',
+        'wPadding3XL',
+        'hPadding3XL',
+        'hMargin3XL',
+        'rounded6',
+    );
+    const headingStyle = generateStyle('fontXL', 'weight700', 'secondary');
+    const labelStyle = generateStyle('fontM', 'weight600', 'secondary');
+    const valueStyle = generateStyle('fontS', 'wMarginS');
+    const touchableStyle = generateStyle(
+        'wPadding3XL',
+        'hPadding3XL',
+        'border1',
+        'rounded2',
+        'borderPrimary',
+    );
+    const touchableText = generateStyle('primary');
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.heading}>Sunday Service</Text>
+        <View style={containerStyle}>
+            <Text style={headingStyle}>Sunday Service</Text>
 
             <View>
-                <Text style={styles.label}>Time of Service:</Text>
-                <Text style={styles.value}>Sundays at 14:00 (2 pm)</Text>
+                <Spacer />
+                <Text style={labelStyle}>Time of Service:</Text>
+                <Text style={valueStyle}>Sundays at 14:00 (2 pm)</Text>
 
-                <Text style={styles.label}>Location:</Text>
-                <Text style={styles.value}>
+                <Spacer />
+                <Text style={labelStyle}>Location:</Text>
+                <Text style={valueStyle}>
                     Herbigstraße 18-20, 50825 Cologne
                 </Text>
             </View>
 
+            <Spacer />
             <TouchableOpacity
                 onPress={() => Linking.openURL(appUrls.IBC)}
-                style={styles.visitWebsiteTouchable}
+                style={touchableStyle}
             >
-                <Text style={styles.touchableText}>Visit our website</Text>
+                <Text style={touchableText}>Visit our website</Text>
             </TouchableOpacity>
         </View>
     );
 }
 export default VisitUs;
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        padding: 20,
-        marginHorizontal: 10,
-        borderWidth: 1,
-        borderColor: colors.petrolBlue,
-        borderRadius: 20,
-    },
-    heading: {
-        fontSize: 24,
-        fontWeight: '700',
-        color: colors.lightPetrolBlue,
-    },
-    label: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: colors.lightPetrolBlue,
-        marginTop: 10,
-    },
-    value: {
-        fontSize: 18,
-        marginTop: 2,
-    },
-    visitWebsiteTouchable: {
-        padding: 12,
-        marginTop: 12,
-        borderWidth: 1,
-        borderRadius: 12,
-        borderColor: colors.petrolBlue,
-    },
-    touchableText: {
-        color: colors.petrolBlue,
-    },
-});
+const styles = StyleSheet.create({});

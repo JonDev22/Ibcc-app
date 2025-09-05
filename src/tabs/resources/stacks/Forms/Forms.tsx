@@ -6,37 +6,45 @@ import {
     ScrollView,
     Linking,
     TouchableOpacity,
+    View,
 } from 'react-native';
 import FormListItem from './FormListItem';
 import Separator from '../../../../functions/Separator';
 import appUrls from '../../../../utils/appUrls';
 import { ResourceContext } from '../../../../contexts/ResourceContext';
+import useStyle from '../../../../hooks/useStyle';
 
 // Example list of forms
 const Forms: React.FC = () => {
     const { forms } = use(ResourceContext);
 
-    return (
-        <ScrollView>
-            <FlatList
-                data={forms}
-                keyExtractor={item => item.title}
-                renderItem={({ item }) => <FormListItem {...item} />}
-                contentContainerStyle={styles.listContainer}
-                ItemSeparatorComponent={Separator}
-                scrollEnabled={false}
-            />
+    const generateStyle = useStyle();
+    const containerStyle = generateStyle('hMinMax');
+    const touchableTextStyle = generateStyle('italic');
 
-            <TouchableOpacity
-                onPress={() => Linking.openURL(`${appUrls.IBC}/about-us`)}
-                style={styles.touchableElement}
-            >
-                <Text style={styles.touchableText}>
-                    Can't fine the form you were looking for? Please click here
-                    to check our website for more information
-                </Text>
-            </TouchableOpacity>
-        </ScrollView>
+    return (
+        <View style={containerStyle}>
+            <ScrollView>
+                <FlatList
+                    data={forms}
+                    keyExtractor={item => item.title}
+                    renderItem={({ item }) => <FormListItem {...item} />}
+                    contentContainerStyle={styles.listContainer}
+                    ItemSeparatorComponent={Separator}
+                    scrollEnabled={false}
+                />
+
+                <TouchableOpacity
+                    onPress={() => Linking.openURL(`${appUrls.IBC}/about-us`)}
+                    style={styles.touchableElement}
+                >
+                    <Text style={touchableTextStyle}>
+                        Can't fine the form you were looking for? Please click
+                        here to check our website for more information
+                    </Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </View>
     );
 };
 
@@ -49,8 +57,5 @@ const styles = StyleSheet.create({
     },
     touchableElement: {
         padding: 12,
-    },
-    touchableText: {
-        fontStyle: 'italic',
     },
 });

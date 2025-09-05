@@ -6,12 +6,20 @@ import Courses from './stacks/Courses/Courses';
 import Forms from './stacks/Forms/Forms';
 import getStackScreenOptions from '../../functions/getStackScreenOptions';
 import TBT from './stacks/tbt/TBT';
+import useColorMap from '../../hooks/useColorMap';
 
 const Stack = createNativeStackNavigator<ResourceNavigationParamList>();
 
 function ResourcesStack() {
+    const colorMap = useColorMap();
+
     return (
-        <Stack.Navigator screenOptions={getStackScreenOptions()}>
+        <Stack.Navigator
+            screenOptions={getStackScreenOptions(
+                colorMap.primary,
+                colorMap.bgColor,
+            )}
+        >
             <Stack.Screen name="Resources" component={ResourcesHome} />
             <Stack.Screen name="Courses" component={Courses} />
             <Stack.Screen name="TBT" component={TBT} />

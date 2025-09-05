@@ -6,12 +6,20 @@ import UpcomingEventsDetails from './stacks/upcomingEvents/UpcomingEventsDetails
 import getStackScreenOptions from '../../functions/getStackScreenOptions';
 import Announcements from './stacks/announcements/Announcements';
 import AnnouncementDetail from './stacks/announcements/AnnouncementsDetail';
+import useColorMap from '../../hooks/useColorMap';
 
 const Stack = createNativeStackNavigator<HomeNavigationParamList>();
 
 function HomeStack() {
+    const colorMap = useColorMap();
+
     return (
-        <Stack.Navigator screenOptions={getStackScreenOptions()}>
+        <Stack.Navigator
+            screenOptions={getStackScreenOptions(
+                colorMap.primary,
+                colorMap.bgColor,
+            )}
+        >
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Upcoming Events" component={UpcomingEvents} />
             <Stack.Screen

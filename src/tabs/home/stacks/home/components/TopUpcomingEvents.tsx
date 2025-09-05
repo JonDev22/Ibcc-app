@@ -14,6 +14,8 @@ import { use } from 'react';
 import { ResourceContext } from '../../../../../contexts/ResourceContext';
 import formatFirebaseDate from '../../../../../functions/formatFirebaseDate';
 import formatFirebaseTime from '../../../../../functions/formatFirebaseTime';
+import useStyle from '../../../../../hooks/useStyle';
+import useColorMap from '../../../../../hooks/useColorMap';
 
 type NavigationProps = NativeStackNavigationProp<
     HomeNavigationParamList,
@@ -22,6 +24,14 @@ type NavigationProps = NativeStackNavigationProp<
 
 function TopUpcomingEvents() {
     const navigation = useNavigation<NavigationProps>();
+
+    const colorMap = useColorMap();
+    const generateStyle = useStyle();
+
+    const headerStyle = generateStyle('bold', 'fontXL');
+    const titleStyle = generateStyle('weight600', 'fontL');
+    const descriptionStyle = generateStyle('fontXS');
+    const locationStyle = generateStyle('fontXS', 'secondary');
 
     const { events } = use(ResourceContext);
 
@@ -34,13 +44,13 @@ function TopUpcomingEvents() {
                     <FontAwesome
                         name="calendar"
                         size={24}
-                        color={colors.petrolBlue}
+                        color={colorMap.primary}
                     />
-                    <Text style={styles.headerText}>Upcoming Events</Text>
+                    <Text style={headerStyle}>Upcoming Events</Text>
                     <FontAwesome
                         name="chevron-right"
                         size={16}
-                        color={colors.petrolBlue}
+                        color={colorMap.primary}
                     />
                 </View>
             </TouchableOpacity>
@@ -57,14 +67,14 @@ function TopUpcomingEvents() {
                                 size={16}
                                 color={colors.orange}
                             />
-                            <Text style={styles.title}>{item.title}</Text>
+                            <Text style={titleStyle}>{item.title}</Text>
                         </View>
-                        <Text style={styles.date}>
+                        <Text style={descriptionStyle}>
                             {formatFirebaseDate(item.date)}{' '}
                             {formatFirebaseTime(item.date)}
                         </Text>
                         {item.details && (
-                            <Text style={styles.description}>{item.text}</Text>
+                            <Text style={descriptionStyle}>{item.text}</Text>
                         )}
                         <View style={styles.locationRow}>
                             <FontAwesome
@@ -72,7 +82,7 @@ function TopUpcomingEvents() {
                                 size={14}
                                 color={colors.orange}
                             />
-                            <Text style={styles.location}>{item.location}</Text>
+                            <Text style={locationStyle}>{item.location}</Text>
                         </View>
                     </View>
                 )}
@@ -95,13 +105,10 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         padding: 16,
     },
-    headerText: {
-        fontSize: 22,
-        fontWeight: 'bold',
-    },
     card: {
         borderRadius: 12,
         padding: 16,
+        gap: 4,
     },
     cardHeader: {
         flexDirection: 'row',
@@ -113,21 +120,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
     },
-    date: {
-        fontSize: 14,
-        marginBottom: 4,
-    },
-    description: {
-        fontSize: 14,
-    },
     locationRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 6,
         gap: 4,
-    },
-    location: {
-        fontSize: 14,
-        color: colors.lightPetrolBlue,
     },
 });

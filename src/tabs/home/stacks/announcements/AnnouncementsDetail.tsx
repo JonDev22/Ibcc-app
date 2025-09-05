@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { HomeNavigationParamList } from '../../types/navigationTypes';
 import { colors } from '../../../../theme/colors';
+import useStyle from '../../../../hooks/useStyle';
+import Spacer from '../../../../components/Spacer';
 
 type AnnouncementDetailRouteProps = RouteProp<
     HomeNavigationParamList,
@@ -16,6 +18,8 @@ interface AnnouncementDetailProps {
 function AnnouncementDetail({ route }: AnnouncementDetailProps) {
     const { announcement } = route.params;
 
+    const generateStyle = useStyle();
+
     const formattedDate = announcement.date
         .toDate()
         .toLocaleDateString('en-GB', {
@@ -24,65 +28,56 @@ function AnnouncementDetail({ route }: AnnouncementDetailProps) {
             day: 'numeric',
         });
 
+    const containerView = generateStyle('hMinMax');
+    const scrollViewStyle = generateStyle(
+        'hMinMax',
+        'hPadding3XL',
+        'wPadding3XL',
+        'hMarginXL',
+        'wMarginXL',
+    );
+    const titleStyle = generateStyle('font2XL', 'weight700', 'primary');
+    const dateStyle = generateStyle('fontS', 'third');
+    const disclaimerStyle = generateStyle('fontM', 'secondary', 'italic');
+    const sectionTitleStyle = generateStyle('fontM', 'weight600');
+    const sectionTextStyle = generateStyle('fontS');
+
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.title}>{announcement.title}</Text>
-            <Text style={styles.date}>{formattedDate}</Text>
-            <Text style={styles.disclaimer}>{announcement.disclaimer}</Text>
+        <View style={containerView}>
+            <ScrollView contentContainerStyle={scrollViewStyle}>
+                <Text style={titleStyle}>{announcement.title}</Text>
+                <Spacer />
 
-            <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Details</Text>
-                <Text style={styles.sectionText}>{announcement.detail}</Text>
-            </View>
+                <Text style={dateStyle}>{formattedDate}</Text>
+                <Spacer />
 
-            <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Contact</Text>
-                <Text style={styles.sectionContent}>
-                    For any questions, please contact{' '}
-                    <Text style={styles.contactName}>
-                        {announcement.contact}
+                <Text style={disclaimerStyle}>{announcement.disclaimer}</Text>
+                <Spacer />
+
+                <View style={styles.section}>
+                    <Text style={sectionTitleStyle}>Details</Text>
+                    <Text style={sectionTextStyle}>{announcement.detail}</Text>
+                </View>
+                <View style={styles.section}>
+                    <Text style={sectionTitleStyle}>Contact</Text>
+                    <Text style={sectionTextStyle}>
+                        For any questions, please contact{' '}
+                        <Text style={styles.contactName}>
+                            {announcement.contact}
+                        </Text>
+                        .
                     </Text>
-                    .
-                </Text>
-            </View>
-        </ScrollView>
+                </View>
+            </ScrollView>
+        </View>
     );
 }
 
 export default AnnouncementDetail;
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 20,
-    },
-    title: {
-        fontSize: 22,
-        fontWeight: '700',
-        color: colors.petrolBlue,
-        marginBottom: 8,
-    },
-    date: {
-        fontSize: 14,
-        color: colors.orange,
-        marginBottom: 12,
-    },
-    disclaimer: {
-        fontSize: 15,
-        color: colors.lightPetrolBlue,
-        fontStyle: 'italic',
-        marginBottom: 20,
-    },
     section: {
         marginBottom: 20,
-    },
-    sectionTitle: {
-        fontSize: 16,
-        fontWeight: '600',
-        marginBottom: 6,
-    },
-    sectionText: {
-        fontSize: 15,
-        lineHeight: 22,
     },
     tagContainer: {
         flexDirection: 'row',
