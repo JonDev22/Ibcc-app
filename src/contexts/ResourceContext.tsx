@@ -12,6 +12,14 @@ import { ITbtResource } from '../interfaces/ITbtResource';
 import sortByDay from '../functions/sortByDay';
 import { IAnnouncement } from '../interfaces/IAnnouncement';
 import { Timestamp, where } from '@react-native-firebase/firestore';
+import {
+    FirebaseAuthTypes,
+    getAuth,
+    onAuthStateChanged,
+} from '@react-native-firebase/auth';
+import getSystemSettings from '../functions/getSystemSettings';
+import { useColorScheme } from 'react-native';
+import { sizeType } from '../types/sizeTypes';
 
 type Theme = 'light' | 'dark';
 type Size = 'Small' | 'Medium' | 'Large';
@@ -26,6 +34,8 @@ interface IResourceContext {
     events: IEvent[];
     tbt: ITbtResource[];
     announcements: IAnnouncement[];
+
+    user: FirebaseAuthTypes.User | null;
 
     theme: Theme;
     setTheme: (theme: Theme) => void;
@@ -45,6 +55,8 @@ const initialValue: IResourceContext = {
     tbt: [],
     announcements: [],
 
+    user: null,
+
     theme: 'light',
     setTheme: () => {},
 
@@ -55,6 +67,16 @@ const initialValue: IResourceContext = {
 export const ResourceContext = createContext<IResourceContext>(initialValue);
 
 export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, user => {
+        setValue(prev => ({
+            ...prev,
+            user,
+        }));
+    });
+
+    const userTheme = useColorScheme();
+
     const toggleTheme = (theme: Theme) => {
         setValue(prev => ({ ...prev, theme }));
     };
@@ -70,6 +92,22 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
     });
 
     useEffect(() => {
+        // Get system settings
+        getSystemSettings('theme').then(res => {
+            const newTheme = res || userTheme;
+            setValue(prev => ({
+                ...prev,
+                theme: newTheme === 'dark' ? 'dark' : 'light',
+            }));
+        });
+
+        getSystemSettings('textSize').then(res => {
+            const validSizes = ['Small', 'Medium', 'Large'];
+            const resSize = res && validSizes.includes(res) ? res : 'Medium';
+            setValue(prev => ({ ...prev, size: resSize as sizeType }));
+        });
+
+        // Fetch data
         const now = Timestamp.fromDate(new Date());
 
         Promise.all([
@@ -128,7 +166,7 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
                 }));
             },
         );
-    }, []);
+    }, [userTheme]);
 
     return (
         <ResourceContext.Provider value={value}>

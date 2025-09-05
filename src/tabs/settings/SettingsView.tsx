@@ -4,23 +4,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { use, useState } from 'react';
 import { ResourceContext } from '../../contexts/ResourceContext';
 import { colors } from '../../theme/colors';
+import Login from './Login';
+import Logout from './Logout';
+import saveSystemSettings from '../../functions/saveSystemSettings';
+import { sizeType } from '../../types/sizeTypes';
 
 function SettingsView() {
     const generateStyle = useStyle();
 
-    const { theme, setTheme, size, setSize } = use(ResourceContext);
+    const { theme, setTheme, size, setSize, user } = use(ResourceContext);
     const [isEnabled, setEnabled] = useState<boolean>(theme === 'dark');
 
-    const sizes: ('Small' | 'Medium' | 'Large')[] = [
-        'Small',
-        'Medium',
-        'Large',
-    ];
-
-    const toggleSwitch = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
-        setEnabled(!isEnabled);
-    };
+    const sizes: sizeType[] = ['Small', 'Medium', 'Large'];
 
     const containerStyle = generateStyle('hMinMax');
     const innerView = generateStyle('hPadding4XL', 'wPadding2XL', 'gap7');
@@ -45,7 +40,18 @@ function SettingsView() {
         'wPaddingM',
     );
 
-    // npm install @react-native-async-storage/async-storage
+    // Set storage functions
+    const setStorageTheme = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        saveSystemSettings('theme', newTheme);
+        setTheme(newTheme);
+        setEnabled(!isEnabled);
+    };
+
+    const setStorageSize = (newSize: sizeType) => {
+        saveSystemSettings('textSize', newSize);
+        setSize(newSize);
+    };
 
     return (
         <SafeAreaView style={containerStyle}>
@@ -54,7 +60,7 @@ function SettingsView() {
 
                 <View style={styles.settingsView}>
                     <Text style={settingsText}>Dark Mode:</Text>
-                    <Switch value={isEnabled} onValueChange={toggleSwitch} />
+                    <Switch value={isEnabled} onValueChange={setStorageTheme} />
                 </View>
 
                 <View style={styles.settingsView}>
@@ -71,7 +77,7 @@ function SettingsView() {
                                           }
                                         : touchableStyle
                                 }
-                                onPress={() => setSize(item)}
+                                onPress={() => setStorageSize(item)}
                             >
                                 <Text
                                     style={
@@ -89,6 +95,16 @@ function SettingsView() {
                         ))}
                     </View>
                 </View>
+
+                <View style={styles.settingsView}>
+                    <Text style={settingsText}>Login:</Text>
+                </View>
+
+                <Text style={touchableTextSize}>
+                    Login is designed for admins only!
+                </Text>
+
+                {user ? <Logout user={user} /> : <Login />}
             </View>
         </SafeAreaView>
     );
