@@ -18,6 +18,7 @@ async function fetchAudioFiles(): Promise<Track[] | null> {
                             duration: audio.audio_duration,
                             artist: audio.artist,
                             album: audio.album,
+                            subtitle: audio.subtitle,
                         }));
                         return tracks;
                     })
