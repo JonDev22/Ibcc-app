@@ -12,10 +12,13 @@ import { ResourceContext } from '../../../../contexts/ResourceContext';
 import useStyle from '../../../../hooks/useStyle';
 import { useNavigation } from '@react-navigation/native';
 import { HomeNavigationType } from '../../types/homeNavigationProp';
+import useColorMap from '../../../../hooks/useColorMap';
 
 function UpcomingEventsList() {
     const { events, user } = use(ResourceContext);
     const navigation = useNavigation<HomeNavigationType<'New Event'>>();
+
+    const colorMap = useColorMap();
 
     const generateStyle = useStyle();
 
@@ -40,8 +43,14 @@ function UpcomingEventsList() {
             />
 
             {user && (
-                <TouchableOpacity style={styles.fab} onPress={handleAddEvent}>
-                    <Text>+</Text>
+                <TouchableOpacity
+                    style={{
+                        ...styles.fab,
+                        backgroundColor: colorMap.secondary,
+                    }}
+                    onPress={handleAddEvent}
+                >
+                    <Text style={{ color: colorMap.color }}>+</Text>
                 </TouchableOpacity>
             )}
         </View>
@@ -55,7 +64,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 30,
         right: 30,
-        backgroundColor: 'red',
         width: 50,
         height: 50,
         borderRadius: 30,

@@ -1,5 +1,12 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { use } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    ScrollView,
+    TouchableOpacity,
+    Alert,
+} from 'react-native';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { RouteProp } from '@react-navigation/native';
 import { HomeNavigationParamList } from '../../types/navigationTypes';
@@ -9,6 +16,9 @@ import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
 import useStyle from '../../../../hooks/useStyle';
 import useColorMap from '../../../../hooks/useColorMap';
 import Spacer from '../../../../components/Spacer';
+import { ResourceContext } from '../../../../contexts/ResourceContext';
+import deleteEvent from '../../../../functions/deleteEvent';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type EventsDetailRouteProp = RouteProp<
     HomeNavigationParamList,
@@ -17,10 +27,13 @@ type EventsDetailRouteProp = RouteProp<
 
 interface EventsDetailProps {
     route: EventsDetailRouteProp;
+    navigation: NativeStackNavigationProp<any>;
 }
 
-function UpcomingEventsDetails({ route }: EventsDetailProps) {
+function UpcomingEventsDetails({ route, navigation }: EventsDetailProps) {
     const { item } = route.params;
+
+    const { user, removeEvent } = use(ResourceContext);
 
     const generateStyle = useStyle();
     const colorMap = useColorMap();
@@ -30,6 +43,24 @@ function UpcomingEventsDetails({ route }: EventsDetailProps) {
     const infoTextStyle = generateStyle('fontS');
     const sectionContentStyle = generateStyle('fontXS', 'textLine20');
     const sectionTitleStyle = generateStyle('fontL', 'weight600', 'primary');
+    const toggleStyle = generateStyle(
+        'border1',
+        'borderPrimary',
+        'rounded2',
+        'hPaddingXL',
+        'wPaddingXL',
+    );
+
+    const handleDeleteEvent = () => {
+        deleteEvent(item).then(res => {
+            if (res === 'success') {
+                removeEvent(item);
+                navigation.goBack();
+            } else {
+                Alert.alert(res);
+            }
+        });
+    };
 
     return (
         <View style={containerStyle}>
@@ -99,6 +130,20 @@ function UpcomingEventsDetails({ route }: EventsDetailProps) {
                         <Text style={styles.contactName}>{item.contact}</Text>
                     </Text>
                 </View>
+
+                {user && (
+                    <>
+                        <Spacer />
+                        <TouchableOpacity
+                            onPress={handleDeleteEvent}
+                            style={toggleStyle}
+                        >
+                            <Text style={{ color: colors.orange }}>
+                                Delete Event
+                            </Text>
+                        </TouchableOpacity>
+                    </>
+                )}
             </ScrollView>
         </View>
     );

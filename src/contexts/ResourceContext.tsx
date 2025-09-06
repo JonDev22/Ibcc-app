@@ -42,6 +42,9 @@ interface IResourceContext {
 
     size: Size;
     setSize: (site: Size) => void;
+
+    addEvent: (event: IEvent) => void;
+    removeEvent: (event: IEvent) => void;
 }
 
 const initialValue: IResourceContext = {
@@ -62,6 +65,9 @@ const initialValue: IResourceContext = {
 
     size: 'Medium',
     setSize: () => {},
+
+    addEvent: () => {},
+    removeEvent: () => {},
 };
 
 export const ResourceContext = createContext<IResourceContext>(initialValue);
@@ -74,6 +80,29 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
             user,
         }));
     });
+
+    const addEvent = (event: IEvent) => {
+        setValue(prev => ({
+            ...prev,
+            events: [...prev.events, event].sort(
+                (a, b) => a.date.toDate().getTime() - b.date.toDate().getTime(),
+            ),
+        }));
+    };
+
+    const removeEvent = (event: IEvent) => {
+        setValue(prev => ({
+            ...prev,
+            events: prev.events.filter(
+                item =>
+                    !(
+                        item.id === event.id &&
+                        item.title === event.title &&
+                        item.date === event.date
+                    ),
+            ),
+        }));
+    };
 
     const userTheme = useColorScheme();
 
@@ -92,6 +121,12 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
     });
 
     useEffect(() => {
+        setValue(prev => ({
+            ...prev,
+            addEvent,
+            removeEvent,
+        }));
+
         // Get system settings
         getSystemSettings('theme').then(res => {
             const newTheme = res || userTheme;

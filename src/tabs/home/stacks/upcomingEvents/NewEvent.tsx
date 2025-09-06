@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import {
     View,
     Text,
     TextInput,
-    Button,
     StyleSheet,
     ScrollView,
     Alert,
     Modal,
     Platform,
+    TouchableOpacity,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Timestamp } from '@react-native-firebase/firestore';
@@ -16,22 +16,31 @@ import { IEvent } from '../../../../interfaces/IEvent';
 
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import addEventToDatabase from '../../../../functions/addEventToDatabase';
+import formatFirebaseDate from '../../../../functions/formatFirebaseDate';
+import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
+import useStyle from '../../../../hooks/useStyle';
+import Spacer from '../../../../components/Spacer';
+import { ResourceContext } from '../../../../contexts/ResourceContext';
 
 type NewEventProps = {
     navigation: NativeStackNavigationProp<any>;
 };
 
 function NewEvent({ navigation }: NewEventProps) {
+    const generateStyle = useStyle();
+
+    const { addEvent } = use(ResourceContext);
+
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [location, setLocation] = useState('');
     const [details, setDetails] = useState('');
     const [contact, setContact] = useState('');
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState<Timestamp>(Timestamp.fromDate(new Date()));
     const [showDatePicker, setShowDatePicker] = useState(false);
 
     const handleSubmit = () => {
-        if (!title || !location || !text) {
+        if (!title || !location || !text || !date) {
             Alert.alert(
                 'Missing Fields',
                 'Please fill in all required fields.',
@@ -39,99 +48,146 @@ function NewEvent({ navigation }: NewEventProps) {
             return;
         }
 
-        const newEvent: IEvent = {
-            id: 'uuid.v4().toString()',
+        const newEvent: Omit<IEvent, 'id'> = {
             title,
-            date: Timestamp.fromDate(date),
+            date,
             text,
             location,
             details: details || undefined,
             contact: contact || undefined,
         };
 
-        // TODO: Save to Firestore or context
-        const retVal = addEventToDatabase(newEvent);
-        console.log('A');
-        console.log(retVal);
-
-        navigation.goBack(); // or navigate to event list
+        addEventToDatabase(newEvent).then(res => {
+            if (res.status === 'success' && res.id) {
+                addEvent({ ...newEvent, id: res.id });
+                navigation.goBack();
+            } else {
+                Alert.alert(res.message ?? 'Could not create event...');
+            }
+        });
     };
 
+    const container = generateStyle('hMinMax');
+    const textStyle = generateStyle('fontS');
+    const dateTextStyle = generateStyle('fontS', 'secondary');
+    const addButtonStyle = generateStyle(
+        'border1',
+        'borderPrimary',
+        'rounded2',
+        'wPaddingL',
+        'hPaddingL',
+    );
+    const inputStyle = generateStyle(
+        'border1',
+        'wPaddingL',
+        'hPaddingL',
+        'borderPrimary',
+        'hMarginS',
+        'fontS',
+        'rounded2',
+    );
+    const modalViewContent = generateStyle(
+        'wPaddingXL',
+        'hPaddingXL',
+        'wMarginXL',
+        'hMarginXL',
+        'rounded2',
+        'selfCenter',
+    );
+
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.label}>Title *</Text>
-            <TextInput
-                style={styles.input}
-                value={title}
-                onChangeText={setTitle}
-            />
+        <View style={container}>
+            <ScrollView contentContainerStyle={styles.container}>
+                <Text style={textStyle}>Title *</Text>
+                <TextInput
+                    style={inputStyle}
+                    value={title}
+                    onChangeText={setTitle}
+                />
+                <Spacer />
 
-            <Text style={styles.label}>Date *</Text>
-            <Button
-                title={`${date.toDateString()} ${date.toTimeString()}`}
-                onPress={() => setShowDatePicker(true)}
-            />
-            {/* {showDatePicker && ( */}
-            <Modal
-                visible={showDatePicker}
-                transparent={true}
-                animationType="slide"
-            >
-                <View style={styles.modalViewContainer}>
-                    <View style={styles.modalViewContent}>
-                        <DateTimePicker
-                            value={date}
-                            mode="datetime"
-                            display={
-                                Platform.OS === 'ios' ? 'inline' : 'default'
-                            }
-                            onChange={(_, selectedDate) => {
-                                if (selectedDate) setDate(selectedDate);
-                            }}
-                        />
-                        <Button
-                            title="OK"
-                            onPress={() => setShowDatePicker(false)}
-                        />
+                <Text style={textStyle}>Date *</Text>
+                <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                    <Text style={dateTextStyle}>{`${formatFirebaseDate(
+                        date,
+                    )}; ${formatFirebaseTime(date)}`}</Text>
+                </TouchableOpacity>
+                {/* {showDatePicker && ( */}
+                <Modal
+                    visible={showDatePicker}
+                    transparent={true}
+                    animationType="slide"
+                >
+                    <View style={styles.modalViewContainer}>
+                        <View style={modalViewContent}>
+                            <DateTimePicker
+                                value={date.toDate()}
+                                mode="datetime"
+                                display={
+                                    Platform.OS === 'ios' ? 'inline' : 'default'
+                                }
+                                onChange={(_, selectedDate) => {
+                                    if (selectedDate)
+                                        setDate(
+                                            Timestamp.fromDate(selectedDate),
+                                        );
+                                }}
+                            />
+                            <TouchableOpacity
+                                onPress={() => setShowDatePicker(false)}
+                                style={addButtonStyle}
+                            >
+                                <Text style={textStyle}>OK</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
+                </Modal>
+                <Spacer />
+
+                <Text style={textStyle}>Location *</Text>
+                <TextInput
+                    style={inputStyle}
+                    value={location}
+                    onChangeText={setLocation}
+                />
+                <Spacer />
+
+                <Text style={textStyle}>Text *</Text>
+                <TextInput
+                    style={[inputStyle, styles.multiline]}
+                    value={text}
+                    onChangeText={setText}
+                    multiline
+                />
+                <Spacer />
+
+                <Text style={textStyle}>Details</Text>
+                <TextInput
+                    style={[inputStyle, styles.multiline]}
+                    value={details}
+                    onChangeText={setDetails}
+                    multiline
+                />
+                <Spacer />
+
+                <Text style={textStyle}>Contact</Text>
+                <TextInput
+                    style={inputStyle}
+                    value={contact}
+                    onChangeText={setContact}
+                />
+                <Spacer />
+
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        onPress={handleSubmit}
+                        style={addButtonStyle}
+                    >
+                        <Text style={textStyle}>Add Event</Text>
+                    </TouchableOpacity>
                 </View>
-            </Modal>
-            {/* )} */}
-
-            <Text style={styles.label}>Location *</Text>
-            <TextInput
-                style={styles.input}
-                value={location}
-                onChangeText={setLocation}
-            />
-
-            <Text style={styles.label}>Text *</Text>
-            <TextInput
-                style={[styles.input, styles.multiline]}
-                value={text}
-                onChangeText={setText}
-                multiline
-            />
-
-            <Text style={styles.label}>Details</Text>
-            <TextInput
-                style={[styles.input, styles.multiline]}
-                value={details}
-                onChangeText={setDetails}
-                multiline
-            />
-
-            <Text style={styles.label}>Contact</Text>
-            <TextInput
-                style={styles.input}
-                value={contact}
-                onChangeText={setContact}
-            />
-
-            <View style={styles.buttonContainer}>
-                <Button title="Add Event" onPress={handleSubmit} />
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
     );
 }
 
@@ -142,13 +198,6 @@ const styles = StyleSheet.create({
     label: {
         marginTop: 15,
         fontWeight: 'bold',
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        borderRadius: 6,
-        marginTop: 5,
     },
     multiline: {
         height: 80,
@@ -161,12 +210,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: '#000000aa',
-    },
-    modalViewContent: {
-        backgroundColor: '#fff',
-        margin: 20,
-        borderRadius: 10,
-        padding: 20,
     },
 });
 
