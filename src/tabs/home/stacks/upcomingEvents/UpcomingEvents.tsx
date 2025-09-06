@@ -37,7 +37,11 @@ function UpcomingEventsList() {
         <View style={containerStyle}>
             <FlatList
                 data={events}
-                keyExtractor={item => item.date.toDate().toDateString()}
+                keyExtractor={item =>
+                    `${item.date.toDate().toDateString()}; ${item.title}; ${
+                        item.id
+                    }`
+                }
                 renderItem={({ item }) => <EventsDisplayCard {...item} />}
                 ItemSeparatorComponent={Separator}
             />
