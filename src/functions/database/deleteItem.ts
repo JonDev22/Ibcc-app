@@ -5,19 +5,25 @@ import {
     doc,
     deleteDoc,
 } from '@react-native-firebase/firestore';
-import { IEvent } from '../interfaces/IEvent';
 
-async function deleteEvent(event: IEvent): Promise<string> {
+interface HasId {
+    id: string;
+}
+
+async function deleteItem<T extends HasId>(
+    item: T,
+    collectionId: string,
+): Promise<string> {
     try {
         const app = getApp();
         const db = getFirestore(app);
-        const ref = collection(db, 'events');
+        const ref = collection(db, collectionId);
 
-        if (!event.id) {
+        if (!item.id) {
             return 'Missing Event ID';
         }
 
-        const docRef = doc(ref, event.id);
+        const docRef = doc(ref, item.id);
         return deleteDoc(docRef)
             .then(() => {
                 console.log('Deleted');
@@ -31,4 +37,4 @@ async function deleteEvent(event: IEvent): Promise<string> {
     }
 }
 
-export default deleteEvent;
+export default deleteItem;

@@ -4,22 +4,21 @@ import {
     collection,
     getFirestore,
 } from '@react-native-firebase/firestore';
-import { IEvent } from '../interfaces/IEvent';
 
 interface AddEventResponse {
     id?: string;
     status: 'success' | 'error';
     message?: string;
 }
-
-async function addEventToDatabase(
-    event: Omit<IEvent, 'id'>,
+async function addItemToDatabase<T>(
+    item: Omit<T, 'id'>,
+    collectionId: string,
 ): Promise<AddEventResponse> {
     try {
         const app = getApp();
         const db = getFirestore(app);
-        const ref = collection(db, 'events');
-        const docRef = await addDoc(ref, event);
+        const ref = collection(db, collectionId);
+        const docRef = await addDoc(ref, item);
         if (docRef) {
             return {
                 id: docRef.id,
@@ -35,4 +34,4 @@ async function addEventToDatabase(
     }
 }
 
-export default addEventToDatabase;
+export default addItemToDatabase;
