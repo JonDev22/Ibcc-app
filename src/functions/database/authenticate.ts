@@ -10,7 +10,6 @@ async function authenticate(email: string, password: string): Promise<string> {
 
     try {
         const cred = await signInWithEmailAndPassword(auth, email, password);
-        console.log(cred);
         if (cred.user) {
             return 'success';
         }

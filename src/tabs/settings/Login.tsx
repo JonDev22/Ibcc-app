@@ -31,7 +31,6 @@ function Login() {
 
     const authenticateUser = () => {
         authenticate(username, password).then(res => {
-            console.log(res);
             if (res !== 'success') {
                 Alert.alert(res);
             }

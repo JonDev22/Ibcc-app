@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, useColorScheme } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import getAdjacentSundays from '../../../../../functions/getAdjacentSundays';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { use } from 'react';
@@ -11,12 +11,6 @@ function VerseViewer() {
     const { passages } = use(ResourceContext);
     const colorMap = useColorMap();
     const generateStyle = useStyle();
-    const scheme = useColorScheme();
-
-    const bgLeft = scheme === 'light' ? '#e0e0e0' : '#2e2e2e';
-    const bgRight = scheme === 'light' ? '#e0e0e0' : '#2e2e2e';
-
-    console.log('A');
 
     const labelStyle = generateStyle(
         'fontXS',
@@ -51,7 +45,7 @@ function VerseViewer() {
                 <View
                     style={{
                         ...styles.frameLeft,
-                        backgroundColor: bgLeft,
+                        backgroundColor: colorMap.lightGray,
                     }}
                 >
                     <View style={styles.card}>
@@ -77,7 +71,7 @@ function VerseViewer() {
                 <View
                     style={{
                         ...styles.frameRight,
-                        backgroundColor: bgRight,
+                        backgroundColor: colorMap.darkGray,
                     }}
                 >
                     <View style={styles.card}>
@@ -128,6 +122,7 @@ const styles = StyleSheet.create({
     },
     frameRight: {
         alignSelf: 'flex-end',
+        alignItems: 'flex-start',
         width: '90%',
         borderRadius: 8,
         marginBottom: 12,

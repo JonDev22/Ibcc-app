@@ -26,7 +26,6 @@ async function deleteItem<T extends HasId>(
         const docRef = doc(ref, item.id);
         return deleteDoc(docRef)
             .then(() => {
-                console.log('Deleted');
                 return 'success';
             })
             .catch(() => {

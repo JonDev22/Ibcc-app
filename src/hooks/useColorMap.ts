@@ -8,11 +8,16 @@ export interface IAppColors {
     third: Color;
     color: Color;
     bgColor: Color;
+    lightGray: string;
+    darkGray: string;
 }
 
 const useColorMap = (): IAppColors => {
     const { theme } = use(ResourceContext);
     const isDark = theme === 'dark';
+
+    // const bgLeft = scheme === 'light' ? '#e0e0e0' : '#b90c0cff';
+    // const bgRight = scheme === 'light' ? '#707070' : '#2c2c2cff';
 
     const colorMap = useMemo(() => {
         return isDark
@@ -22,6 +27,8 @@ const useColorMap = (): IAppColors => {
                   third: colors.darkKhaki,
                   color: colors.white100,
                   bgColor: colors.black,
+                  lightGray: '#777777ff',
+                  darkGray: '#3c3c3cff',
               }
             : {
                   primary: colors.petrolBlue,
@@ -29,6 +36,8 @@ const useColorMap = (): IAppColors => {
                   third: colors.orange,
                   color: colors.black,
                   bgColor: colors.white100,
+                  lightGray: '#d8d8d8ff',
+                  darkGray: '#b6b6b6ff',
               };
     }, [isDark]);
 

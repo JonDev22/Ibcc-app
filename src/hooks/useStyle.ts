@@ -5,7 +5,6 @@ import { ResourceContext } from '../contexts/ResourceContext';
 const useStyle = () => {
     const colorMap = useColorMap();
     const { size } = use(ResourceContext);
-    // console.log('Style');
 
     const offset = size === 'Small' ? -3 : size === 'Large' ? 4 : 0;
 
