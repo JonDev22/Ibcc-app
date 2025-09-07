@@ -15,8 +15,8 @@ import { Timestamp } from '@react-native-firebase/firestore';
 import { IEvent } from '../../../../interfaces/IEvent';
 
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import addEventToDatabase from '../../../../functions/addEventToDatabase';
-import formatFirebaseDate from '../../../../functions/formatFirebaseDate';
+import addEventToDatabase from '../../../../functions/database/addItemToDatabase';
+import formatFirebaseDate from '../../../../functions/database/formatFirebaseDate';
 import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
@@ -57,7 +57,7 @@ function NewEvent({ navigation }: NewEventProps) {
             contact: contact || undefined,
         };
 
-        addEventToDatabase(newEvent).then(res => {
+        addEventToDatabase(newEvent, 'events').then(res => {
             if (res.status === 'success' && res.id) {
                 addEvent({ ...newEvent, id: res.id });
                 navigation.goBack();

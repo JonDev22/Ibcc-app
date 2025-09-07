@@ -1,7 +1,7 @@
 import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { Alert, Linking, Pressable, StyleSheet, Text } from 'react-native';
 import { colors } from '../../../../theme/colors';
-import fetchFileFromStorage from '../../../../functions/fetchFileFromStorage';
+import fetchFileFromStorage from '../../../../functions/database/fetchFileFromStorage';
 
 interface DownloadButtonProps {
     text: string;

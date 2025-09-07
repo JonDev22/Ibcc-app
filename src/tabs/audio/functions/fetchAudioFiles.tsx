@@ -1,5 +1,5 @@
 import { Track } from 'react-native-track-player';
-import fetchFileFromStorage from '../../../functions/fetchFileFromStorage';
+import fetchFileFromStorage from '../../../functions/database/fetchFileFromStorage';
 import getCollectionData from '../../../functions/getCollectionData';
 import { IAudioFileFB } from '../interfaces/IAudioFile';
 

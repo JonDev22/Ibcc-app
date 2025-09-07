@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { colors } from '../../../../theme/colors';
 import { IForm } from '../../../../interfaces/IForm';
-import fetchFileFromStorage from '../../../../functions/fetchFileFromStorage';
+import fetchFileFromStorage from '../../../../functions/database/fetchFileFromStorage';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
 

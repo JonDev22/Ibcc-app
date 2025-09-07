@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeNavigationParamList } from '../../types/navigationTypes';
 import { IEvent } from '../../../../interfaces/IEvent';
-import formatFirebaseDate from '../../../../functions/formatFirebaseDate';
+import formatFirebaseDate from '../../../../functions/database/formatFirebaseDate';
 import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
 import useStyle from '../../../../hooks/useStyle';
 import useColorMap from '../../../../hooks/useColorMap';

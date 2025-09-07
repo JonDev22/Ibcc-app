@@ -3,7 +3,7 @@ import getAdjacentSundays from '../../../../../functions/getAdjacentSundays';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { use } from 'react';
 import { ResourceContext } from '../../../../../contexts/ResourceContext';
-import formatFirebaseDate from '../../../../../functions/formatFirebaseDate';
+import formatFirebaseDate from '../../../../../functions/database/formatFirebaseDate';
 import useStyle from '../../../../../hooks/useStyle';
 import useColorMap from '../../../../../hooks/useColorMap';
 

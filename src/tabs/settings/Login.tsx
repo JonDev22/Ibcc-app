@@ -1,5 +1,5 @@
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import authenticate from '../../functions/authenticate';
+import authenticate from '../../functions/database/authenticate';
 import { useState } from 'react';
 import useStyle from '../../hooks/useStyle';
 import useColorMap from '../../hooks/useColorMap';

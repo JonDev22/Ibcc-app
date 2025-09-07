@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Separator from '../../../../functions/Separator';
 import InfoCard from '../../../../components/InfoCard';
-import fetchFileFromStorage from '../../../../functions/fetchFileFromStorage';
+import fetchFileFromStorage from '../../../../functions/database/fetchFileFromStorage';
 import getIconFromString from '../../../../functions/getIconFromString';
 import { use } from 'react';
 import { ResourceContext } from '../../../../contexts/ResourceContext';

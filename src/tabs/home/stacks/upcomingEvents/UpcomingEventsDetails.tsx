@@ -11,14 +11,14 @@ import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { RouteProp } from '@react-navigation/native';
 import { HomeNavigationParamList } from '../../types/navigationTypes';
 import { colors } from '../../../../theme/colors';
-import formatFirebaseDate from '../../../../functions/formatFirebaseDate';
+import formatFirebaseDate from '../../../../functions/database/formatFirebaseDate';
 import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
 import useStyle from '../../../../hooks/useStyle';
 import useColorMap from '../../../../hooks/useColorMap';
 import Spacer from '../../../../components/Spacer';
 import { ResourceContext } from '../../../../contexts/ResourceContext';
-import deleteEvent from '../../../../functions/deleteEvent';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import deleteItem from '../../../../functions/database/deleteItem';
 
 type EventsDetailRouteProp = RouteProp<
     HomeNavigationParamList,
@@ -52,7 +52,7 @@ function UpcomingEventsDetails({ route, navigation }: EventsDetailProps) {
     );
 
     const handleDeleteEvent = () => {
-        deleteEvent(item).then(res => {
+        deleteItem(item, 'events').then(res => {
             if (res === 'success') {
                 removeEvent(item);
                 navigation.goBack();

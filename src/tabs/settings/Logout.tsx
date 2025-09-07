@@ -1,7 +1,7 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { Text, TouchableOpacity, View } from 'react-native';
 import useStyle from '../../hooks/useStyle';
-import logOut from '../../functions/signOut';
+import logOut from '../../functions/database/signOut';
 
 function Logout({ user }: { user: FirebaseAuthTypes.User }) {
     const generateStyle = useStyle();
