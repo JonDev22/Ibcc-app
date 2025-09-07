@@ -45,6 +45,9 @@ interface IResourceContext {
 
     addEvent: (event: IEvent) => void;
     removeEvent: (event: IEvent) => void;
+
+    addAnnouncement: (event: IAnnouncement) => void;
+    removeAnnouncement: (event: IAnnouncement) => void;
 }
 
 const initialValue: IResourceContext = {
@@ -68,6 +71,9 @@ const initialValue: IResourceContext = {
 
     addEvent: () => {},
     removeEvent: () => {},
+
+    addAnnouncement: () => {},
+    removeAnnouncement: () => {},
 };
 
 export const ResourceContext = createContext<IResourceContext>(initialValue);
@@ -81,6 +87,7 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
         }));
     });
 
+    // Functions to add and remove an event
     const addEvent = (event: IEvent) => {
         setValue(prev => ({
             ...prev,
@@ -99,6 +106,29 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
                         item.id === event.id &&
                         item.title === event.title &&
                         item.date === event.date
+                    ),
+            ),
+        }));
+    };
+
+    const addAnnouncement = (announcement: IAnnouncement) => {
+        setValue(prev => ({
+            ...prev,
+            announcements: [...prev.announcements, announcement].sort(
+                (a, b) => b.date.toMillis() - a.date.toMillis(),
+            ),
+        }));
+    };
+
+    const removeAnnouncement = (announcement: IAnnouncement) => {
+        setValue(prev => ({
+            ...prev,
+            announcements: prev.announcements.filter(
+                item =>
+                    !(
+                        item.id === announcement.id &&
+                        item.title === announcement.title &&
+                        item.date === announcement.date
                     ),
             ),
         }));
@@ -125,6 +155,8 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
             ...prev,
             addEvent,
             removeEvent,
+            addAnnouncement,
+            removeAnnouncement,
         }));
 
         // Get system settings

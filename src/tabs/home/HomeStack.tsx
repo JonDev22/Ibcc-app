@@ -8,6 +8,7 @@ import Announcements from './stacks/announcements/Announcements';
 import AnnouncementDetail from './stacks/announcements/AnnouncementsDetail';
 import useColorMap from '../../hooks/useColorMap';
 import NewEvent from './stacks/upcomingEvents/NewEvent';
+import NewAnnouncement from './stacks/announcements/NewAnnouncement';
 
 const Stack = createNativeStackNavigator<HomeNavigationParamList>();
 
@@ -38,6 +39,11 @@ function HomeStack() {
                 options={{ headerTitle: 'New Event' }}
                 name="New Event"
                 component={NewEvent}
+            />
+            <Stack.Screen
+                options={{ headerTitle: 'New Announcement' }}
+                name="New Announcement"
+                component={NewAnnouncement}
             />
         </Stack.Navigator>
     );

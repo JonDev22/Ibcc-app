@@ -19,7 +19,7 @@ function Announcements() {
     const navigation =
         useNavigation<HomeNavigationType<'Announcements Details'>>();
 
-    const { announcements } = use(ResourceContext);
+    const { announcements, user } = use(ResourceContext);
 
     const colorMap = useColorMap();
     const generateStyle = useStyle();
@@ -73,6 +73,10 @@ function Announcements() {
     const viewStyle = generateStyle('hMinMax');
     const flatListStyle = generateStyle('hPadding3XL', 'wPadding3XL');
 
+    const handleAddAnnouncement = () => {
+        navigation.navigate('New Announcement');
+    };
+
     return (
         <View style={viewStyle}>
             <FlatList
@@ -82,6 +86,18 @@ function Announcements() {
                 contentContainerStyle={flatListStyle}
                 ItemSeparatorComponent={Separator}
             />
+
+            {user && (
+                <TouchableOpacity
+                    style={{
+                        ...styles.fab,
+                        backgroundColor: colorMap.secondary,
+                    }}
+                    onPress={handleAddAnnouncement}
+                >
+                    <Text style={{ color: colorMap.color }}>+</Text>
+                </TouchableOpacity>
+            )}
         </View>
     );
 }
@@ -110,6 +126,16 @@ const styles = StyleSheet.create({
     customSpacer: { marginTop: 6 },
     chevron: {
         marginLeft: 10,
+    },
+    fab: {
+        position: 'absolute',
+        bottom: 30,
+        right: 30,
+        width: 50,
+        height: 50,
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 

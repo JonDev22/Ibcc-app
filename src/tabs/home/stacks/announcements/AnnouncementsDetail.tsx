@@ -1,10 +1,20 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { use } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    ScrollView,
+    TouchableOpacity,
+    Alert,
+} from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { HomeNavigationParamList } from '../../types/navigationTypes';
 import { colors } from '../../../../theme/colors';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
+import { ResourceContext } from '../../../../contexts/ResourceContext';
+import deleteItem from '../../../../functions/database/deleteItem';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type AnnouncementDetailRouteProps = RouteProp<
     HomeNavigationParamList,
@@ -13,10 +23,13 @@ type AnnouncementDetailRouteProps = RouteProp<
 
 interface AnnouncementDetailProps {
     route: AnnouncementDetailRouteProps;
+    navigation: NativeStackNavigationProp<any>;
 }
 
-function AnnouncementDetail({ route }: AnnouncementDetailProps) {
+function AnnouncementDetail({ route, navigation }: AnnouncementDetailProps) {
     const { announcement } = route.params;
+
+    const { user, removeAnnouncement } = use(ResourceContext);
 
     const generateStyle = useStyle();
 
@@ -41,6 +54,24 @@ function AnnouncementDetail({ route }: AnnouncementDetailProps) {
     const disclaimerStyle = generateStyle('fontM', 'secondary', 'italic');
     const sectionTitleStyle = generateStyle('fontM', 'weight600');
     const sectionTextStyle = generateStyle('fontS');
+    const toggleStyle = generateStyle(
+        'border1',
+        'borderPrimary',
+        'rounded2',
+        'hPaddingXL',
+        'wPaddingXL',
+    );
+
+    const handleDeleteAnnouncement = () => {
+        deleteItem(announcement, 'announcements').then(res => {
+            if (res === 'success') {
+                removeAnnouncement(announcement);
+                navigation.goBack();
+            } else {
+                Alert.alert(res);
+            }
+        });
+    };
 
     return (
         <View style={containerView}>
@@ -68,6 +99,20 @@ function AnnouncementDetail({ route }: AnnouncementDetailProps) {
                         .
                     </Text>
                 </View>
+
+                {user && (
+                    <>
+                        <Spacer />
+                        <TouchableOpacity
+                            onPress={handleDeleteAnnouncement}
+                            style={toggleStyle}
+                        >
+                            <Text style={{ color: colors.orange }}>
+                                Delete Event
+                            </Text>
+                        </TouchableOpacity>
+                    </>
+                )}
             </ScrollView>
         </View>
     );

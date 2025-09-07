@@ -12,4 +12,5 @@ export type HomeNavigationParamList = {
         announcement: IAnnouncement;
     };
     'New Event': undefined;
+    'New Announcement': undefined;
 };
