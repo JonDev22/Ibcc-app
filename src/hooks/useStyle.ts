@@ -5,11 +5,9 @@ import { ResourceContext } from '../contexts/ResourceContext';
 const useStyle = () => {
     const colorMap = useColorMap();
     const { size } = use(ResourceContext);
+    // console.log('Style');
 
-    const smallSizeOffset = size === 'Small' ? -3 : 0;
-    const mediumSizeOffset = size === 'Medium' ? 0 : 0;
-    const largeSizeOffset = size === 'Large' ? 4 : 0;
-    const offset = smallSizeOffset + mediumSizeOffset + largeSizeOffset;
+    const offset = size === 'Small' ? -3 : size === 'Large' ? 4 : 0;
 
     const stylePresets: Record<string, Record<string, string | number>> = {
         bold: { fontWeight: 'bold' },
@@ -104,6 +102,10 @@ const useStyle = () => {
         primary: { color: colorMap.primary },
         secondary: { color: colorMap.secondary },
         third: { color: colorMap.third },
+
+        bgTransparent: {
+            backgroundColor: 'transparent',
+        },
     };
 
     const generalPresets = {

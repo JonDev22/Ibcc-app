@@ -77,6 +77,7 @@ const initialValue: IResourceContext = {
 };
 
 export const ResourceContext = createContext<IResourceContext>(initialValue);
+const validSizes = ['Small', 'Medium', 'Large'];
 
 export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
     const auth = getAuth();
@@ -151,33 +152,12 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
     });
 
     useEffect(() => {
-        setValue(prev => ({
-            ...prev,
-            addEvent,
-            removeEvent,
-            addAnnouncement,
-            removeAnnouncement,
-        }));
-
-        // Get system settings
-        getSystemSettings('theme').then(res => {
-            const newTheme = res || userTheme;
-            setValue(prev => ({
-                ...prev,
-                theme: newTheme === 'dark' ? 'dark' : 'light',
-            }));
-        });
-
-        getSystemSettings('textSize').then(res => {
-            const validSizes = ['Small', 'Medium', 'Large'];
-            const resSize = res && validSizes.includes(res) ? res : 'Medium';
-            setValue(prev => ({ ...prev, size: resSize as sizeType }));
-        });
-
-        // Fetch data
         const now = Timestamp.fromDate(new Date());
 
+        // Fetch data
         Promise.all([
+            getSystemSettings('textSize'),
+            getSystemSettings('textSize'),
             getCollectionData<ICourse>('courses'),
             getCollectionData<IForm>('forms'),
             getCollectionData<ILeader>('leaders'),
@@ -189,6 +169,8 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
             getCollectionData<IAnnouncement>('announcements'),
         ]).then(
             ([
+                themeRes,
+                sizeRes,
                 coursesRef,
                 forms,
                 leaders,
@@ -199,6 +181,12 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
                 tbtRes,
                 announcementsRes,
             ]) => {
+                const theme = themeRes || userTheme;
+                const size =
+                    sizeRes && validSizes.includes(sizeRes)
+                        ? sizeRes
+                        : 'Medium';
+
                 const courses =
                     coursesRef?.sort((a, b) => a.sortOrder - b.sortOrder) ?? [];
                 const lifeGroups = lifeGroupsRes
@@ -221,6 +209,8 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
 
                 setValue(prev => ({
                     ...prev,
+                    theme: theme === 'dark' ? 'dark' : 'light',
+                    size: size as sizeType,
                     courses,
                     forms: forms ?? [],
                     leaders: leaders ?? [],
@@ -230,6 +220,10 @@ export const ResourceProvider = ({ children }: PropsWithChildren<{}>) => {
                     events,
                     tbt,
                     announcements,
+                    addEvent,
+                    removeEvent,
+                    addAnnouncement,
+                    removeAnnouncement,
                 }));
             },
         );
