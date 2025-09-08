@@ -5,4 +5,5 @@ export interface ILifeGroup {
     contact: string;
     time: string;
     day?: string;
+    type?: string;
 }
