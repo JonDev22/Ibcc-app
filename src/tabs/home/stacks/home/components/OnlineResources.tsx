@@ -5,10 +5,9 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    useColorScheme,
     View,
 } from 'react-native';
-import React, { use } from 'react';
+import React from 'react';
 import appUrls from '../../../../../utils/appUrls';
 
 // RGB Icons
@@ -28,7 +27,7 @@ import YouTubePngWhite from '../../../../../assets/yt_icon_white_digital.png';
 
 import useStyle from '../../../../../hooks/useStyle';
 import Spacer from '../../../../../components/Spacer';
-import { ResourceContext } from '../../../../../contexts/ResourceContext';
+import userSettings from '../../../../../storage/userSettings';
 
 const WIDTH = 50;
 const HEIGHT = 50;
@@ -43,7 +42,7 @@ interface ServiceCardProps {
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ subHeader, items }) => {
-    const { theme } = use(ResourceContext);
+    const { theme } = userSettings();
     const generateStyle = useStyle();
     const subheadingStyle = generateStyle('fontM', 'bold', 'textCenter');
 

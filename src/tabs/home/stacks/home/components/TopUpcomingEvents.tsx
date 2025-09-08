@@ -10,12 +10,11 @@ import { colors } from '../../../../../theme/colors';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeNavigationParamList } from '../../../types/navigationTypes';
 import { useNavigation } from '@react-navigation/native';
-import { use } from 'react';
-import { ResourceContext } from '../../../../../contexts/ResourceContext';
 import formatFirebaseDate from '../../../../../functions/database/formatFirebaseDate';
 import formatFirebaseTime from '../../../../../functions/formatFirebaseTime';
 import useStyle from '../../../../../hooks/useStyle';
 import useColorMap from '../../../../../hooks/useColorMap';
+import resourcesStorage from '../../../../../storage/resourcesStorage';
 
 type NavigationProps = NativeStackNavigationProp<
     HomeNavigationParamList,
@@ -33,7 +32,7 @@ function TopUpcomingEvents() {
     const descriptionStyle = generateStyle('fontXS');
     const locationStyle = generateStyle('fontXS', 'secondary');
 
-    const { events } = use(ResourceContext);
+    const { events } = resourcesStorage();
 
     return (
         <View style={styles.container}>

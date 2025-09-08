@@ -1,6 +1,6 @@
 import { Color, colors } from '../theme/colors';
-import { ResourceContext } from '../contexts/ResourceContext';
-import { use, useMemo } from 'react';
+import { useMemo } from 'react';
+import userSettings from '../storage/userSettings';
 
 export interface IAppColors {
     primary: Color;
@@ -13,11 +13,8 @@ export interface IAppColors {
 }
 
 const useColorMap = (): IAppColors => {
-    const { theme } = use(ResourceContext);
+    const { theme } = userSettings();
     const isDark = theme === 'dark';
-
-    // const bgLeft = scheme === 'light' ? '#e0e0e0' : '#b90c0cff';
-    // const bgRight = scheme === 'light' ? '#707070' : '#2c2c2cff';
 
     const colorMap = useMemo(() => {
         return isDark

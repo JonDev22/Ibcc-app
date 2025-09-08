@@ -11,10 +11,9 @@ import Separator from '../../../../functions/Separator';
 import InfoCard from '../../../../components/InfoCard';
 import fetchFileFromStorage from '../../../../functions/database/fetchFileFromStorage';
 import getIconFromString from '../../../../functions/getIconFromString';
-import { use } from 'react';
-import { ResourceContext } from '../../../../contexts/ResourceContext';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
+import resourcesStorage from '../../../../storage/resourcesStorage';
 
 function ListItem({ item }: { item: { text: string } }) {
     const generateStyle = useStyle();
@@ -23,7 +22,7 @@ function ListItem({ item }: { item: { text: string } }) {
 }
 
 function TBT() {
-    const { tbt } = use(ResourceContext);
+    const { tbt } = resourcesStorage();
 
     const generateStyle = useStyle();
 

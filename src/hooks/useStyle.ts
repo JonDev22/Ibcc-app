@@ -1,10 +1,9 @@
-import { use } from 'react';
 import useColorMap from './useColorMap';
-import { ResourceContext } from '../contexts/ResourceContext';
+import userSettings from '../storage/userSettings';
 
 const useStyle = () => {
     const colorMap = useColorMap();
-    const { size } = use(ResourceContext);
+    const { size } = userSettings();
 
     const offset = size === 'Small' ? -3 : size === 'Large' ? 4 : 0;
 

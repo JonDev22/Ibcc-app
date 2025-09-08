@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React from 'react';
 import {
     View,
     FlatList,
@@ -8,14 +8,16 @@ import {
 } from 'react-native';
 import EventsDisplayCard from './EventsDisplayCard';
 import Separator from '../../../../functions/Separator';
-import { ResourceContext } from '../../../../contexts/ResourceContext';
 import useStyle from '../../../../hooks/useStyle';
 import { useNavigation } from '@react-navigation/native';
 import { HomeNavigationType } from '../../types/homeNavigationProp';
 import useColorMap from '../../../../hooks/useColorMap';
+import resourcesStorage from '../../../../storage/resourcesStorage';
+import userSettings from '../../../../storage/userSettings';
 
 function UpcomingEventsList() {
-    const { events, user } = use(ResourceContext);
+    const { events } = resourcesStorage();
+    const { user } = userSettings();
     const navigation = useNavigation<HomeNavigationType<'New Event'>>();
 
     const colorMap = useColorMap();

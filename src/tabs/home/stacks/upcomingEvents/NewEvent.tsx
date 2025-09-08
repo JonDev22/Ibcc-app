@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -20,7 +20,7 @@ import formatFirebaseDate from '../../../../functions/database/formatFirebaseDat
 import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
-import { ResourceContext } from '../../../../contexts/ResourceContext';
+import resourcesStorage from '../../../../storage/resourcesStorage';
 
 type NewEventProps = {
     navigation: NativeStackNavigationProp<any>;
@@ -29,7 +29,7 @@ type NewEventProps = {
 function NewEvent({ navigation }: NewEventProps) {
     const generateStyle = useStyle();
 
-    const { addEvent } = use(ResourceContext);
+    const { addEvent } = resourcesStorage();
 
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');

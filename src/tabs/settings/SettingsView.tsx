@@ -1,18 +1,18 @@
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import useStyle from '../../hooks/useStyle';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { use, useState } from 'react';
-import { ResourceContext } from '../../contexts/ResourceContext';
+import { useState } from 'react';
 import { colors } from '../../theme/colors';
 import Login from './Login';
 import Logout from './Logout';
 import saveSystemSettings from '../../functions/saveSystemSettings';
 import { sizeType } from '../../types/sizeTypes';
+import userSettings from '../../storage/userSettings';
 
 function SettingsView() {
     const generateStyle = useStyle();
 
-    const { theme, setTheme, size, setSize, user } = use(ResourceContext);
+    const { theme, setTheme, size, setSize, user } = userSettings();
     const [isEnabled, setEnabled] = useState<boolean>(theme === 'dark');
 
     const sizes: sizeType[] = ['Small', 'Medium', 'Large'];

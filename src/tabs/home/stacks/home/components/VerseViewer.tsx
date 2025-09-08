@@ -1,14 +1,13 @@
 import { View, Text, StyleSheet } from 'react-native';
 import getAdjacentSundays from '../../../../../functions/getAdjacentSundays';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
-import { use } from 'react';
-import { ResourceContext } from '../../../../../contexts/ResourceContext';
 import formatFirebaseDate from '../../../../../functions/database/formatFirebaseDate';
 import useStyle from '../../../../../hooks/useStyle';
 import useColorMap from '../../../../../hooks/useColorMap';
+import resourcesStorage from '../../../../../storage/resourcesStorage';
 
 function VerseViewer() {
-    const { passages } = use(ResourceContext);
+    const { passages } = resourcesStorage();
     const colorMap = useColorMap();
     const generateStyle = useStyle();
 

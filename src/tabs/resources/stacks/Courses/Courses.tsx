@@ -2,14 +2,13 @@ import { FlatList, View } from 'react-native';
 import { NavigationType } from '../../types/navigationProps';
 import { useNavigation } from '@react-navigation/native';
 import InfoCard from '../../../../components/InfoCard';
-import { use } from 'react';
-import { ResourceContext } from '../../../../contexts/ResourceContext';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
+import resourcesStorage from '../../../../storage/resourcesStorage';
 
 function Courses() {
     const navigation = useNavigation<NavigationType<'Course Detail'>>();
-    const { courses } = use(ResourceContext);
+    const { courses } = resourcesStorage();
 
     const generateStyle = useStyle();
 

@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React from 'react';
 import {
     View,
     Text,
@@ -16,9 +16,10 @@ import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
 import useStyle from '../../../../hooks/useStyle';
 import useColorMap from '../../../../hooks/useColorMap';
 import Spacer from '../../../../components/Spacer';
-import { ResourceContext } from '../../../../contexts/ResourceContext';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import deleteItem from '../../../../functions/database/deleteItem';
+import resourcesStorage from '../../../../storage/resourcesStorage';
+import userSettings from '../../../../storage/userSettings';
 
 type EventsDetailRouteProp = RouteProp<
     HomeNavigationParamList,
@@ -33,7 +34,8 @@ interface EventsDetailProps {
 function UpcomingEventsDetails({ route, navigation }: EventsDetailProps) {
     const { item } = route.params;
 
-    const { user, removeEvent } = use(ResourceContext);
+    const { removeEvent } = resourcesStorage();
+    const { user } = userSettings();
 
     const generateStyle = useStyle();
     const colorMap = useColorMap();

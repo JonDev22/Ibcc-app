@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -13,9 +13,9 @@ import { Timestamp } from '@react-native-firebase/firestore';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
-import { ResourceContext } from '../../../../contexts/ResourceContext';
 import { IAnnouncement } from '../../../../interfaces/IAnnouncement';
 import addItemToDatabase from '../../../../functions/database/addItemToDatabase';
+import resourcesStorage from '../../../../storage/resourcesStorage';
 
 type NewAnnouncementProps = {
     navigation: NativeStackNavigationProp<any>;
@@ -24,7 +24,7 @@ type NewAnnouncementProps = {
 function NewAnnouncement({ navigation }: NewAnnouncementProps) {
     const generateStyle = useStyle();
 
-    const { addAnnouncement } = use(ResourceContext);
+    const { addAnnouncement } = resourcesStorage();
 
     const [title, setTitle] = useState('');
     const [disclaimer, setDisclaimer] = useState('');

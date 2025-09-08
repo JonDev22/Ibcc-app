@@ -8,6 +8,14 @@ import AudioStack from './tabs/audio/AudioStack';
 import ChurchLifeStack from './tabs/churchLife/ChurchLifeStack';
 import useColorMap from './hooks/useColorMap';
 import SettingsView from './tabs/settings/SettingsView';
+import {
+    FirebaseAuthTypes,
+    getAuth,
+    onAuthStateChanged,
+} from '@react-native-firebase/auth';
+import userSettings from './storage/userSettings';
+import resourcesStorage from './storage/resourcesStorage';
+import { useEffect, useState } from 'react';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,6 +26,34 @@ const renderTabBarIcon = (routeName: string, color: Color) => (props: any) => {
 
 function Main() {
     const colorMap = useColorMap();
+    const { setUser, removeUser, setTheme } = userSettings();
+    const { fetchAllData } = resourcesStorage();
+    const [tempUser, setTempUser] = useState<FirebaseAuthTypes.User | null>(
+        null,
+    );
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, user => {
+        if (user?.email) {
+            setTempUser(user);
+        } else {
+            setTempUser(null);
+        }
+    });
+
+    // Necessary effect call - Seemingly obsolete, but setting the user in onAuthStateChanged method causes the app to rerender forever. To prevent this, an extra state for this component needed to be set.
+    useEffect(() => {
+        if (tempUser?.email) {
+            setUser(tempUser);
+        } else {
+            removeUser();
+        }
+    }, [removeUser, setUser, tempUser]);
+
+    useEffect(() => {
+        setTheme('dark');
+        fetchAllData();
+    }, [fetchAllData, setTheme]);
 
     return (
         <Tab.Navigator

@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React from 'react';
 import {
     View,
     Text,
@@ -12,9 +12,10 @@ import { HomeNavigationParamList } from '../../types/navigationTypes';
 import { colors } from '../../../../theme/colors';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
-import { ResourceContext } from '../../../../contexts/ResourceContext';
 import deleteItem from '../../../../functions/database/deleteItem';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import resourcesStorage from '../../../../storage/resourcesStorage';
+import userSettings from '../../../../storage/userSettings';
 
 type AnnouncementDetailRouteProps = RouteProp<
     HomeNavigationParamList,
@@ -29,7 +30,8 @@ interface AnnouncementDetailProps {
 function AnnouncementDetail({ route, navigation }: AnnouncementDetailProps) {
     const { announcement } = route.params;
 
-    const { user, removeAnnouncement } = use(ResourceContext);
+    const { removeAnnouncement } = resourcesStorage();
+    const { user } = userSettings();
 
     const generateStyle = useStyle();
 

@@ -1,12 +1,12 @@
-import React, { use } from 'react';
+import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import Separator from '../../../../functions/Separator';
-import { ResourceContext } from '../../../../contexts/ResourceContext';
 import LifeGroupListItem from './LifeGroupListItem';
 import useStyle from '../../../../hooks/useStyle';
+import resourcesStorage from '../../../../storage/resourcesStorage';
 
 const LifeGroupList: React.FC = () => {
-    const { lifeGroups } = use(ResourceContext);
+    const { lifeGroups } = resourcesStorage();
 
     const generateStyle = useStyle();
 

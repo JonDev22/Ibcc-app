@@ -1,12 +1,12 @@
-import React, { use } from 'react';
+import React from 'react';
 import { StyleSheet, FlatList, View } from 'react-native';
 import MinistryListItem from './MinistryListItem';
-import { ResourceContext } from '../../../../contexts/ResourceContext';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
+import resourcesStorage from '../../../../storage/resourcesStorage';
 
 const MinistryList: React.FC = () => {
-    const { ministries } = use(ResourceContext);
+    const { ministries } = resourcesStorage();
 
     const generateStyle = useStyle();
     const containerStyle = generateStyle('hMinMax');

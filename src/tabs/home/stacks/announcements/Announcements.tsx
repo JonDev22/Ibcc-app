@@ -1,5 +1,5 @@
 import FontAwesome from '@react-native-vector-icons/fontawesome';
-import React, { use } from 'react';
+import React from 'react';
 import {
     View,
     Text,
@@ -11,15 +11,17 @@ import { IAnnouncement } from '../../../../interfaces/IAnnouncement';
 import Separator from '../../../../functions/Separator';
 import { useNavigation } from '@react-navigation/native';
 import { HomeNavigationType } from '../../types/homeNavigationProp';
-import { ResourceContext } from '../../../../contexts/ResourceContext';
 import useStyle from '../../../../hooks/useStyle';
 import useColorMap from '../../../../hooks/useColorMap';
+import resourcesStorage from '../../../../storage/resourcesStorage';
+import userSettings from '../../../../storage/userSettings';
 
 function Announcements() {
     const navigation =
         useNavigation<HomeNavigationType<'Announcements Details'>>();
 
-    const { announcements, user } = use(ResourceContext);
+    const { announcements } = resourcesStorage();
+    const { user } = userSettings();
 
     const colorMap = useColorMap();
     const generateStyle = useStyle();

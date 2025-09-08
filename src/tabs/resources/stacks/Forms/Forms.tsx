@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React from 'react';
 import {
     StyleSheet,
     FlatList,
@@ -10,13 +10,13 @@ import {
 } from 'react-native';
 import FormListItem from './FormListItem';
 import Separator from '../../../../functions/Separator';
-import appUrls from '../../../../utils/appUrls';
-import { ResourceContext } from '../../../../contexts/ResourceContext';
 import useStyle from '../../../../hooks/useStyle';
+import appUrls from '../../../../utils/appUrls';
+import resourcesStorage from '../../../../storage/resourcesStorage';
 
 // Example list of forms
 const Forms: React.FC = () => {
-    const { forms } = use(ResourceContext);
+    const { forms } = resourcesStorage();
 
     const generateStyle = useStyle();
     const containerStyle = generateStyle('hMinMax');
