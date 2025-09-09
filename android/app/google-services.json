@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "83044330620",
+    "project_id": "cms-tbt",
+    "storage_bucket": "cms-tbt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83044330620:android:9747fb73be9e4373522df9",
+        "android_client_info": {
+          "package_name": "com.ibcc_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83044330620-g58aqolsc3r5lg6e5oolr3kjjkgi5uko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWnUn7hAfqlenhyhPyePgjbSg3sdnZL_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83044330620-g58aqolsc3r5lg6e5oolr3kjjkgi5uko.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "83044330620-1k5nku3lga98fs0749dqi88oivl46dgj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ibcc.ibcc-app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83044330620:android:3fb3b261c11d38cc522df9",
+        "android_client_info": {
+          "package_name": "ibc.tbt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83044330620-g58aqolsc3r5lg6e5oolr3kjjkgi5uko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWnUn7hAfqlenhyhPyePgjbSg3sdnZL_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83044330620-g58aqolsc3r5lg6e5oolr3kjjkgi5uko.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "83044330620-1k5nku3lga98fs0749dqi88oivl46dgj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ibcc.ibcc-app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
