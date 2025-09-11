@@ -1,4 +1,11 @@
-import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
+import {
+    ScrollView,
+    StyleSheet,
+    Switch,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 import useStyle from '../../hooks/useStyle';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
@@ -56,55 +63,60 @@ function SettingsView() {
     return (
         <SafeAreaView style={containerStyle}>
             <View style={innerView}>
-                <Text style={headerStyle}>Settings</Text>
+                <ScrollView>
+                    <Text style={headerStyle}>Settings</Text>
 
-                <View style={styles.settingsView}>
-                    <Text style={settingsText}>Dark Mode:</Text>
-                    <Switch value={isEnabled} onValueChange={setStorageTheme} />
-                </View>
+                    <View style={styles.settingsView}>
+                        <Text style={settingsText}>Dark Mode:</Text>
+                        <Switch
+                            value={isEnabled}
+                            onValueChange={setStorageTheme}
+                        />
+                    </View>
 
-                <View style={styles.settingsView}>
-                    <Text style={settingsText}>Dark Mode:</Text>
-                    <View style={styles.buttonView}>
-                        {sizes.map(item => (
-                            <TouchableOpacity
-                                key={item}
-                                style={
-                                    item === size
-                                        ? {
-                                              ...touchableStyleActive,
-                                              ...styles.activeButton,
-                                          }
-                                        : touchableStyle
-                                }
-                                onPress={() => setStorageSize(item)}
-                            >
-                                <Text
+                    <View style={styles.settingsView}>
+                        <Text style={settingsText}>Dark Mode:</Text>
+                        <View style={styles.buttonView}>
+                            {sizes.map(item => (
+                                <TouchableOpacity
+                                    key={item}
                                     style={
                                         item === size
                                             ? {
-                                                  ...touchableTextSize,
-                                                  ...styles.activeText,
+                                                  ...touchableStyleActive,
+                                                  ...styles.activeButton,
                                               }
-                                            : touchableTextSize
+                                            : touchableStyle
                                     }
+                                    onPress={() => setStorageSize(item)}
                                 >
-                                    {item}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
+                                    <Text
+                                        style={
+                                            item === size
+                                                ? {
+                                                      ...touchableTextSize,
+                                                      ...styles.activeText,
+                                                  }
+                                                : touchableTextSize
+                                        }
+                                    >
+                                        {item}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
                     </View>
-                </View>
 
-                <View style={styles.settingsView}>
-                    <Text style={settingsText}>Login:</Text>
-                </View>
+                    <View style={styles.settingsView}>
+                        <Text style={settingsText}>Login:</Text>
+                    </View>
 
-                <Text style={touchableTextSize}>
-                    Login is designed for admins only!
-                </Text>
+                    <Text style={touchableTextSize}>
+                        Login is designed for admins only!
+                    </Text>
 
-                {user ? <Logout user={user} /> : <Login />}
+                    {user ? <Logout user={user} /> : <Login />}
+                </ScrollView>
             </View>
         </SafeAreaView>
     );
