@@ -6,6 +6,7 @@ import TrackPlayer, {
     State,
     Track,
     useActiveTrack,
+    Capability,
 } from 'react-native-track-player';
 import fetchAudioFiles from './functions/fetchAudioFiles';
 import AudioList from './AudioList';
@@ -59,6 +60,22 @@ function Audio() {
     useEffect(() => {
         const setup = async () => {
             await TrackPlayer.setupPlayer();
+
+            await TrackPlayer.updateOptions({
+                capabilities: [
+                    Capability.Pause,
+                    Capability.Play,
+                    Capability.SkipToNext,
+                    Capability.SkipToPrevious,
+                    Capability.SeekTo,
+                ],
+                compactCapabilities: [
+                    Capability.Play,
+                    Capability.Pause,
+                    Capability.SkipToNext,
+                ],
+            });
+
             fetchAudioFiles()
                 .then(async res => {
                     if (res) {
