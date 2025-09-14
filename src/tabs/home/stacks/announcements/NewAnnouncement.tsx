@@ -16,20 +16,34 @@ import Spacer from '../../../../components/Spacer';
 import { IAnnouncement } from '../../../../interfaces/IAnnouncement';
 import addItemToDatabase from '../../../../functions/database/addItemToDatabase';
 import resourcesStorage from '../../../../storage/resourcesStorage';
+import { RouteProp } from '@react-navigation/native';
+import { HomeNavigationParamList } from '../../types/navigationTypes';
+import { colors } from '../../../../theme/colors';
+import editItemInDatabase from '../../../../functions/database/editItemInDatabase';
+
+type AnnouncementDetailRouteProps = RouteProp<
+    HomeNavigationParamList,
+    'New Announcement'
+>;
 
 type NewAnnouncementProps = {
+    route: AnnouncementDetailRouteProps;
     navigation: NativeStackNavigationProp<any>;
 };
 
-function NewAnnouncement({ navigation }: NewAnnouncementProps) {
+function NewAnnouncement({ navigation, route }: NewAnnouncementProps) {
+    const { announcement } = route.params;
     const generateStyle = useStyle();
 
-    const { addAnnouncement } = resourcesStorage();
+    const { addAnnouncement, editAnnouncement } = resourcesStorage();
 
-    const [title, setTitle] = useState('');
-    const [disclaimer, setDisclaimer] = useState('');
-    const [detail, setDetail] = useState('');
-    const [contact, setContact] = useState('');
+    const [title, setTitle] = useState<string>(announcement?.title ?? '');
+    const [disclaimer, setDisclaimer] = useState<string>(
+        announcement?.disclaimer ?? '',
+    );
+
+    const [detail, setDetail] = useState<string>(announcement?.detail ?? '');
+    const [contact, setContact] = useState<string>(announcement?.contact ?? '');
 
     const handleSubmit = () => {
         if (!title || !disclaimer || !detail || !contact) {
@@ -40,22 +54,47 @@ function NewAnnouncement({ navigation }: NewAnnouncementProps) {
             return;
         }
 
-        const newAnnouncement: Omit<IAnnouncement, 'id'> = {
-            title,
-            date: Timestamp.fromDate(new Date()),
-            disclaimer,
-            detail,
-            contact,
-        };
+        if (announcement) {
+            const newAnnouncements = announcement;
+            newAnnouncements.title = title;
+            newAnnouncements.disclaimer = disclaimer;
+            newAnnouncements.detail = detail;
+            newAnnouncements.contact = contact;
+            // Existing announcement added, so user wants to edit existing announcement.
+            editItemInDatabase<IAnnouncement>(
+                newAnnouncements,
+                'announcements',
+            ).then(res => {
+                if (res.status === 'success' && res.id) {
+                    editAnnouncement(newAnnouncements);
+                    navigation.goBack();
+                } else {
+                    Alert.alert(
+                        res.message ?? 'Could not edit announcement...',
+                    );
+                }
+            });
+        } else {
+            // No announcement exists, so add a new one.
+            const newAnnouncement: Omit<IAnnouncement, 'id'> = {
+                title,
+                date: Timestamp.fromDate(new Date()),
+                disclaimer,
+                detail,
+                contact,
+            };
 
-        addItemToDatabase(newAnnouncement, 'announcements').then(res => {
-            if (res.status === 'success' && res.id) {
-                addAnnouncement({ ...newAnnouncement, id: res.id });
-                navigation.goBack();
-            } else {
-                Alert.alert(res.message ?? 'Could not create announcement...');
-            }
-        });
+            addItemToDatabase(newAnnouncement, 'announcements').then(res => {
+                if (res.status === 'success' && res.id) {
+                    addAnnouncement({ ...newAnnouncement, id: res.id });
+                    navigation.goBack();
+                } else {
+                    Alert.alert(
+                        res.message ?? 'Could not create announcement...',
+                    );
+                }
+            });
+        }
     };
 
     const container = generateStyle('hMinMax');
@@ -118,7 +157,9 @@ function NewAnnouncement({ navigation }: NewAnnouncementProps) {
                         onPress={handleSubmit}
                         style={addButtonStyle}
                     >
-                        <Text style={textStyle}>Add Announcement</Text>
+                        <Text style={{ ...textStyle, color: colors.orange }}>
+                            {announcement ? 'Edit' : 'Add'} Announcement
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

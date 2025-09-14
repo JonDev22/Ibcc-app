@@ -64,6 +64,10 @@ function AnnouncementDetail({ route, navigation }: AnnouncementDetailProps) {
         'wPaddingXL',
     );
 
+    const handleEdit = () => {
+        navigation.navigate('New Announcement', { announcement });
+    };
+
     const handleDeleteAnnouncement = () => {
         deleteItem(announcement, 'announcements').then(res => {
             if (res === 'success') {
@@ -105,6 +109,18 @@ function AnnouncementDetail({ route, navigation }: AnnouncementDetailProps) {
                 {user && (
                     <>
                         <Spacer />
+
+                        <TouchableOpacity
+                            onPress={handleEdit}
+                            style={toggleStyle}
+                        >
+                            <Text style={{ color: colors.slateBlue }}>
+                                Edit Event
+                            </Text>
+                        </TouchableOpacity>
+
+                        <Spacer />
+
                         <TouchableOpacity
                             onPress={handleDeleteAnnouncement}
                             style={toggleStyle}

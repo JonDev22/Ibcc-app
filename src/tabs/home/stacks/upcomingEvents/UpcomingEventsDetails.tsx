@@ -64,6 +64,10 @@ function UpcomingEventsDetails({ route, navigation }: EventsDetailProps) {
         });
     };
 
+    const handleEditEvent = () => {
+        navigation.navigate('New Event', { event: item });
+    };
+
     return (
         <View style={containerStyle}>
             <ScrollView style={styles.container}>
@@ -135,6 +139,16 @@ function UpcomingEventsDetails({ route, navigation }: EventsDetailProps) {
 
                 {user && (
                     <>
+                        <Spacer />
+                        <TouchableOpacity
+                            onPress={handleEditEvent}
+                            style={toggleStyle}
+                        >
+                            <Text style={{ color: colors.slateBlue }}>
+                                Edit Event
+                            </Text>
+                        </TouchableOpacity>
+
                         <Spacer />
                         <TouchableOpacity
                             onPress={handleDeleteEvent}

@@ -32,7 +32,7 @@ function UpcomingEventsList() {
     );
 
     const handleAddEvent = () => {
-        navigation.navigate('New Event');
+        navigation.navigate('New Event', {});
     };
 
     return (

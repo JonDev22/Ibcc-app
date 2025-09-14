@@ -76,7 +76,7 @@ function Announcements() {
     const flatListStyle = generateStyle('hPadding3XL', 'wPadding3XL');
 
     const handleAddAnnouncement = () => {
-        navigation.navigate('New Announcement');
+        navigation.navigate('New Announcement', {});
     };
 
     return (

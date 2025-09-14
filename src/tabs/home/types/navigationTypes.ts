@@ -11,6 +11,6 @@ export type HomeNavigationParamList = {
     'Announcements Details': {
         announcement: IAnnouncement;
     };
-    'New Event': undefined;
-    'New Announcement': undefined;
+    'New Event': { event?: IEvent };
+    'New Announcement': { announcement?: IAnnouncement };
 };
