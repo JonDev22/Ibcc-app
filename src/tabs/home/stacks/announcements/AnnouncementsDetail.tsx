@@ -16,6 +16,8 @@ import deleteItem from '../../../../functions/database/deleteItem';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import resourcesStorage from '../../../../storage/resourcesStorage';
 import userSettings from '../../../../storage/userSettings';
+import useItemById from '../../../../hooks/useItemById';
+import { IAnnouncement } from '../../../../interfaces/IAnnouncement';
 
 type AnnouncementDetailRouteProps = RouteProp<
     HomeNavigationParamList,
@@ -28,7 +30,8 @@ interface AnnouncementDetailProps {
 }
 
 function AnnouncementDetail({ route, navigation }: AnnouncementDetailProps) {
-    const { announcement } = route.params;
+    const { id } = route.params;
+    const announcement = useItemById(id, 'announcements') as IAnnouncement;
 
     const { removeAnnouncement } = resourcesStorage();
     const { user } = userSettings();
@@ -63,6 +66,10 @@ function AnnouncementDetail({ route, navigation }: AnnouncementDetailProps) {
         'hPaddingXL',
         'wPaddingXL',
     );
+
+    const handleEdit = () => {
+        navigation.navigate('New Announcement', { announcement });
+    };
 
     const handleDeleteAnnouncement = () => {
         deleteItem(announcement, 'announcements').then(res => {
@@ -105,6 +112,18 @@ function AnnouncementDetail({ route, navigation }: AnnouncementDetailProps) {
                 {user && (
                     <>
                         <Spacer />
+
+                        <TouchableOpacity
+                            onPress={handleEdit}
+                            style={toggleStyle}
+                        >
+                            <Text style={{ color: colors.slateBlue }}>
+                                Edit Event
+                            </Text>
+                        </TouchableOpacity>
+
+                        <Spacer />
+
                         <TouchableOpacity
                             onPress={handleDeleteAnnouncement}
                             style={toggleStyle}

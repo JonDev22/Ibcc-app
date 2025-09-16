@@ -25,9 +25,11 @@ interface IResourceStorage {
 
     addEvent: (event: IEvent) => void;
     removeEvent: (event: IEvent) => void;
+    editEvent: (event: IEvent) => void;
 
     addAnnouncement: (event: IAnnouncement) => void;
     removeAnnouncement: (event: IAnnouncement) => void;
+    editAnnouncement: (event: IAnnouncement) => void;
 
     fetchAllData: () => void;
 }
@@ -58,6 +60,14 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
             ),
         });
     },
+    editEvent: (event: IEvent) => {
+        set(state => ({
+            events: state.events.map(item =>
+                item.id === event.id ? event : item,
+            ),
+        }));
+    },
+
     addAnnouncement: (announcement: IAnnouncement) => {
         set({
             announcements: [...get().announcements, announcement].sort(
@@ -76,6 +86,13 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
                     ),
             ),
         });
+    },
+    editAnnouncement: (announcement: IAnnouncement) => {
+        set(state => ({
+            announcements: state.announcements.map(item =>
+                item.id === announcement.id ? announcement : item,
+            ),
+        }));
     },
     fetchAllData: () => {
         const now = Timestamp.fromDate(new Date());

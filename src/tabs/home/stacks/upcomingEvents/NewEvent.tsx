@@ -21,23 +21,33 @@ import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
 import resourcesStorage from '../../../../storage/resourcesStorage';
+import { RouteProp } from '@react-navigation/native';
+import { HomeNavigationParamList } from '../../types/navigationTypes';
+import { colors } from '../../../../theme/colors';
+import editItemInDatabase from '../../../../functions/database/editItemInDatabase';
+
+type EventsDetailRouteProps = RouteProp<HomeNavigationParamList, 'New Event'>;
 
 type NewEventProps = {
+    route: EventsDetailRouteProps;
     navigation: NativeStackNavigationProp<any>;
 };
 
-function NewEvent({ navigation }: NewEventProps) {
+function NewEvent({ navigation, route }: NewEventProps) {
+    const { event } = route.params;
     const generateStyle = useStyle();
 
-    const { addEvent } = resourcesStorage();
+    const { addEvent, editEvent } = resourcesStorage();
 
-    const [title, setTitle] = useState('');
-    const [text, setText] = useState('');
-    const [location, setLocation] = useState('');
-    const [details, setDetails] = useState('');
-    const [contact, setContact] = useState('');
-    const [date, setDate] = useState<Timestamp>(Timestamp.fromDate(new Date()));
-    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [title, setTitle] = useState<string>(event?.title ?? '');
+    const [text, setText] = useState<string>(event?.text ?? '');
+    const [location, setLocation] = useState<string>(event?.location ?? '');
+    const [details, setDetails] = useState<string>(event?.details ?? '');
+    const [contact, setContact] = useState<string>(event?.contact ?? '');
+    const [date, setDate] = useState<Timestamp>(
+        event?.date ?? Timestamp.fromDate(new Date()),
+    );
+    const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
 
     const handleSubmit = () => {
         if (!title || !location || !text || !date) {
@@ -48,23 +58,47 @@ function NewEvent({ navigation }: NewEventProps) {
             return;
         }
 
-        const newEvent: Omit<IEvent, 'id'> = {
-            title,
-            date,
-            text,
-            location,
-            details: details || undefined,
-            contact: contact || undefined,
-        };
+        if (event) {
+            // Event exists, user wants to edit existing event.
+            const newEvent: IEvent = {
+                ...event,
+                title,
+                text,
+                location,
+                details,
+                contact,
+                date,
+            };
 
-        addEventToDatabase(newEvent, 'events').then(res => {
-            if (res.status === 'success' && res.id) {
-                addEvent({ ...newEvent, id: res.id });
-                navigation.goBack();
-            } else {
-                Alert.alert(res.message ?? 'Could not create event...');
-            }
-        });
+            editItemInDatabase<IEvent>(newEvent, 'events').then(res => {
+                if (res.status === 'success') {
+                    editEvent(newEvent);
+                    navigation.goBack();
+                } else {
+                    Alert.alert(res.message ?? 'Could not edit event...');
+                }
+            });
+        } else {
+            // Event is undefined, user wants to create a new event.
+
+            const newEvent: Omit<IEvent, 'id'> = {
+                title,
+                date,
+                text,
+                location,
+                details: details || undefined,
+                contact: contact || undefined,
+            };
+
+            addEventToDatabase(newEvent, 'events').then(res => {
+                if (res.status === 'success' && res.id) {
+                    addEvent({ ...newEvent, id: res.id });
+                    navigation.goBack();
+                } else {
+                    Alert.alert(res.message ?? 'Could not create event...');
+                }
+            });
+        }
     };
 
     const container = generateStyle('hMinMax');
@@ -183,7 +217,9 @@ function NewEvent({ navigation }: NewEventProps) {
                         onPress={handleSubmit}
                         style={addButtonStyle}
                     >
-                        <Text style={textStyle}>Add Event</Text>
+                        <Text style={{ ...textStyle, color: colors.orange }}>
+                            {event ? 'Edit' : 'Add'} Event
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

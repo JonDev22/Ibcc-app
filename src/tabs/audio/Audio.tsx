@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import TrackPlayer, {
     useProgress,
     usePlaybackState,
     State,
     Track,
     useActiveTrack,
+    Capability,
 } from 'react-native-track-player';
 import fetchAudioFiles from './functions/fetchAudioFiles';
 import AudioList from './AudioList';
@@ -15,7 +16,7 @@ import useStyle from '../../hooks/useStyle';
 
 function Audio() {
     const generateStyle = useStyle();
-    
+
     const containerStyle = generateStyle('hMinMax', 'flex', 'justifyBetween');
     const loadingTextStyle = generateStyle(
         'weight600',
@@ -32,7 +33,7 @@ function Audio() {
     const activeTrack = useActiveTrack();
 
     // Stores current tracks.
-    const [track, setTrack] = useState<Track[]>();
+    const [track, setTrack] = useState<Track[] | null>();
 
     const togglePlayPause = () => {
         playBackState.state === State.Playing
@@ -59,13 +60,38 @@ function Audio() {
     useEffect(() => {
         const setup = async () => {
             await TrackPlayer.setupPlayer();
-            fetchAudioFiles().then(async res => {
-                if (res) {
-                    const sortedRes = sortByBibleBook(res, 'subtitle');
-                    await TrackPlayer.add(sortedRes);
-                    setTrack(sortedRes);
-                }
+
+            await TrackPlayer.updateOptions({
+                capabilities: [
+                    Capability.Pause,
+                    Capability.Play,
+                    Capability.SkipToNext,
+                    Capability.SkipToPrevious,
+                    Capability.SeekTo,
+                ],
+                compactCapabilities: [
+                    Capability.Play,
+                    Capability.Pause,
+                    Capability.SkipToNext,
+                ],
             });
+
+            fetchAudioFiles()
+                .then(async res => {
+                    if (res) {
+                        const sortedRes = sortByBibleBook(res, 'subtitle');
+                        TrackPlayer.add(sortedRes)
+                            .then(() => {
+                                setTrack(sortedRes);
+                            })
+                            .catch(err => {
+                                Alert.alert(err);
+                            });
+                    }
+                })
+                .catch(err => {
+                    Alert.alert(err);
+                });
         };
 
         setup();
