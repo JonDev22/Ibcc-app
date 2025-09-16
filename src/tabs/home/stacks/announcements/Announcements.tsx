@@ -42,7 +42,7 @@ function Announcements() {
                 style={styles.card}
                 onPress={() =>
                     navigation.navigate('Announcements Details', {
-                        announcement: item,
+                        id: item.id,
                     })
                 }
             >

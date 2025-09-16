@@ -20,6 +20,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import deleteItem from '../../../../functions/database/deleteItem';
 import resourcesStorage from '../../../../storage/resourcesStorage';
 import userSettings from '../../../../storage/userSettings';
+import useItemById from '../../../../hooks/useItemById';
+import { IEvent } from '../../../../interfaces/IEvent';
 
 type EventsDetailRouteProp = RouteProp<
     HomeNavigationParamList,
@@ -32,7 +34,8 @@ interface EventsDetailProps {
 }
 
 function UpcomingEventsDetails({ route, navigation }: EventsDetailProps) {
-    const { item } = route.params;
+    const { id } = route.params;
+    const item = useItemById(id, 'events') as IEvent;
 
     const { removeEvent } = resourcesStorage();
     const { user } = userSettings();

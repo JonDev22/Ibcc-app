@@ -21,7 +21,7 @@ function EventsDisplayCard(props: IEvent) {
     const colorMap = useColorMap();
 
     const handlePress = () => {
-        navigation.navigate('Upcoming Events Details', { item: props }); // Pass the full event object to EventDetail
+        navigation.navigate('Upcoming Events Details', { id: props.id }); // Pass the full event object to EventDetail
     };
 
     const dateTimeStyle = generateStyle('fontS', 'secondary');
