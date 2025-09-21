@@ -2,6 +2,7 @@ import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { Text, TouchableOpacity, View } from 'react-native';
 import useStyle from '../../hooks/useStyle';
 import logOut from '../../functions/database/signOut';
+import { colors } from '../../theme/colors';
 
 function Logout({ user }: { user: FirebaseAuthTypes.User }) {
     const generateStyle = useStyle();
@@ -21,7 +22,9 @@ function Logout({ user }: { user: FirebaseAuthTypes.User }) {
         <View style={container}>
             <Text style={textStyle}>Welcome: {user.email}</Text>
             <TouchableOpacity style={touchableStyle} onPress={logOut}>
-                <Text style={textStyle}>Log Out</Text>
+                <Text style={{ ...textStyle, color: colors.orange }}>
+                    Log Out
+                </Text>
             </TouchableOpacity>
         </View>
     );

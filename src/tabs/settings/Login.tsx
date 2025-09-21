@@ -13,7 +13,7 @@ function Login() {
     const generateStyle = useStyle();
 
     const container = generateStyle('gap3', 'hPadding2XL');
-    const textStyle = generateStyle();
+    const textStyle = generateStyle('primary');
     const inputStyle = generateStyle(
         'border1',
         'hPaddingM',

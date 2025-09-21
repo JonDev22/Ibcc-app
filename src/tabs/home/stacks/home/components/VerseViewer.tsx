@@ -6,6 +6,14 @@ import useStyle from '../../../../../hooks/useStyle';
 import useColorMap from '../../../../../hooks/useColorMap';
 import resourcesStorage from '../../../../../storage/resourcesStorage';
 
+interface VerseViewCardProps {
+    bgColor: string;
+    direction: 'left' | 'right';
+    sunday: 'Previous' | 'Next';
+    passage: string | undefined;
+    style: Record<string, string | number | Record<string, string | number>>;
+}
+
 function VerseViewer() {
     const { passages } = resourcesStorage();
     const colorMap = useColorMap();
@@ -33,6 +41,34 @@ function VerseViewer() {
 
     const { prev, next } = getAdjacentSundays(passages);
 
+    const createVerseView = (props: VerseViewCardProps) => {
+        return (
+            <View
+                style={{
+                    ...props.style,
+                    backgroundColor: props.bgColor,
+                }}
+            >
+                <View style={styles.card}>
+                    <Text style={labelStyle}>
+                        <FontAwesome
+                            name={`arrow-${props.direction}`}
+                            size={16}
+                            color={colorMap.secondary}
+                        />{' '}
+                        {props.sunday} Sunday
+                    </Text>
+                    <Text style={dateStyle}>
+                        {prev ? formatFirebaseDate(prev.date) : 'N/A'}
+                    </Text>
+                    <Text style={generateStyle('fontM', 'bgTransparent')}>
+                        {props.passage ?? 'N/A'}
+                    </Text>
+                </View>
+            </View>
+        );
+    };
+
     return (
         <View style={styles.container}>
             <Text style={headerStyle}>
@@ -40,57 +76,21 @@ function VerseViewer() {
                 Sunday Bible Passages
             </Text>
 
-            {prev && (
-                <View
-                    style={{
-                        ...styles.frameLeft,
-                        backgroundColor: colorMap.lightGray,
-                    }}
-                >
-                    <View style={styles.card}>
-                        <Text style={labelStyle}>
-                            <FontAwesome
-                                name="arrow-left"
-                                size={16}
-                                color={colorMap.secondary}
-                            />{' '}
-                            Previous Sunday
-                        </Text>
-                        <Text style={dateStyle}>
-                            {formatFirebaseDate(prev.date)}
-                        </Text>
-                        <Text style={generateStyle('fontM', 'bgTransparent')}>
-                            {prev.passage}
-                        </Text>
-                    </View>
-                </View>
-            )}
+            {createVerseView({
+                bgColor: colorMap.lightGray,
+                direction: 'left',
+                passage: prev?.passage,
+                sunday: 'Previous',
+                style: styles.frameLeft,
+            })}
 
-            {next && (
-                <View
-                    style={{
-                        ...styles.frameRight,
-                        backgroundColor: colorMap.darkGray,
-                    }}
-                >
-                    <View style={styles.card}>
-                        <Text style={labelStyle}>
-                            Next Sunday{' '}
-                            <FontAwesome
-                                name="arrow-right"
-                                size={16}
-                                color={colorMap.secondary}
-                            />
-                        </Text>
-                        <Text style={dateStyle}>
-                            {formatFirebaseDate(next.date)}
-                        </Text>
-                        <Text style={generateStyle('fontM', 'bgTransparent')}>
-                            {next.passage}
-                        </Text>
-                    </View>
-                </View>
-            )}
+            {createVerseView({
+                bgColor: colorMap.darkGray,
+                direction: 'right',
+                passage: next?.passage,
+                sunday: 'Next',
+                style: styles.frameRight,
+            })}
         </View>
     );
 }
