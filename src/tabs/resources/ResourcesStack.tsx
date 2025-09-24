@@ -7,6 +7,7 @@ import Forms from './stacks/Forms/Forms';
 import getStackScreenOptions from '../../functions/getStackScreenOptions';
 import TBT from './stacks/tbt/TBT';
 import useColorMap from '../../hooks/useColorMap';
+import TbtAtHome from './stacks/TbtAtHome/TbtAtHome';
 
 const Stack = createNativeStackNavigator<ResourceNavigationParamList>();
 
@@ -23,6 +24,7 @@ function ResourcesStack() {
             <Stack.Screen name="Resources" component={ResourcesHome} />
             <Stack.Screen name="Courses" component={Courses} />
             <Stack.Screen name="TBT" component={TBT} />
+            <Stack.Screen name="TBT@Home" component={TbtAtHome} />
             <Stack.Screen
                 options={{ title: '' }}
                 name="Course Detail"

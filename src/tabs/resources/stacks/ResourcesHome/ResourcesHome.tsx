@@ -26,6 +26,12 @@ function ResourcesHome() {
             navigation: () => tbtNavigation.navigate('TBT'),
         },
         {
+            image: 'comments-o',
+            header: 'TBT@Home',
+            text: 'Helping parents to lead children through the bible.',
+            navigation: () => tbtNavigation.navigate('TBT@Home'),
+        },
+        {
             image: 'book',
             header: 'Courses',
             text: "Knowing Jesus; Becoming like Jesus; Participating in Jesus' mission. Our courses are designed to help you grow in your faith and understanding of Jesus.' mission.",
