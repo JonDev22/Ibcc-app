@@ -8,8 +8,6 @@ import { IPassage } from '../interfaces/IPassage';
 import { IEvent } from '../interfaces/IEvent';
 import { ITbtResource } from '../interfaces/ITbtResource';
 import { IAnnouncement } from '../interfaces/IAnnouncement';
-import getCollectionData from '../functions/getCollectionData';
-import { Timestamp, where } from '@react-native-firebase/firestore';
 import sortByDay from '../functions/sortByDay';
 import { ITbtAtHome } from '../interfaces/ITbtAtHome';
 import sortByDate from '../functions/sorting/sortByDate';
@@ -46,8 +44,6 @@ export interface IResourceStorage {
     setTbt: (tbtResources: ITbtResource[]) => void;
     setTbtAtHome: (tbtAtHome: ITbtAtHome[]) => void;
     setAnnouncements: (announcements: IAnnouncement[]) => void;
-
-    fetchAllData: () => void;
 }
 
 const resourcesStorage = create<IResourceStorage>((set, get) => ({
@@ -138,68 +134,6 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
                 sortByDate<IAnnouncement>(a, b, 'desc'),
             ),
         }),
-
-    fetchAllData: () => {
-        const now = Timestamp.fromDate(new Date());
-
-        Promise.all([
-            getCollectionData<ICourse>('courses'),
-            getCollectionData<IForm>('forms'),
-            getCollectionData<ILeader>('leaders'),
-            getCollectionData<ILifeGroup>('lifegroups'),
-            getCollectionData<IMinistry>('ministries'),
-            getCollectionData<IPassage>('passages'),
-            getCollectionData<IEvent>('events', where('date', '>=', now)),
-            getCollectionData<ITbtResource>('tbtResources'),
-            getCollectionData<ITbtAtHome>('tbtAtHome'),
-            getCollectionData<IAnnouncement>('announcements'),
-        ]).then(
-            ([
-                coursesRef,
-                forms,
-                leaders,
-                lifeGroupsRes,
-                ministries,
-                passages,
-                eventsRes,
-                tbtRes,
-                tbtAtHomeRes,
-                announcementsRes,
-            ]) => {
-                const courses = coursesRef?.sort(sortByOrder<ICourse>) ?? [];
-                const lifeGroups = lifeGroupsRes
-                    ? sortByDay<ILifeGroup>(lifeGroupsRes)
-                    : [];
-                const events =
-                    eventsRes?.sort((a, b) =>
-                        sortByDate<IEvent>(a, b, 'asc'),
-                    ) ?? [];
-                const tbt =
-                    tbtRes?.sort((a, b) =>
-                        sortByDate<ITbtResource>(a, b, 'desc'),
-                    ) ?? [];
-                const tbtAtHome =
-                    tbtAtHomeRes?.sort(sortByAddedDate<ITbtAtHome>) ?? [];
-                const announcements =
-                    announcementsRes?.sort((a, b) =>
-                        sortByDate(a, b, 'desc'),
-                    ) ?? [];
-
-                set({
-                    courses,
-                    forms: forms ?? [],
-                    leaders: leaders ?? [],
-                    lifeGroups,
-                    ministries: ministries ?? [],
-                    passages: passages ?? [],
-                    events,
-                    tbt,
-                    tbtAtHome,
-                    announcements,
-                });
-            },
-        );
-    },
 }));
 
 export default resourcesStorage;
