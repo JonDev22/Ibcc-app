@@ -14,7 +14,6 @@ import {
     onAuthStateChanged,
 } from '@react-native-firebase/auth';
 import userSettings from './storage/userSettings';
-import resourcesStorage from './storage/resourcesStorage';
 import { useEffect, useState } from 'react';
 
 const Tab = createBottomTabNavigator();
@@ -26,8 +25,7 @@ const renderTabBarIcon = (routeName: string, color: Color) => (props: any) => {
 
 function Main() {
     const colorMap = useColorMap();
-    const { setUser, removeUser, setTheme } = userSettings();
-    const { fetchAllData } = resourcesStorage();
+    const { setUser, removeUser } = userSettings();
     const [tempUser, setTempUser] = useState<FirebaseAuthTypes.User | null>(
         null,
     );
@@ -49,11 +47,6 @@ function Main() {
             removeUser();
         }
     }, [removeUser, setUser, tempUser]);
-
-    useEffect(() => {
-        setTheme('dark');
-        fetchAllData();
-    }, [fetchAllData, setTheme]);
 
     return (
         <Tab.Navigator
