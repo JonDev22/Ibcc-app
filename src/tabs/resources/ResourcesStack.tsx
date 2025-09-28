@@ -8,11 +8,61 @@ import getStackScreenOptions from '../../functions/getStackScreenOptions';
 import TBT from './stacks/tbt/TBT';
 import useColorMap from '../../hooks/useColorMap';
 import TbtAtHome from './stacks/TbtAtHome/TbtAtHome';
+import resourcesStorage from '../../storage/resourcesStorage';
+import { useEffect } from 'react';
+import getCollectionData from '../../functions/getCollectionData';
+import { ITbtResource } from '../../interfaces/ITbtResource';
+import { ICourse } from '../../interfaces/ICourse';
+import { IForm } from '../../interfaces/IForm';
+import { ITbtAtHome } from '../../interfaces/ITbtAtHome';
 
 const Stack = createNativeStackNavigator<ResourceNavigationParamList>();
 
 function ResourcesStack() {
     const colorMap = useColorMap();
+
+    const {
+        tbt,
+        setTbt,
+        tbtAtHome,
+        setTbtAtHome,
+        courses,
+        setCourses,
+        forms,
+        setForms,
+    } = resourcesStorage();
+
+    useEffect(() => {
+        if (tbt.length === 0) {
+            getCollectionData<ITbtResource>('tbtResources').then(res =>
+                res ? setTbt(res) : null,
+            );
+        }
+        if (courses.length === 0) {
+            getCollectionData<ICourse>('courses').then(res =>
+                res ? setCourses(res) : null,
+            );
+        }
+        if (tbtAtHome.length === 0) {
+            getCollectionData<ITbtAtHome>('tbtAtHome').then(res =>
+                res ? setTbtAtHome(res) : null,
+            );
+        }
+        if (forms.length === 0) {
+            getCollectionData<IForm>('forms').then(res =>
+                res ? setForms(res) : null,
+            );
+        }
+    }, [
+        courses.length,
+        forms.length,
+        setCourses,
+        setForms,
+        setTbt,
+        setTbtAtHome,
+        tbt.length,
+        tbtAtHome.length,
+    ]);
 
     return (
         <Stack.Navigator
