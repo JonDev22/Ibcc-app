@@ -67,7 +67,7 @@ function TbtAtHome() {
                     renderItem={({ item }) => (
                         <InfoCard
                             image="users"
-                            text={`TBT@Home in ${item.passage}`}
+                            text={`${item.passage}`}
                             header={item.title}
                             onPress={() => handlePress(item.resource)}
                             headerLeft
