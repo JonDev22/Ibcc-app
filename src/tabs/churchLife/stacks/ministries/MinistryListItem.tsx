@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
-import { colors } from '../../../../theme/colors';
 import { IMinistry } from '../../../../interfaces/IMinistry';
 import getIconFromString from '../../../../functions/getIconFromString';
 import useStyle from '../../../../hooks/useStyle';
 import useColorMap from '../../../../hooks/useColorMap';
+import composeMail from '../../../../functions/composeMail';
 
 function MinistryListItem({ ministry }: { ministry: IMinistry }) {
     const generateStyle = useStyle();
@@ -22,8 +22,12 @@ function MinistryListItem({ ministry }: { ministry: IMinistry }) {
     const subTitleStyle = generateStyle('fontXS', 'weight500');
     const textStyle = generateStyle('fontXS');
 
+    const handleTouch = () => {
+        composeMail('admin@ibc-cologne.com', ministry.name, ministry.name);
+    };
+
     return (
-        <View style={cardStyle}>
+        <TouchableOpacity style={cardStyle} onPress={handleTouch}>
             <View style={styles.centeredView}>
                 <FontAwesome
                     name={getIconFromString(ministry.icon)}
@@ -35,7 +39,7 @@ function MinistryListItem({ ministry }: { ministry: IMinistry }) {
             <Text style={subTitleStyle}>Leader: {ministry.leader}</Text>
             <Text style={textStyle}>Time: {ministry.time}</Text>
             <Text style={textStyle}>Responsibility: {ministry.task}</Text>
-        </View>
+        </TouchableOpacity>
     );
 }
 

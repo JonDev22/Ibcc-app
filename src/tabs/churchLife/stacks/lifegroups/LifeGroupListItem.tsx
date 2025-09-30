@@ -1,9 +1,10 @@
 import { FontAwesome } from '@react-native-vector-icons/fontawesome';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ILifeGroup } from '../../../../interfaces/ILifeGroup';
 import { colors } from '../../../../theme/colors';
 import useStyle from '../../../../hooks/useStyle';
 import useColorMap from '../../../../hooks/useColorMap';
+import composeMail from '../../../../functions/composeMail';
 
 interface LifeGroupItemProps {
     group: ILifeGroup;
@@ -16,8 +17,16 @@ function LifeGroupItem({ group }: LifeGroupItemProps) {
     const textStyle = generateStyle('fontS');
     const locationStyle = generateStyle('fontM', 'primary', 'weight600');
 
+    const handleTouch = () => {
+        composeMail(
+            'admin@ibc-cologne.com',
+            'Life Group',
+            `${group.name}, ${group.contact}, ${group.location}`,
+        );
+    };
+
     return (
-        <View style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={handleTouch}>
             <Text style={locationStyle}>{group.name}</Text>
             <View style={styles.customSpacer} />
             <View style={styles.view}>
@@ -36,7 +45,7 @@ function LifeGroupItem({ group }: LifeGroupItemProps) {
                 <FontAwesome name="phone" size={14} color={colors.orchid} />
                 <Text style={textStyle}>Contact: {group.contact}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 

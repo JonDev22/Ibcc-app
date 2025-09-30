@@ -15,6 +15,7 @@ import Logout from './Logout';
 import saveSystemSettings from '../../functions/saveSystemSettings';
 import { sizeType } from '../../types/sizeTypes';
 import userSettings from '../../storage/userSettings';
+import Spacer from '../../components/Spacer';
 
 function SettingsView() {
     const generateStyle = useStyle();
@@ -73,6 +74,7 @@ function SettingsView() {
                             onValueChange={setStorageTheme}
                         />
                     </View>
+                    <Spacer />
 
                     <View style={styles.settingsView}>
                         <Text style={settingsText}>Dark Mode:</Text>
@@ -106,10 +108,12 @@ function SettingsView() {
                             ))}
                         </View>
                     </View>
+                    <Spacer />
 
                     <View style={styles.settingsView}>
                         <Text style={settingsText}>Login:</Text>
                     </View>
+                    <Spacer />
 
                     <Text style={touchableTextSize}>
                         Login is designed for admins only!

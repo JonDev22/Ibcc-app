@@ -15,4 +15,5 @@ export interface ICourse {
         [key: string]: string;
     };
     sortOrder: number;
+    linkToPw?: string;
 }

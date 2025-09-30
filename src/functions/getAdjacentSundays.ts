@@ -1,8 +1,8 @@
 import { IPassage } from '../interfaces/IPassage';
 
 function getAdjacentSundays(passages: IPassage[]): {
-    prev: IPassage;
-    next: IPassage;
+    prev: IPassage | undefined;
+    next: IPassage | undefined;
 } {
     const today = new Date();
 
