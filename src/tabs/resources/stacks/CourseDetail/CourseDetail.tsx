@@ -1,6 +1,14 @@
 import { RouteProp } from '@react-navigation/native';
 import { ResourceNavigationParamList } from '../../types/navigationTypes';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    ScrollView,
+    FlatList,
+    Linking,
+    TouchableOpacity,
+} from 'react-native';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
 import { mainStyles } from '../../../../styles/mainStyle';
 import DownloadButton from './DownloadButton';
@@ -9,6 +17,7 @@ import ResourceListView from './ResourceListView';
 import sortByNumOfText from '../../../../functions/sortByNumOfText';
 import useStyle from '../../../../hooks/useStyle';
 import useColorMap from '../../../../hooks/useColorMap';
+import { colors } from '../../../../theme/colors';
 
 type CourseDetailRouteProp = RouteProp<
     ResourceNavigationParamList,
@@ -35,6 +44,11 @@ function CourseDetail({ route }: CourseDetailProps) {
     const headerStye = generateStyle('font2XL', 'bold');
     const titleStye = generateStyle('fontL', 'bold');
     const textStyle = generateStyle('textJustify', 'textLine20');
+    const textStyleTouchable = generateStyle(
+        'textJustify',
+        'textLine20',
+        'bgTransparent',
+    );
 
     return (
         <View style={generateStyle('hMinMax')}>
@@ -66,14 +80,48 @@ function CourseDetail({ route }: CourseDetailProps) {
                     <Text style={textStyle}>{item.description}</Text>
                 </View>
 
-                <DownloadButton text={'Complete Course'} url={item.course} />
+                {item.linkToPw && (
+                    <View style={styles.centeredView}>
+                        <Text style={titleStye}>Guided Course</Text>
+                        <Text style={textStyle}>
+                            We encourage everyone to complete each course with
+                            the guidance of a mentor. Our desire is to help you
+                            grow in knowing Jesus, becoming like Him, and
+                            participating in His mission. Guided courses are
+                            available on the Pathwright platform, which you can
+                            access using the link below.
+                        </Text>
+                        <TouchableOpacity
+                            style={styles.pressableStyle}
+                            onPress={() => Linking.openURL(item.linkToPw ?? '')}
+                        >
+                            <Text style={textStyleTouchable}>
+                                Link To Pathwright
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+
+                <View style={styles.centeredView}>
+                    <Text style={titleStye}>Course PDF</Text>
+                    <Text style={textStyle}>
+                        A simplified PDF version of the course is available via
+                        the link below.
+                    </Text>
+                    <DownloadButton
+                        text={'Complete Course'}
+                        url={item.course}
+                    />
+                </View>
+
                 <Spacer />
 
                 {resources && (
                     <View style={styles.centeredView}>
                         <Text style={titleStye}>Appendixes</Text>
                         <Text style={textStyle}>
-                            These are resources you need for the course.
+                            The following materials are required to complete the
+                            course.
                         </Text>
                         <FlatList
                             data={sortByNumOfText(resources)}
@@ -94,9 +142,9 @@ function CourseDetail({ route }: CourseDetailProps) {
                     <ResourceListView
                         items={externalResources}
                         header="External resources"
-                        text="We cannot provide external resources. If you are
-                interested in the course and need access to all
-                resources, please talk to your mentor."
+                        text="We’re unable to provide external resources directly.
+                            If you're interested in the course and need full access
+                            to all materials, please reach out to your mentor for support."
                     />
                 )}
 
@@ -104,7 +152,7 @@ function CourseDetail({ route }: CourseDetailProps) {
                     <ResourceListView
                         items={relatedResources}
                         header="Related resources"
-                        text="Related resources are related to the course, but not mandatory to complete the course."
+                        text="Related resources complement the course but are not required to complete it."
                     />
                 )}
 
@@ -127,5 +175,14 @@ const styles = StyleSheet.create({
     },
     flatList: {
         flexGrow: 0,
+    },
+    pressableStyle: {
+        backgroundColor: colors.petrolBlue,
+        flexDirection: 'row',
+        padding: 10,
+        alignItems: 'center',
+        gap: 10,
+        borderRadius: 20,
+        marginTop: 20,
     },
 });
