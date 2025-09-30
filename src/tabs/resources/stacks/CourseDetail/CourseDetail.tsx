@@ -48,6 +48,7 @@ function CourseDetail({ route }: CourseDetailProps) {
         'textJustify',
         'textLine20',
         'bgTransparent',
+        'textWhite',
     );
 
     return (

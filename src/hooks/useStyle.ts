@@ -1,5 +1,6 @@
 import useColorMap from './useColorMap';
 import userSettings from '../storage/userSettings';
+import { colors } from '../theme/colors';
 
 const useStyle = () => {
     const colorMap = useColorMap();
@@ -100,6 +101,7 @@ const useStyle = () => {
         primary: { color: colorMap.primary },
         secondary: { color: colorMap.secondary },
         third: { color: colorMap.third },
+        textWhite: { color: colors.white100 },
 
         bgTransparent: {
             backgroundColor: 'transparent',
