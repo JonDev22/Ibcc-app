@@ -34,6 +34,9 @@ export interface IResourceStorage {
     removeAnnouncement: (event: IAnnouncement) => void;
     editAnnouncement: (event: IAnnouncement) => void;
 
+    addTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
+    removeTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
+
     setCourses: (courses: ICourse[]) => void;
     setForms: (forms: IForm[]) => void;
     setLeaders: (leaders: ILeader[]) => void;
@@ -110,6 +113,27 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
                 item.id === announcement.id ? announcement : item,
             ),
         }));
+    },
+
+    addTbtAtHome: (tbtAtHome: ITbtAtHome) => {
+        set({
+            tbtAtHome: [...get().tbtAtHome, tbtAtHome].sort(
+                sortByAddedDate<ITbtAtHome>,
+            ),
+        });
+    },
+
+    removeTbtAtHome: (tbtAtHome: ITbtAtHome) => {
+        set({
+            tbtAtHome: get().tbtAtHome.filter(
+                item =>
+                    !(
+                        item.id === tbtAtHome.id &&
+                        item.passage === tbtAtHome.passage &&
+                        item.title === tbtAtHome.title
+                    ),
+            ),
+        });
     },
 
     setCourses: (courses: ICourse[]) =>

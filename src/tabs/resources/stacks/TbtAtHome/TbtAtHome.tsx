@@ -5,6 +5,7 @@ import {
     ScrollView,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View,
 } from 'react-native';
 import Separator from '../../../../functions/Separator';
@@ -13,6 +14,11 @@ import fetchFileFromStorage from '../../../../functions/database/fetchFileFromSt
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
 import resourcesStorage from '../../../../storage/resourcesStorage';
+import userSettings from '../../../../storage/userSettings';
+import useColorMap from '../../../../hooks/useColorMap';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationType } from '../../types/navigationProps';
+import deleteTbtAtHomeEntry from '../../../../functions/database/deleteTbtAtHomeEntry';
 
 function ListItem({ item }: { item: { text: string } }) {
     const generateStyle = useStyle();
@@ -21,7 +27,11 @@ function ListItem({ item }: { item: { text: string } }) {
 }
 
 function TbtAtHome() {
-    const { tbtAtHome } = resourcesStorage();
+    const { tbtAtHome, removeTbtAtHome } = resourcesStorage();
+    const { user } = userSettings();
+    const colorMap = useColorMap();
+
+    const navigation = useNavigation<NavigationType<'TBT@Home'>>();
 
     const generateStyle = useStyle();
 
@@ -48,6 +58,10 @@ function TbtAtHome() {
         'fontS',
     );
 
+    const handleAddEvent = () => {
+        navigation.navigate('New TBT At Home Resource', {});
+    };
+
     return (
         <View style={containerStyle}>
             <ScrollView style={styles.container}>
@@ -72,12 +86,56 @@ function TbtAtHome() {
                             onPress={() => handlePress(item.resource)}
                             headerLeft
                             buttonText="Download"
+                            deletable={user !== null}
+                            deletableAction={() => {
+                                Alert.alert(
+                                    'Delete Resource',
+                                    'Are you sure you want to delete this resource?',
+                                    [
+                                        {
+                                            text: 'Cancel',
+                                            style: 'cancel',
+                                        },
+                                        {
+                                            text: 'Delete',
+                                            style: 'destructive',
+                                            onPress: () => {
+                                                deleteTbtAtHomeEntry(item).then(
+                                                    res => {
+                                                        if (res) {
+                                                            removeTbtAtHome(
+                                                                item,
+                                                            );
+                                                        } else {
+                                                            Alert.alert(
+                                                                'Error deleting resource',
+                                                            );
+                                                        }
+                                                    },
+                                                );
+                                            },
+                                        },
+                                    ],
+                                );
+                            }}
                         />
                     )}
                     scrollEnabled={false}
                     ItemSeparatorComponent={Spacer}
                 />
             </ScrollView>
+
+            {user && (
+                <TouchableOpacity
+                    style={{
+                        ...styles.fab,
+                        backgroundColor: colorMap.secondary,
+                    }}
+                    onPress={handleAddEvent}
+                >
+                    <Text style={{ color: colorMap.color }}>+</Text>
+                </TouchableOpacity>
+            )}
         </View>
     );
 }
@@ -95,4 +153,14 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     list: { padding: 15 },
+    fab: {
+        position: 'absolute',
+        bottom: 30,
+        right: 30,
+        width: 50,
+        height: 50,
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });

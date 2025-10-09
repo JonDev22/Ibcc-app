@@ -1,4 +1,5 @@
 import { ICourse } from '../../../interfaces/ICourse';
+import { ITbtAtHome } from '../../../interfaces/ITbtAtHome';
 
 export type ResourceNavigationParamList = {
     Resources: undefined;
@@ -9,4 +10,5 @@ export type ResourceNavigationParamList = {
         item: ICourse;
     };
     Forms: undefined;
+    'New TBT At Home Resource': { tbtAtHome?: ITbtAtHome };
 };
