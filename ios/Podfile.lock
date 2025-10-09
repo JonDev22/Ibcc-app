@@ -1198,42 +1198,42 @@ PODS:
   - DoubleConversion (1.1.6)
   - fast_float (8.0.0)
   - FBLazyVector (0.81.0)
-  - Firebase/Auth (12.2.0):
+  - Firebase/Auth (12.3.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (~> 12.2.0)
-  - Firebase/CoreOnly (12.2.0):
-    - FirebaseCore (~> 12.2.0)
-  - Firebase/Firestore (12.2.0):
+    - FirebaseAuth (~> 12.3.0)
+  - Firebase/CoreOnly (12.3.0):
+    - FirebaseCore (~> 12.3.0)
+  - Firebase/Firestore (12.3.0):
     - Firebase/CoreOnly
-    - FirebaseFirestore (~> 12.2.0)
-  - Firebase/Storage (12.2.0):
+    - FirebaseFirestore (~> 12.3.0)
+  - Firebase/Storage (12.3.0):
     - Firebase/CoreOnly
-    - FirebaseStorage (~> 12.2.0)
-  - FirebaseAppCheckInterop (12.2.0)
-  - FirebaseAuth (12.2.0):
-    - FirebaseAppCheckInterop (~> 12.2.0)
-    - FirebaseAuthInterop (~> 12.2.0)
-    - FirebaseCore (~> 12.2.0)
-    - FirebaseCoreExtension (~> 12.2.0)
+    - FirebaseStorage (~> 12.3.0)
+  - FirebaseAppCheckInterop (12.3.0)
+  - FirebaseAuth (12.3.0):
+    - FirebaseAppCheckInterop (~> 12.3.0)
+    - FirebaseAuthInterop (~> 12.3.0)
+    - FirebaseCore (~> 12.3.0)
+    - FirebaseCoreExtension (~> 12.3.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
     - GoogleUtilities/Environment (~> 8.1)
     - GTMSessionFetcher/Core (< 6.0, >= 3.4)
     - RecaptchaInterop (~> 101.0)
-  - FirebaseAuthInterop (12.2.0)
-  - FirebaseCore (12.2.0):
-    - FirebaseCoreInternal (~> 12.2.0)
+  - FirebaseAuthInterop (12.3.0)
+  - FirebaseCore (12.3.0):
+    - FirebaseCoreInternal (~> 12.3.0)
     - GoogleUtilities/Environment (~> 8.1)
     - GoogleUtilities/Logger (~> 8.1)
-  - FirebaseCoreExtension (12.2.0):
-    - FirebaseCore (~> 12.2.0)
-  - FirebaseCoreInternal (12.2.0):
+  - FirebaseCoreExtension (12.3.0):
+    - FirebaseCore (~> 12.3.0)
+  - FirebaseCoreInternal (12.3.0):
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
-  - FirebaseFirestore (12.2.0):
-    - FirebaseCore (~> 12.2.0)
-    - FirebaseCoreExtension (~> 12.2.0)
-    - FirebaseFirestoreInternal (~> 12.2.0)
-    - FirebaseSharedSwift (~> 12.2.0)
-  - FirebaseFirestoreInternal (12.2.0):
+  - FirebaseFirestore (12.3.0):
+    - FirebaseCore (~> 12.3.0)
+    - FirebaseCoreExtension (~> 12.3.0)
+    - FirebaseFirestoreInternal (~> 12.3.0)
+    - FirebaseSharedSwift (~> 12.3.0)
+  - FirebaseFirestoreInternal (12.3.0):
     - abseil/algorithm (~> 1.20240722.0)
     - abseil/base (~> 1.20240722.0)
     - abseil/container/flat_hash_map (~> 1.20240722.0)
@@ -1242,18 +1242,18 @@ PODS:
     - abseil/strings/strings (~> 1.20240722.0)
     - abseil/time (~> 1.20240722.0)
     - abseil/types (~> 1.20240722.0)
-    - FirebaseAppCheckInterop (~> 12.2.0)
-    - FirebaseCore (~> 12.2.0)
+    - FirebaseAppCheckInterop (~> 12.3.0)
+    - FirebaseCore (~> 12.3.0)
     - "gRPC-C++ (~> 1.69.0)"
     - gRPC-Core (~> 1.69.0)
     - leveldb-library (~> 1.22)
     - nanopb (~> 3.30910.0)
-  - FirebaseSharedSwift (12.2.0)
-  - FirebaseStorage (12.2.0):
-    - FirebaseAppCheckInterop (~> 12.2.0)
-    - FirebaseAuthInterop (~> 12.2.0)
-    - FirebaseCore (~> 12.2.0)
-    - FirebaseCoreExtension (~> 12.2.0)
+  - FirebaseSharedSwift (12.3.0)
+  - FirebaseStorage (12.3.0):
+    - FirebaseAppCheckInterop (~> 12.3.0)
+    - FirebaseAuthInterop (~> 12.3.0)
+    - FirebaseCore (~> 12.3.0)
+    - FirebaseCoreExtension (~> 12.3.0)
     - GoogleUtilities/Environment (~> 8.1)
     - GTMSessionFetcher/Core (< 6.0, >= 3.4)
   - fmt (11.0.2)
@@ -3092,37 +3092,7 @@ PODS:
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
     - SocketRocket
-  - react-native-safe-area-context (5.6.0):
-    - boost
-    - DoubleConversion
-    - fast_float
-    - fmt
-    - glog
-    - hermes-engine
-    - RCT-Folly
-    - RCT-Folly/Fabric
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-ImageManager
-    - React-jsi
-    - react-native-safe-area-context/common (= 5.6.0)
-    - react-native-safe-area-context/fabric (= 5.6.0)
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - SocketRocket
-    - Yoga
-  - react-native-safe-area-context/common (5.6.0):
+  - react-native-document-picker (10.1.7):
     - boost
     - DoubleConversion
     - fast_float
@@ -3150,7 +3120,65 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - react-native-safe-area-context/fabric (5.6.0):
+  - react-native-safe-area-context (5.6.1):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - react-native-safe-area-context/common (= 5.6.1)
+    - react-native-safe-area-context/fabric (= 5.6.1)
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
+  - react-native-safe-area-context/common (5.6.1):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
+  - react-native-safe-area-context/fabric (5.6.1):
     - boost
     - DoubleConversion
     - fast_float
@@ -3716,7 +3744,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNDateTimePicker (8.4.4):
+  - RNDateTimePicker (8.4.5):
     - boost
     - DoubleConversion
     - fast_float
@@ -3744,22 +3772,22 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNFBApp (23.3.0):
-    - Firebase/CoreOnly (= 12.2.0)
+  - RNFBApp (23.4.0):
+    - Firebase/CoreOnly (= 12.3.0)
     - React-Core
-  - RNFBAuth (23.3.0):
-    - Firebase/Auth (= 12.2.0)
-    - React-Core
-    - RNFBApp
-  - RNFBFirestore (23.3.0):
-    - Firebase/Firestore (= 12.2.0)
+  - RNFBAuth (23.4.0):
+    - Firebase/Auth (= 12.3.0)
     - React-Core
     - RNFBApp
-  - RNFBStorage (23.3.0):
-    - Firebase/Storage (= 12.2.0)
+  - RNFBFirestore (23.4.0):
+    - Firebase/Firestore (= 12.3.0)
     - React-Core
     - RNFBApp
-  - RNScreens (4.13.1):
+  - RNFBStorage (23.4.0):
+    - Firebase/Storage (= 12.3.0)
+    - React-Core
+    - RNFBApp
+  - RNScreens (4.16.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -3786,10 +3814,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNScreens/common (= 4.13.1)
+    - RNScreens/common (= 4.16.0)
     - SocketRocket
     - Yoga
-  - RNScreens/common (4.13.1):
+  - RNScreens/common (4.16.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -3818,7 +3846,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNSVG (15.12.1):
+  - RNSVG (15.14.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -3844,10 +3872,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNSVG/common (= 15.12.1)
+    - RNSVG/common (= 15.14.0)
     - SocketRocket
     - Yoga
-  - RNSVG/common (15.12.1):
+  - RNSVG/common (15.14.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -3921,6 +3949,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
+  - "react-native-document-picker (from `../node_modules/@react-native-documents/picker`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-track-player (from `../node_modules/react-native-track-player`)
   - "react-native-vector-icons-fontawesome (from `../node_modules/@react-native-vector-icons/fontawesome`)"
@@ -4072,6 +4101,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   React-microtasksnativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
+  react-native-document-picker:
+    :path: "../node_modules/@react-native-documents/picker"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-track-player:
@@ -4164,17 +4195,17 @@ SPEC CHECKSUMS:
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   fast_float: b32c788ed9c6a8c584d114d0047beda9664e7cc6
   FBLazyVector: a867936a67af0d09c37935a1b900a1a3c795b6d1
-  Firebase: 26f6f8d460603af3df970ad505b16b15f5e2e9a1
-  FirebaseAppCheckInterop: a1b2598c64c5a8c42fd6f6a1c3d0938ae4324678
-  FirebaseAuth: 059c11702bdb759bb49b6c7ec6ff67abf21f39c4
-  FirebaseAuthInterop: 217702acd4cc6baa98ba9d6c054532e0de0b8a16
-  FirebaseCore: 311c48a147ad4a0ab7febbaed89e8025c67510cd
-  FirebaseCoreExtension: 73af080c22a2f7b44cefa391dc08f7e4ee162cb5
-  FirebaseCoreInternal: 56ea29f3dad2894f81b060f706f9d53509b6ed3b
-  FirebaseFirestore: 2baa1360623e942007726627653d43a5bc618ba8
-  FirebaseFirestoreInternal: 6506aef21ac270bf137c34cd7283723d930eddb0
-  FirebaseSharedSwift: 52d868d4c269fcb4e4e1310c548435a9c1f46e25
-  FirebaseStorage: f1578d57e1fd3683fc05f5d4d7b24b7490b321ac
+  Firebase: f5439b235721ceeef14ca1f327c0da8e4e8556b5
+  FirebaseAppCheckInterop: 3a8527abb8bb89fb1bd2bd3d1d7b463c0ceb0cbf
+  FirebaseAuth: 4fdd7ee2da745f79145124f5191639d2ea756a77
+  FirebaseAuthInterop: a7c394818a93d374c543ca085f3a46ab7c71372e
+  FirebaseCore: ff47fe1ad3ab9ef66edd3e8bc4647b493d2067f8
+  FirebaseCoreExtension: 898ca55c7cb126f83747b32cb0daa95394b10853
+  FirebaseCoreInternal: a9e1ff270f217489d9258563b693d11a312903bf
+  FirebaseFirestore: 93138b63239303eeb035d922920f4e48216f0c2d
+  FirebaseFirestoreInternal: 81150153b7b25b5eee4633cc5c7f08ab83bda966
+  FirebaseSharedSwift: a08758c5e2617f3ebb47865b45ecca6f02cd35ea
+  FirebaseStorage: 23c8869d6e9d93f159766c4f81f6ead6410aff4f
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
@@ -4217,7 +4248,8 @@ SPEC CHECKSUMS:
   React-logger: 04ce9229cb57db2c2a8164eaec1105f89da7fb22
   React-Mapbuffer: ed316571f8a6368a044c166dd62db3ff9a19ade9
   React-microtasksnativemodule: 7349a9210ff1fe97f54025fbda2496ed9a2d43cd
-  react-native-safe-area-context: 0ef3fd18fd5822fa1a58516b3f11a7927f91376e
+  react-native-document-picker: fcceda5fcafde00ebe4ab89439ea2d5433db7986
+  react-native-safe-area-context: 4fe3c427e047bc2c1b447bd4ec9a92969a4a7d00
   react-native-track-player: dd56f9948e03756a217c75e0a61aa04aab65b5a1
   react-native-vector-icons-fontawesome: c41fd08991989b71fe79c68ebb3ee30ac221178e
   React-NativeModulesApple: 9c2ece8c6e423b2a13c9c50d2ed25953379cbe4e
@@ -4252,13 +4284,13 @@ SPEC CHECKSUMS:
   ReactCommon: 5ee89f5eec706805c432ed5b598adcd4e5aaa088
   RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
   RNCAsyncStorage: 4aee028c2f82c9d45d3ba877996b5e72b1a752ad
-  RNDateTimePicker: 4f0c63a200ecc75a72defef40b86d6f4abb2faaa
-  RNFBApp: 5db6fcf6d4d53425ad1fbac33143a54a4112cebb
-  RNFBAuth: d02946a16054e698aa173abb390a8984b6449fc3
-  RNFBFirestore: 35decd8bb96f14b956fa7ad211ac622e5a9da2a4
-  RNFBStorage: b0a84e96745fcea2fa983f6c6e87c6aaf8752e56
-  RNScreens: 0d3015061927272749a25761ad3aefcb8e834e22
-  RNSVG: cb0941a452db697635e0b13d74fece27a8df20fc
+  RNDateTimePicker: 6159d72342e017a784783083f2af0e3c7b18c93d
+  RNFBApp: 0211ae65fadcb017cc787b2bd539847330687b93
+  RNFBAuth: 867bf4293ca2d48c7266d9eff9e970f882331578
+  RNFBFirestore: bde0e0ad46387b6e88fdefa530fcdcba0468c538
+  RNFBStorage: 5c21c866bfd7c9e1c0c2f25d5de1a424b83f620e
+  RNScreens: f12d06e7aa168867438241a68591d992186b5124
+  RNSVG: 6a938126164725de314428e62c26b2a1142c5fd3
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   SwiftAudioEx: f6aa653770f3a0d3851edaf8d834a30aee4a7646
   Yoga: be78ddad0c56d06a5e41eaef4bfbbd49b86a4d07
