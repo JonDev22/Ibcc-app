@@ -15,6 +15,20 @@ import {
 } from '@react-native-firebase/auth';
 import userSettings from './storage/userSettings';
 import { useEffect, useState } from 'react';
+import {
+    AuthorizationStatus,
+    getMessaging,
+    getToken,
+    onMessage,
+    requestPermission,
+    subscribeToTopic,
+} from '@react-native-firebase/messaging';
+import { Alert, Platform } from 'react-native';
+import { getApp } from '@react-native-firebase/app';
+import { IAnnouncement } from './interfaces/IAnnouncement';
+import { IEvent } from './interfaces/IEvent';
+import { subscribeToCollection } from './hooks/subscribeToCollection';
+import resourcesStorage from './storage/resourcesStorage';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +43,7 @@ function Main() {
     const [tempUser, setTempUser] = useState<FirebaseAuthTypes.User | null>(
         null,
     );
+    const { setAnnouncements, setEvents } = resourcesStorage();
 
     const auth = getAuth();
     onAuthStateChanged(auth, user => {
@@ -47,6 +62,80 @@ function Main() {
             removeUser();
         }
     }, [removeUser, setUser, tempUser]);
+
+    useEffect(() => {
+        const app = getApp();
+        const messagingInstance = getMessaging(app);
+
+        const setupFCM = async () => {
+            try {
+                if (Platform.OS === 'ios') {
+                    const authStatus = await requestPermission(
+                        messagingInstance,
+                    );
+                    const enable =
+                        authStatus === AuthorizationStatus.AUTHORIZED ||
+                        authStatus === AuthorizationStatus.PROVISIONAL;
+
+                    if (!enable) {
+                        return;
+                    }
+                }
+
+                const token = await getToken(messagingInstance);
+                console.log(token);
+
+                await subscribeToTopic(messagingInstance, 'events');
+                console.log('Subscribed to topic: events');
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        setupFCM();
+
+        const unsubscribe = onMessage(
+            messagingInstance,
+            async remoteMessage => {
+                Alert.alert(
+                    'A new FCM message arrived!',
+                    JSON.stringify(remoteMessage),
+                );
+            },
+        );
+
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        subscribeToCollection<IAnnouncement>(
+            'announcements',
+            doc => {
+                const data = doc.data();
+                return {
+                    id: doc.id,
+                    ...data,
+                } as IAnnouncement;
+            },
+            items => {
+                setAnnouncements(items);
+            },
+        );
+
+        subscribeToCollection<IEvent>(
+            'events',
+            doc => {
+                const data = doc.data();
+                return {
+                    id: doc.id,
+                    ...data,
+                } as IEvent;
+            },
+            items => {
+                setEvents(items);
+            },
+        );
+    }, [setAnnouncements, setEvents]);
 
     return (
         <Tab.Navigator
