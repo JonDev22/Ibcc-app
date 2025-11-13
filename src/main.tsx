@@ -45,14 +45,20 @@ function Main() {
     );
     const { setAnnouncements, setEvents } = resourcesStorage();
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, user => {
-        if (user?.email) {
-            setTempUser(user);
-        } else {
-            setTempUser(null);
-        }
-    });
+    useEffect(() => {
+        const auth = getAuth();
+        const authStateSetup = onAuthStateChanged(auth, user => {
+            if (user?.email) {
+                setTempUser(user);
+            } else {
+                setTempUser(null);
+            }
+        });
+
+        return () => {
+            authStateSetup();
+        };
+    }, [setTempUser]);
 
     // Necessary effect call - Seemingly obsolete, but setting the user in onAuthStateChanged method causes the app to rerender forever. To prevent this, an extra state for this component needed to be set.
     useEffect(() => {
@@ -83,32 +89,33 @@ function Main() {
                 }
 
                 const token = await getToken(messagingInstance);
-                console.log(token);
+                console.log('FCM Token:', token);
 
                 await subscribeToTopic(messagingInstance, 'events');
-                console.log('Subscribed to topic: events');
+                await subscribeToTopic(messagingInstance, 'announcements');
+                console.log('Subscribed to topics: events, announcements');
             } catch (error) {
-                console.error(error);
+                console.error('FCM Setup Error:', error);
             }
         };
 
         setupFCM();
 
-        const unsubscribe = onMessage(
-            messagingInstance,
-            async remoteMessage => {
-                Alert.alert(
-                    'A new FCM message arrived!',
-                    JSON.stringify(remoteMessage),
-                );
-            },
-        );
+        // Handle foreground messages
+        const unsubscribe = onMessage(messagingInstance, remoteMessage => {
+            console.log('FCM Foreground Message:', remoteMessage);
+            
+            const title = remoteMessage.notification?.title || 'New Message';
+            const body = remoteMessage.notification?.body || 'You have a new notification';
+            
+            Alert.alert(title, body);
+        });
 
         return () => unsubscribe();
     }, []);
 
     useEffect(() => {
-        subscribeToCollection<IAnnouncement>(
+        const subToAnnouncements = subscribeToCollection<IAnnouncement>(
             'announcements',
             doc => {
                 const data = doc.data();
@@ -122,7 +129,7 @@ function Main() {
             },
         );
 
-        subscribeToCollection<IEvent>(
+        const subToEvents = subscribeToCollection<IEvent>(
             'events',
             doc => {
                 const data = doc.data();
@@ -135,6 +142,11 @@ function Main() {
                 setEvents(items);
             },
         );
+
+        return () => {
+            subToAnnouncements();
+            subToEvents();
+        };
     }, [setAnnouncements, setEvents]);
 
     return (

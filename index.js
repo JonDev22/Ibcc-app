@@ -15,7 +15,14 @@ import {
 
 const messaging = getMessaging(getApp());
 setBackgroundMessageHandler(messaging, async remoteMessage => {
-    console.log('Message handled in the background!', remoteMessage);
+    console.log('Background Message Handler:', {
+        title: remoteMessage.notification?.title,
+        body: remoteMessage.notification?.body,
+        data: remoteMessage.data,
+    });
+    
+    // iOS will display the notification automatically if it has title/body
+    // This handler is mainly for logging and any additional processing
 });
 
 AppRegistry.registerComponent(appName, () => App);
