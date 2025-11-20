@@ -39,11 +39,13 @@ function TbtAtHome() {
         const res = await fetchFileFromStorage(resource);
 
         if (res) {
-            Linking.canOpenURL(res).then(canOpen => {
-                if (canOpen) {
-                    Linking.openURL(res);
-                }
-            });
+            Linking.openURL(res);
+            // Linking.canOpenURL(res).then(canOpen => {
+            //     console.log(canOpen);
+            //     if (canOpen) {
+            //         Linking.openURL(res);
+            //     }
+            // });
         } else {
             Alert.alert('Resource not found');
         }

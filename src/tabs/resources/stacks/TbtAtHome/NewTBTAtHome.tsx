@@ -128,6 +128,7 @@ function NewTbtAtHome({ navigation, route }: NewEventProps) {
                 <TouchableOpacity
                     onPress={() => {
                         pick({ type: 'com.adobe.pdf' })
+                        pick({ type: 'application/pdf' })
                             .then(res => {
                                 if (res && res.length > 0) {
                                     setSelectedFile(res[0]);

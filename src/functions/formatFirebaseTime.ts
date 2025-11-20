@@ -5,7 +5,7 @@ function formatFirebaseTime(timestamp: Timestamp): string {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
-        timeZone: 'UTC+2', // Ignoring potential time zone offsets.
+        timeZone: 'Europe/Berlin', // Ignoring potential time zone offsets.
     }).format(timestamp.toDate());
 }
 
