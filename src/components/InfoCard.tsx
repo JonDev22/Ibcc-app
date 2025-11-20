@@ -15,6 +15,8 @@ interface InfoCardProps {
     onPress: () => void;
     headerLeft?: boolean;
     buttonText?: string;
+    deletable?: boolean;
+    deletableAction?: () => void;
 }
 
 function InfoCard(props: InfoCardProps) {
@@ -43,14 +45,27 @@ function InfoCard(props: InfoCardProps) {
     const getHeader = () => {
         if (props.headerLeft) {
             return (
-                <View style={styles.headerLeftView}>
-                    <FontAwesome
-                        name={props.image}
-                        size={20}
-                        style={styles.biggerIcon}
-                        color={colorMap.primary}
-                    />
-                    <Text style={headerTextLeft}>{props.header}</Text>
+                <View style={styles.headerLeftViewJustify}>
+                    <View style={styles.headerLeftView}>
+                        <FontAwesome
+                            name={props.image}
+                            size={20}
+                            style={styles.biggerIcon}
+                            color={colorMap.primary}
+                        />
+                        <Text style={headerTextLeft}>{props.header}</Text>
+                    </View>
+                    <View>
+                        {props.deletable && (
+                            <TouchableOpacity onPress={props.deletableAction}>
+                                <FontAwesome
+                                    name="trash"
+                                    size={20}
+                                    color={colors.orange}
+                                />
+                            </TouchableOpacity>
+                        )}
+                    </View>
                 </View>
             );
         } else {
@@ -62,7 +77,18 @@ function InfoCard(props: InfoCardProps) {
                         style={mainStyles.circleIcon}
                         color={colorMap.primary}
                     />
-                    <Text style={contentTitle}>{props.header}</Text>
+                    <View style={styles.headerLeftView}>
+                        <Text style={contentTitle}>{props.header}</Text>
+                        {props.deletable && (
+                            <TouchableOpacity onPress={props.deletableAction}>
+                                <FontAwesome
+                                    name="trash"
+                                    size={20}
+                                    color={colors.orange}
+                                />
+                            </TouchableOpacity>
+                        )}
+                    </View>
                 </>
             );
         }
@@ -96,8 +122,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         gap: 8,
     },
-    headerLeftView: {
+    headerLeftViewJustify: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
         alignSelf: 'flex-start',
+        width: '100%',
+    },
+    headerLeftView: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10,

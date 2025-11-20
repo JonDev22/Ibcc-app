@@ -15,6 +15,7 @@ import { ITbtResource } from '../../interfaces/ITbtResource';
 import { ICourse } from '../../interfaces/ICourse';
 import { IForm } from '../../interfaces/IForm';
 import { ITbtAtHome } from '../../interfaces/ITbtAtHome';
+import NewTbtAtHome from './stacks/TbtAtHome/NewTBTAtHome';
 
 const Stack = createNativeStackNavigator<ResourceNavigationParamList>();
 
@@ -84,6 +85,11 @@ function ResourcesStack() {
                 options={{ title: '' }}
                 name="Forms"
                 component={Forms}
+            />
+            <Stack.Screen
+                options={{ title: 'New TBT@Home' }}
+                name="New TBT At Home Resource"
+                component={NewTbtAtHome}
             />
         </Stack.Navigator>
     );

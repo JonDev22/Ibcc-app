@@ -30,11 +30,11 @@ function TBT() {
         const res = await fetchFileFromStorage(resource);
 
         if (res) {
-            Linking.canOpenURL(res).then(canOpen => {
-                if (canOpen) {
-                    Linking.openURL(res);
-                }
-            });
+            Linking.openURL(res);
+            // Linking.canOpenURL(res).then(canOpen => {
+            //     if (canOpen) {
+            //     }
+            // });
         } else {
             Alert.alert('Resource not found');
         }

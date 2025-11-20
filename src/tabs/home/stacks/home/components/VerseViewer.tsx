@@ -5,12 +5,14 @@ import formatFirebaseDate from '../../../../../functions/database/formatFirebase
 import useStyle from '../../../../../hooks/useStyle';
 import useColorMap from '../../../../../hooks/useColorMap';
 import resourcesStorage from '../../../../../storage/resourcesStorage';
+import { Timestamp } from '@react-native-firebase/firestore';
 
 interface VerseViewCardProps {
     bgColor: string;
     direction: 'left' | 'right';
     sunday: 'Previous' | 'Next';
     passage: string | undefined;
+    date?: Timestamp;
     style: Record<string, string | number | Record<string, string | number>>;
 }
 
@@ -59,7 +61,7 @@ function VerseViewer() {
                         {props.sunday} Sunday
                     </Text>
                     <Text style={dateStyle}>
-                        {prev ? formatFirebaseDate(prev.date) : 'N/A'}
+                        {props.date ? formatFirebaseDate(props.date) : 'N/A'}
                     </Text>
                     <Text style={generateStyle('fontM', 'bgTransparent')}>
                         {props.passage ?? 'N/A'}
@@ -80,6 +82,7 @@ function VerseViewer() {
                 bgColor: colorMap.lightGray,
                 direction: 'left',
                 passage: prev?.passage,
+                date: prev?.date,
                 sunday: 'Previous',
                 style: styles.frameLeft,
             })}
@@ -88,6 +91,7 @@ function VerseViewer() {
                 bgColor: colorMap.darkGray,
                 direction: 'right',
                 passage: next?.passage,
+                date: next?.date,
                 sunday: 'Next',
                 style: styles.frameRight,
             })}
