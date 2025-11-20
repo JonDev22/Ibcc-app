@@ -25,9 +25,9 @@ import {
 } from '@react-native-firebase/messaging';
 import { Alert, Platform } from 'react-native';
 import { getApp } from '@react-native-firebase/app';
-import { IAnnouncement } from './interfaces/IAnnouncement';
-import { IEvent } from './interfaces/IEvent';
-import { subscribeToCollection } from './hooks/subscribeToCollection';
+// import { IAnnouncement } from './interfaces/IAnnouncement';
+// import { IEvent } from './interfaces/IEvent';
+// import { subscribeToCollection } from './hooks/subscribeToCollection';
 import resourcesStorage from './storage/resourcesStorage';
 
 const Tab = createBottomTabNavigator();
@@ -115,37 +115,37 @@ function Main() {
     }, []);
 
     useEffect(() => {
-        const subToAnnouncements = subscribeToCollection<IAnnouncement>(
-            'announcements',
-            doc => {
-                const data = doc.data();
-                return {
-                    id: doc.id,
-                    ...data,
-                } as IAnnouncement;
-            },
-            items => {
-                setAnnouncements(items);
-            },
-        );
+        // const subToAnnouncements = subscribeToCollection<IAnnouncement>(
+        //     'announcements',
+        //     doc => {
+        //         const data = doc.data();
+        //         return {
+        //             id: doc.id,
+        //             ...data,
+        //         } as IAnnouncement;
+        //     },
+        //     items => {
+        //         setAnnouncements(items);
+        //     },
+        // );
 
-        const subToEvents = subscribeToCollection<IEvent>(
-            'events',
-            doc => {
-                const data = doc.data();
-                return {
-                    id: doc.id,
-                    ...data,
-                } as IEvent;
-            },
-            items => {
-                setEvents(items);
-            },
-        );
+        // const subToEvents = subscribeToCollection<IEvent>(
+        //     'events',
+        //     doc => {
+        //         const data = doc.data();
+        //         return {
+        //             id: doc.id,
+        //             ...data,
+        //         } as IEvent;
+        //     },
+        //     items => {
+        //         setEvents(items);
+        //     },
+        // );
 
         return () => {
-            subToAnnouncements();
-            subToEvents();
+            // subToAnnouncements();
+            // subToEvents();
         };
     }, [setAnnouncements, setEvents]);
 
