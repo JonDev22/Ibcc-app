@@ -7,6 +7,7 @@ import {
     ScrollView,
     Alert,
     TouchableOpacity,
+    Platform,
 } from 'react-native';
 import { Timestamp } from '@react-native-firebase/firestore';
 
@@ -121,14 +122,22 @@ function NewTbtAtHome({ navigation, route }: NewEventProps) {
         'rounded2',
     );
 
+    const getPlatformSpecificType = () => {
+        // iOS uses UTIs, Android uses MIME types
+        if (Platform.OS === 'ios') {
+            return { type: 'com.adobe.pdf' };
+        } else {
+            return { type: 'application/pdf' };
+        }
+    };
+
     return (
         <View style={container}>
             <ScrollView contentContainerStyle={styles.container}>
                 <Text style={textStyle}>Resource (PDF) *</Text>
                 <TouchableOpacity
                     onPress={() => {
-                        pick({ type: 'com.adobe.pdf' })
-                        pick({ type: 'application/pdf' })
+                        pick(getPlatformSpecificType())
                             .then(res => {
                                 if (res && res.length > 0) {
                                     setSelectedFile(res[0]);
