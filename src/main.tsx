@@ -28,7 +28,7 @@ import { getApp } from '@react-native-firebase/app';
 // import { IAnnouncement } from './interfaces/IAnnouncement';
 // import { IEvent } from './interfaces/IEvent';
 // import { subscribeToCollection } from './hooks/subscribeToCollection';
-import resourcesStorage from './storage/resourcesStorage';
+// import resourcesStorage from './storage/resourcesStorage';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,7 +43,7 @@ function Main() {
     const [tempUser, setTempUser] = useState<FirebaseAuthTypes.User | null>(
         null,
     );
-    const { setAnnouncements, setEvents } = resourcesStorage();
+    // const { setAnnouncements, setEvents } = resourcesStorage();
 
     useEffect(() => {
         const auth = getAuth();
@@ -113,7 +113,6 @@ function Main() {
                 }
 
                 const token = await getToken(messagingInstance);
-                console.log('FCM Token:', token);
 
                 // Subscribe to topics if a token exists
                 if (token) {
@@ -123,9 +122,8 @@ function Main() {
                             messagingInstance,
                             'announcements',
                         );
-                        console.log(
-                            'Subscribed to topics: events, announcements',
-                        );
+                        await subscribeToTopic(messagingInstance, 'audios');
+                        await subscribeToTopic(messagingInstance, 'tbtAtHome');
                     } catch (topicErr) {
                         console.warn('Subscribe to topic failed', topicErr);
                     }
