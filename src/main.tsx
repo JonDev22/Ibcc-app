@@ -15,6 +15,20 @@ import {
 } from '@react-native-firebase/auth';
 import userSettings from './storage/userSettings';
 import { useEffect, useState } from 'react';
+import {
+    AuthorizationStatus,
+    getMessaging,
+    getToken,
+    onMessage,
+    requestPermission,
+    subscribeToTopic,
+} from '@react-native-firebase/messaging';
+import { Alert, Platform } from 'react-native';
+import { getApp } from '@react-native-firebase/app';
+// import { IAnnouncement } from './interfaces/IAnnouncement';
+// import { IEvent } from './interfaces/IEvent';
+// import { subscribeToCollection } from './hooks/subscribeToCollection';
+import resourcesStorage from './storage/resourcesStorage';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,15 +43,22 @@ function Main() {
     const [tempUser, setTempUser] = useState<FirebaseAuthTypes.User | null>(
         null,
     );
+    const { setAnnouncements, setEvents } = resourcesStorage();
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, user => {
-        if (user?.email) {
-            setTempUser(user);
-        } else {
-            setTempUser(null);
-        }
-    });
+    useEffect(() => {
+        const auth = getAuth();
+        const authStateSetup = onAuthStateChanged(auth, user => {
+            if (user?.email) {
+                setTempUser(user);
+            } else {
+                setTempUser(null);
+            }
+        });
+
+        return () => {
+            authStateSetup();
+        };
+    }, [setTempUser]);
 
     // Necessary effect call - Seemingly obsolete, but setting the user in onAuthStateChanged method causes the app to rerender forever. To prevent this, an extra state for this component needed to be set.
     useEffect(() => {
@@ -47,6 +68,86 @@ function Main() {
             removeUser();
         }
     }, [removeUser, setUser, tempUser]);
+
+    useEffect(() => {
+        const app = getApp();
+        const messagingInstance = getMessaging(app);
+
+        const setupFCM = async () => {
+            try {
+                if (Platform.OS === 'ios') {
+                    const authStatus = await requestPermission(
+                        messagingInstance,
+                    );
+                    const enable =
+                        authStatus === AuthorizationStatus.AUTHORIZED ||
+                        authStatus === AuthorizationStatus.PROVISIONAL;
+
+                    if (!enable) {
+                        return;
+                    }
+                }
+
+                const token = await getToken(messagingInstance);
+                console.log('FCM Token:', token);
+
+                await subscribeToTopic(messagingInstance, 'events');
+                await subscribeToTopic(messagingInstance, 'announcements');
+                console.log('Subscribed to topics: events, announcements');
+            } catch (error) {
+                console.error('FCM Setup Error:', error);
+            }
+        };
+
+        setupFCM();
+
+        // Handle foreground messages
+        const unsubscribe = onMessage(messagingInstance, remoteMessage => {
+            console.log('FCM Foreground Message:', remoteMessage);
+            
+            const title = remoteMessage.notification?.title || 'New Message';
+            const body = remoteMessage.notification?.body || 'You have a new notification';
+            
+            Alert.alert(title, body);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        // const subToAnnouncements = subscribeToCollection<IAnnouncement>(
+        //     'announcements',
+        //     doc => {
+        //         const data = doc.data();
+        //         return {
+        //             id: doc.id,
+        //             ...data,
+        //         } as IAnnouncement;
+        //     },
+        //     items => {
+        //         setAnnouncements(items);
+        //     },
+        // );
+
+        // const subToEvents = subscribeToCollection<IEvent>(
+        //     'events',
+        //     doc => {
+        //         const data = doc.data();
+        //         return {
+        //             id: doc.id,
+        //             ...data,
+        //         } as IEvent;
+        //     },
+        //     items => {
+        //         setEvents(items);
+        //     },
+        // );
+
+        return () => {
+            // subToAnnouncements();
+            // subToEvents();
+        };
+    }, [setAnnouncements, setEvents]);
 
     return (
         <Tab.Navigator
