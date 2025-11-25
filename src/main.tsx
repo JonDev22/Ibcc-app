@@ -23,7 +23,7 @@ import {
     requestPermission,
     subscribeToTopic,
 } from '@react-native-firebase/messaging';
-import { Alert, Platform } from 'react-native';
+import { Alert, Platform, PermissionsAndroid } from 'react-native';
 import { getApp } from '@react-native-firebase/app';
 // import { IAnnouncement } from './interfaces/IAnnouncement';
 // import { IEvent } from './interfaces/IEvent';
@@ -76,24 +76,64 @@ function Main() {
         const setupFCM = async () => {
             try {
                 if (Platform.OS === 'ios') {
-                    const authStatus = await requestPermission(
-                        messagingInstance,
-                    );
+                    const authStatus =
+                        await requestPermission(messagingInstance);
                     const enable =
                         authStatus === AuthorizationStatus.AUTHORIZED ||
                         authStatus === AuthorizationStatus.PROVISIONAL;
 
                     if (!enable) {
+                        console.log('iOS: notification permission not granted');
                         return;
+                    }
+                } else if (Platform.OS === 'android') {
+                    // Request POST_NOTIFICATIONS for Android 13+
+                    try {
+                        const sdkInt = Platform.Version as number;
+                        if (sdkInt >= 33) {
+                            const granted = await PermissionsAndroid.request(
+                                PermissionsAndroid.PERMISSIONS
+                                    .POST_NOTIFICATIONS,
+                            );
+                            if (
+                                granted !== PermissionsAndroid.RESULTS.GRANTED
+                            ) {
+                                console.log(
+                                    'Android: POST_NOTIFICATIONS not granted',
+                                );
+                                // We continue to get token but notifications won't be shown
+                            }
+                        }
+                    } catch (permErr) {
+                        console.warn(
+                            'Error requesting Android notification permission',
+                            permErr,
+                        );
                     }
                 }
 
                 const token = await getToken(messagingInstance);
                 console.log('FCM Token:', token);
 
-                await subscribeToTopic(messagingInstance, 'events');
-                await subscribeToTopic(messagingInstance, 'announcements');
-                console.log('Subscribed to topics: events, announcements');
+                // Subscribe to topics if a token exists
+                if (token) {
+                    try {
+                        await subscribeToTopic(messagingInstance, 'events');
+                        await subscribeToTopic(
+                            messagingInstance,
+                            'announcements',
+                        );
+                        console.log(
+                            'Subscribed to topics: events, announcements',
+                        );
+                    } catch (topicErr) {
+                        console.warn('Subscribe to topic failed', topicErr);
+                    }
+                } else {
+                    console.warn(
+                        'No FCM token available; skipping topic subscription',
+                    );
+                }
             } catch (error) {
                 console.error('FCM Setup Error:', error);
             }
@@ -104,50 +144,52 @@ function Main() {
         // Handle foreground messages
         const unsubscribe = onMessage(messagingInstance, remoteMessage => {
             console.log('FCM Foreground Message:', remoteMessage);
-            
+
             const title = remoteMessage.notification?.title || 'New Message';
-            const body = remoteMessage.notification?.body || 'You have a new notification';
-            
+            const body =
+                remoteMessage.notification?.body ||
+                'You have a new notification';
+
             Alert.alert(title, body);
         });
 
         return () => unsubscribe();
     }, []);
 
-    useEffect(() => {
-        // const subToAnnouncements = subscribeToCollection<IAnnouncement>(
-        //     'announcements',
-        //     doc => {
-        //         const data = doc.data();
-        //         return {
-        //             id: doc.id,
-        //             ...data,
-        //         } as IAnnouncement;
-        //     },
-        //     items => {
-        //         setAnnouncements(items);
-        //     },
-        // );
+    // useEffect(() => {
+    // const subToAnnouncements = subscribeToCollection<IAnnouncement>(
+    //     'announcements',
+    //     doc => {
+    //         const data = doc.data();
+    //         return {
+    //             id: doc.id,
+    //             ...data,
+    //         } as IAnnouncement;
+    //     },
+    //     items => {
+    //         setAnnouncements(items);
+    //     },
+    // );
 
-        // const subToEvents = subscribeToCollection<IEvent>(
-        //     'events',
-        //     doc => {
-        //         const data = doc.data();
-        //         return {
-        //             id: doc.id,
-        //             ...data,
-        //         } as IEvent;
-        //     },
-        //     items => {
-        //         setEvents(items);
-        //     },
-        // );
+    // const subToEvents = subscribeToCollection<IEvent>(
+    //     'events',
+    //     doc => {
+    //         const data = doc.data();
+    //         return {
+    //             id: doc.id,
+    //             ...data,
+    //         } as IEvent;
+    //     },
+    //     items => {
+    //         setEvents(items);
+    //     },
+    // );
 
-        return () => {
-            // subToAnnouncements();
-            // subToEvents();
-        };
-    }, [setAnnouncements, setEvents]);
+    // return () => {
+    // subToAnnouncements();
+    // subToEvents();
+    // };
+    // }, [setAnnouncements, setEvents]);
 
     return (
         <Tab.Navigator
