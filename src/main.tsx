@@ -21,6 +21,7 @@ import {
     getToken,
     onMessage,
     requestPermission,
+    registerDeviceForRemoteMessages,
     subscribeToTopic,
 } from '@react-native-firebase/messaging';
 import { Alert, Platform, PermissionsAndroid } from 'react-native';
@@ -76,6 +77,13 @@ function Main() {
         const setupFCM = async () => {
             try {
                 if (Platform.OS === 'ios') {
+                    // Ensure the native side registers device for remote messages (APNs)
+                    try {
+                        await registerDeviceForRemoteMessages(messagingInstance);
+                    } catch (regErr) {
+                        console.warn('registerDeviceForRemoteMessages error', regErr);
+                    }
+
                     const authStatus =
                         await requestPermission(messagingInstance);
                     const enable =
@@ -113,6 +121,7 @@ function Main() {
                 }
 
                 const token = await getToken(messagingInstance);
+                // console.log('FCM token:', token);
 
                 // Subscribe to topics if a token exists
                 if (token) {
