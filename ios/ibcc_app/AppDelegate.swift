@@ -1,13 +1,13 @@
 import UIKit
+import UserNotifications
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
 import Firebase
 import FirebaseMessaging
-import UserNotifications
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
   var window: UIWindow?
 
   var reactNativeDelegate: ReactNativeDelegate?
@@ -18,9 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
     FirebaseApp.configure()
-    // Register for remote notifications and set notification delegate
+    // Set UNUserNotificationCenter delegate so we can show notifications when app is foreground
     UNUserNotificationCenter.current().delegate = self
-    application.registerForRemoteNotifications()
+
+    // Register for remote notifications (will prompt permission if not yet granted).
+    // JS side also requests permission; this ensures the device is registered with APNs.
+    DispatchQueue.main.async {
+      UIApplication.shared.registerForRemoteNotifications()
+    }
     
     let delegate = ReactNativeDelegate()
     let factory = RCTReactNativeFactory(delegate: delegate)
@@ -28,9 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     reactNativeDelegate = delegate
     reactNativeFactory = factory
-
-    // Set Firebase Messaging delegate
-    Messaging.messaging().delegate = self
 
     window = UIWindow(frame: UIScreen.main.bounds)
 
@@ -44,20 +46,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 }
 
-extension AppDelegate: UNUserNotificationCenterDelegate {
-  // Handle notification when app is in foreground
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              willPresent notification: UNNotification,
-                              withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    // Show alert, badge and sound when in foreground
-    completionHandler([.badge, .sound, .banner])
+// MARK: - Remote notification handlers
+extension AppDelegate {
+  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    // Pass device token to Firebase Messaging so FCM can associate APNs token
+    Messaging.messaging().apnsToken = deviceToken
   }
 
-  // Handle response to notifications (user tapped)
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              didReceive response: UNNotificationResponse,
-                              withCompletionHandler completionHandler: @escaping () -> Void) {
-    completionHandler()
+  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    NSLog("Failed to register for remote notifications: %s", error.localizedDescription)
+  }
+
+  // Show notifications when app is in foreground
+  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    completionHandler([.banner, .list, .sound, .badge])
   }
 }
 
