@@ -1,14 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { IUser } from '../interfaces/IUser';
 
 export type Theme = 'light' | 'dark';
 export type Size = 'Small' | 'Medium' | 'Large';
 
 interface IUserSettings {
-    user: FirebaseAuthTypes.User | null;
-    setUser: (user: FirebaseAuthTypes.User) => void;
+    user: IUser | null;
+    setUser: (user: IUser | null) => void;
     removeUser: () => void;
     theme: Theme;
     setTheme: (theme: Theme) => void;
@@ -22,7 +22,7 @@ const userSettings = create(
             user: null,
             theme: 'light',
             size: 'Medium',
-            setUser: (user: FirebaseAuthTypes.User) => {
+            setUser: (user: IUser | null) => {
                 set({ user });
             },
             removeUser: () => {

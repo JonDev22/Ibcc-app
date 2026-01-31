@@ -18,6 +18,8 @@ import resourcesStorage from '../../../../storage/resourcesStorage';
 import userSettings from '../../../../storage/userSettings';
 import useItemById from '../../../../hooks/useItemById';
 import { IAnnouncement } from '../../../../interfaces/IAnnouncement';
+import hasUserRole from '../../../../functions/hasUserRole';
+import { userGroups } from '../../../../constants/userGroups';
 
 type AnnouncementDetailRouteProps = RouteProp<
     HomeNavigationParamList,
@@ -109,7 +111,7 @@ function AnnouncementDetail({ route, navigation }: AnnouncementDetailProps) {
                     </Text>
                 </View>
 
-                {user && (
+                {hasUserRole(user, [userGroups.ADMIN]) && (
                     <>
                         <Spacer />
 

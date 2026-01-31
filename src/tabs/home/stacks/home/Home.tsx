@@ -15,7 +15,7 @@ function Home() {
 
     return (
         <ScrollView style={generateStyle()}>
-            <VerseViewer />
+            <VerseViewer navigate={() => navigate.navigate('Passages')} />
 
             <TopUpcomingEvents />
 

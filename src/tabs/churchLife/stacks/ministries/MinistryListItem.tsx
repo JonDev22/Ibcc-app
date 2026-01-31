@@ -18,8 +18,8 @@ function MinistryListItem({ ministry }: { ministry: IMinistry }) {
         'wPadding4XL',
         'gap2',
     );
-    const titleStyle = generateStyle('fontM', 'weight700');
-    const subTitleStyle = generateStyle('fontXS', 'weight500');
+    const titleStyle = generateStyle('fontM', 'weight700', 'secondary');
+    const subTitleStyle = generateStyle('fontXS', 'weight500', 'third');
     const textStyle = generateStyle('fontXS');
 
     const handleTouch = () => {

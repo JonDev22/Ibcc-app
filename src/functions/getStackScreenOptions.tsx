@@ -1,6 +1,6 @@
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import { Color } from '../theme/colors';
-import StackHeader from '../components/StackHeader';
+// import StackHeader from '../components/StackHeader';
 
 function getStackScreenOptions(
     primary: Color,
@@ -17,7 +17,7 @@ function getStackScreenOptions(
             fontWeight: 'bold',
         },
         // headerTitle: props => <StackHeader {...props} />,
-        headerRight: StackHeader,
+        // headerRight: StackHeader,
     };
 }
 

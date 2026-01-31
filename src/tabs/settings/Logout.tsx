@@ -1,10 +1,10 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { Text, TouchableOpacity, View } from 'react-native';
 import useStyle from '../../hooks/useStyle';
 import logOut from '../../functions/database/signOut';
 import { colors } from '../../theme/colors';
+import { IUser } from '../../interfaces/IUser';
 
-function Logout({ user }: { user: FirebaseAuthTypes.User }) {
+function Logout({ user }: { user: IUser }) {
     const generateStyle = useStyle();
 
     const container = generateStyle('gap3');
@@ -20,7 +20,7 @@ function Logout({ user }: { user: FirebaseAuthTypes.User }) {
 
     return (
         <View style={container}>
-            <Text style={textStyle}>Welcome: {user.email}</Text>
+            <Text style={textStyle}>Welcome: {user.firstName} {user.lastName}</Text>
             <TouchableOpacity style={touchableStyle} onPress={logOut}>
                 <Text style={{ ...textStyle, color: colors.orange }}>
                     Log Out

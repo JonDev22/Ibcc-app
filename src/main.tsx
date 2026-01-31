@@ -26,10 +26,7 @@ import {
 } from '@react-native-firebase/messaging';
 import { Alert, Platform, PermissionsAndroid } from 'react-native';
 import { getApp } from '@react-native-firebase/app';
-// import { IAnnouncement } from './interfaces/IAnnouncement';
-// import { IEvent } from './interfaces/IEvent';
-// import { subscribeToCollection } from './hooks/subscribeToCollection';
-// import resourcesStorage from './storage/resourcesStorage';
+import getUserFromDatabase from './functions/database/getUserFromDatabase';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,12 +41,16 @@ function Main() {
     const [tempUser, setTempUser] = useState<FirebaseAuthTypes.User | null>(
         null,
     );
-    // const { setAnnouncements, setEvents } = resourcesStorage();
+
+    const fetchAndSetUser = async (userInput: FirebaseAuthTypes.User) => {
+        const databaseUser = await getUserFromDatabase(userInput);
+        setUser(databaseUser);
+    }
 
     useEffect(() => {
         const auth = getAuth();
         const authStateSetup = onAuthStateChanged(auth, user => {
-            if (user?.email) {
+            if (user?.uid) {
                 setTempUser(user);
             } else {
                 setTempUser(null);
@@ -64,7 +65,7 @@ function Main() {
     // Necessary effect call - Seemingly obsolete, but setting the user in onAuthStateChanged method causes the app to rerender forever. To prevent this, an extra state for this component needed to be set.
     useEffect(() => {
         if (tempUser?.email) {
-            setUser(tempUser);
+            fetchAndSetUser(tempUser);
         } else {
             removeUser();
         }
@@ -163,40 +164,6 @@ function Main() {
         return () => unsubscribe();
     }, []);
 
-    // useEffect(() => {
-    // const subToAnnouncements = subscribeToCollection<IAnnouncement>(
-    //     'announcements',
-    //     doc => {
-    //         const data = doc.data();
-    //         return {
-    //             id: doc.id,
-    //             ...data,
-    //         } as IAnnouncement;
-    //     },
-    //     items => {
-    //         setAnnouncements(items);
-    //     },
-    // );
-
-    // const subToEvents = subscribeToCollection<IEvent>(
-    //     'events',
-    //     doc => {
-    //         const data = doc.data();
-    //         return {
-    //             id: doc.id,
-    //             ...data,
-    //         } as IEvent;
-    //     },
-    //     items => {
-    //         setEvents(items);
-    //     },
-    // );
-
-    // return () => {
-    // subToAnnouncements();
-    // subToEvents();
-    // };
-    // }, [setAnnouncements, setEvents]);
 
     return (
         <Tab.Navigator

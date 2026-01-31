@@ -75,7 +75,7 @@ function OnlineResources() {
             <Spacer />
             <FlatList
                 data={data}
-                keyExtractor={item => item.subHeader}
+                keyExtractor={(item: ServiceCardProps) => item.subHeader}
                 scrollEnabled={false}
                 renderItem={({ item }) => <ServiceCard {...item} />}
             />

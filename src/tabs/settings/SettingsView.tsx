@@ -76,8 +76,8 @@ function SettingsView() {
                     </View>
                     <Spacer />
 
-                    <View style={styles.settingsView}>
-                        <Text style={settingsText}>Dark Mode:</Text>
+                    <View style={{...styles.settingsView, flexDirection: 'column', alignItems: 'flex-start'}}>
+                        <Text style={settingsText}>Text Size:</Text>
                         <View style={styles.buttonView}>
                             {sizes.map(item => (
                                 <TouchableOpacity

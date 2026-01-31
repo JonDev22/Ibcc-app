@@ -19,6 +19,8 @@ import useColorMap from '../../../../hooks/useColorMap';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationType } from '../../types/navigationProps';
 import deleteTbtAtHomeEntry from '../../../../functions/database/deleteTbtAtHomeEntry';
+import hasUserRole from '../../../../functions/hasUserRole';
+import { userGroups } from '../../../../constants/userGroups';
 
 function ListItem({ item }: { item: { text: string } }) {
     const generateStyle = useStyle();
@@ -32,6 +34,12 @@ function TbtAtHome() {
     const colorMap = useColorMap();
 
     const navigation = useNavigation<NavigationType<'TBT@Home'>>();
+
+    const getAccessRole = (role?: string): boolean => {
+        const roleIsAdmin = role === 'admin';
+        const roleIsEditor = role === 'tbtAtHomeEditor';
+        return roleIsAdmin || roleIsEditor;
+    };
 
     const generateStyle = useStyle();
 
@@ -88,7 +96,10 @@ function TbtAtHome() {
                             onPress={() => handlePress(item.resource)}
                             headerLeft
                             buttonText="Download"
-                            deletable={user !== null}
+                            deletable={hasUserRole(user, [
+                                userGroups.tbtAtHomeEditor,
+                                userGroups.ADMIN,
+                            ])}
                             deletableAction={() => {
                                 Alert.alert(
                                     'Delete Resource',
@@ -127,7 +138,7 @@ function TbtAtHome() {
                 />
             </ScrollView>
 
-            {user && (
+            {user?.role === 'tbtAtHomeEditor' && (
                 <TouchableOpacity
                     style={{
                         ...styles.fab,

@@ -16,6 +16,7 @@ import { IEvent } from '../../interfaces/IEvent';
 import { IPassage } from '../../interfaces/IPassage';
 import { IAnnouncement } from '../../interfaces/IAnnouncement';
 import { Timestamp, where } from '@react-native-firebase/firestore';
+import Passages from './stacks/passages/Passages';
 
 const Stack = createNativeStackNavigator<HomeNavigationParamList>();
 
@@ -86,6 +87,11 @@ function HomeStack() {
                 options={{ headerTitle: 'New Announcement' }}
                 name="New Announcement"
                 component={NewAnnouncement}
+            />
+            <Stack.Screen
+                options={{ headerTitle: 'Passages' }}
+                name="Passages"
+                component={Passages}
             />
         </Stack.Navigator>
     );
