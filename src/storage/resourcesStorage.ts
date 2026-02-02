@@ -26,6 +26,9 @@ export interface IResourceStorage {
     tbtAtHome: ITbtAtHome[];
     announcements: IAnnouncement[];
 
+    addTbtResource: (tbtResource: ITbtResource) => void;
+    removeTbtResource: (tbtResource: ITbtResource) => void;
+
     addEvent: (event: IEvent) => void;
     removeEvent: (event: IEvent) => void;
     editEvent: (event: IEvent) => void;
@@ -60,6 +63,26 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
     tbt: [],
     tbtAtHome: [],
     announcements: [],
+
+    addTbtResource: (tbtResource: ITbtResource) => {
+        set({
+            tbt: [...get().tbt, tbtResource].sort((a, b) =>
+                sortByDate<ITbtResource>(a, b, 'desc'),
+            ),
+        });
+    },
+    removeTbtResource: (tbtResource: ITbtResource) => {
+        set({
+            tbt: get().tbt.filter(
+                item =>
+                    !(
+                        item.id === tbtResource.id &&
+                        item.title === tbtResource.title &&
+                        item.date === tbtResource.date
+                    ),
+            ),
+        });
+    },
 
     addEvent: (event: IEvent) => {
         set({
@@ -148,7 +171,7 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
         set({ events: events.sort((a, b) => sortByDate<IEvent>(a, b, 'asc')) }),
     setTbt: (tbt: ITbtResource[]) =>
         set({
-            tbt: tbt.sort((a, b) => sortByDate<ITbtResource>(a, b, 'asc')),
+            tbt: tbt.sort((a, b) => sortByDate<ITbtResource>(a, b, 'desc')),
         }),
     setTbtAtHome: (tbtAtHome: ITbtAtHome[]) =>
         set({ tbtAtHome: tbtAtHome.sort(sortByAddedDate<ITbtAtHome>) }),

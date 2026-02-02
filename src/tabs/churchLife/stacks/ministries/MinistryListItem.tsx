@@ -37,7 +37,14 @@ function MinistryListItem({ ministry }: { ministry: IMinistry }) {
                 <Text style={titleStyle}>{ministry.name}</Text>
             </View>
             <Text style={subTitleStyle}>Leader: {ministry.leader}</Text>
-            <Text style={textStyle}>Time: {ministry.time}</Text>
+            <View style={styles.centeredView}>
+                <FontAwesome
+                    name={'calendar'}
+                    size={15}
+                    color={colorMap.primary}
+                />
+                <Text style={textStyle}>{ministry.time}</Text>
+            </View>
             <Text style={textStyle}>Responsibility: {ministry.task}</Text>
         </TouchableOpacity>
     );

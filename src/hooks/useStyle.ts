@@ -92,6 +92,42 @@ const useStyle = () => {
         gap6: { gap: 14 },
         gap7: { gap: 16 },
 
+        m1: { margin: 2 },
+        m2: { margin: 4 },
+        m3: { margin: 6 },
+        m4: { margin: 8 },
+        m5: { margin: 10 },
+
+        p1: { padding: 2 },
+        p2: { padding: 4 },
+        p3: { padding: 6 },
+        p4: { padding: 8 },
+        p5: { padding: 10 },
+
+        mb1: { marginBottom: 2 },
+        mb2: { marginBottom: 4 },
+        mb3: { marginBottom: 6 },
+        mb4: { marginBottom: 8 },
+        mb5: { marginBottom: 10 },
+
+        pt1: { paddingTop: 2 },
+        pt2: { paddingTop: 4 },
+        pt3: { paddingTop: 6 },
+        pt4: { paddingTop: 8 },
+        pt5: { paddingTop: 10 },
+
+        mt1: { marginTop: 2 },
+        mt2: { marginTop: 4 },
+        mt3: { marginTop: 6 },
+        mt4: { marginTop: 8 },
+        mt5: { marginTop: 10 },
+
+        pb1: { paddingBottom: 2 },
+        pb2: { paddingBottom: 4 },
+        pb3: { paddingBottom: 6 },
+        pb4: { paddingBottom: 8 },
+        pb5: { paddingBottom: 10 },
+
         italic: { fontStyle: 'italic' },
 
         hMinMax: { minHeight: '100%' },

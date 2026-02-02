@@ -11,4 +11,5 @@ export type ResourceNavigationParamList = {
     };
     Forms: undefined;
     'New TBT At Home Resource': { tbtAtHome?: ITbtAtHome };
+    'New TBT Resource': undefined;
 };

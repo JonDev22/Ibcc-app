@@ -14,6 +14,13 @@ import getIconFromString from '../../../../functions/getIconFromString';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
 import resourcesStorage from '../../../../storage/resourcesStorage';
+import hasUserRole from '../../../../functions/hasUserRole';
+import AddButton from '../../../../components/AddButton';
+import userSettings from '../../../../storage/userSettings';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationType } from '../../types/navigationProps';
+import deleteTbtAtHomeEntry from '../../../../functions/database/deleteTbtAtHomeEntry';
+import { ITbtResource } from '../../../../interfaces/ITbtResource';
 
 function ListItem({ item }: { item: { text: string } }) {
     const generateStyle = useStyle();
@@ -22,7 +29,10 @@ function ListItem({ item }: { item: { text: string } }) {
 }
 
 function TBT() {
-    const { tbt } = resourcesStorage();
+    const navigation = useNavigation<NavigationType<'New TBT Resource'>>();
+
+    const { tbt, removeTbtResource } = resourcesStorage();
+    const { user } = userSettings();
 
     const generateStyle = useStyle();
 
@@ -38,6 +48,40 @@ function TBT() {
         } else {
             Alert.alert('Resource not found');
         }
+    };
+
+    const handleAddEvent = () => {
+        navigation.navigate('New TBT Resource');
+    };
+
+    const handleDelete = (item: ITbtResource) => {
+        Alert.alert(
+            'Delete Resource',
+            'Are you sure you want to delete this resource?',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: () => {
+                        deleteTbtAtHomeEntry(
+                            item.id,
+                            item.resource,
+                            'tbtResources',
+                        ).then(res => {
+                            if (res) {
+                                removeTbtResource(item);
+                            } else {
+                                Alert.alert('Error deleting resource');
+                            }
+                        });
+                    },
+                },
+            ],
+        );
     };
 
     const containerStyle = generateStyle('hMinMax');
@@ -80,12 +124,20 @@ function TBT() {
                             onPress={() => handlePress(item.resource)}
                             headerLeft
                             buttonText="Download"
+                            deletable={hasUserRole(user, ['admin'])}
+                            deletableAction={() => {
+                                handleDelete(item);
+                            }}
                         />
                     )}
                     scrollEnabled={false}
                     ItemSeparatorComponent={Spacer}
                 />
             </ScrollView>
+            
+            {hasUserRole(user, ['admin', 'tbtAtHomeEditor']) && (
+                <AddButton handleAddEvent={handleAddEvent} />
+            )}
         </View>
     );
 }

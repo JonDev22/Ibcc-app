@@ -7,7 +7,7 @@ function hasUserRole(user: IUser | null, groups: UserRole[]): boolean {
     if (!user?.role) {
         return false;
     }
-    return groups.includes(user.role as UserRole);
+    return groups.some(group => user.role.includes(group));
 }
 
 export default hasUserRole;
