@@ -133,6 +133,8 @@ const useStyle = () => {
         hMinMax: { minHeight: '100%' },
 
         borderPrimary: { borderColor: colorMap.primary },
+        borderSecondary: { borderColor: colorMap.secondary },
+        borderThird: { borderColor: colorMap.third },
 
         primary: { color: colorMap.primary },
         secondary: { color: colorMap.secondary },

@@ -15,13 +15,12 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
 import resourcesStorage from '../../../../storage/resourcesStorage';
-import { colors } from '../../../../theme/colors';
 import { pick, DocumentPickerResponse } from '@react-native-documents/picker';
 import uploadTbtAtHomeFile from '../../../../functions/database/uploadTbtAtHomeFile';
 import addItemToDatabase from '../../../../functions/database/addItemToDatabase';
 import { ITbtResource } from '../../../../interfaces/ITbtResource';
-import { Picker } from '@react-native-picker/picker';
-import { record } from '../../../../functions/getIconFromString';
+import ResourceTypeModal from './ResourceTypeModal';
+import useColorMap from '../../../../hooks/useColorMap';
 
 type NewEventProps = {
     navigation: NativeStackNavigationProp<any>;
@@ -30,17 +29,19 @@ type NewEventProps = {
 function NewTbt({ navigation }: NewEventProps) {
     // const { tbtAtHome } = route.params;
     const generateStyle = useStyle();
+    const colors = useColorMap();
 
     const { addTbtResource } = resourcesStorage();
+    const [openModal, setOpenModal] = useState<boolean>(false);
 
     const [title, setTitle] = useState<string>('');
     const [text, setText] = useState<string>('');
     const [resource, setResource] = useState<string>('');
     const [selectedFile, setSelectedFile] = useState<DocumentPickerResponse>();
-    const [selectedIcon, setSelectedIcon] = useState<string>('');
+    const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
     const handleSubmit = () => {
-        if (!title || !text || !resource) {
+        if (!title || !text || !resource || !selectedIcon) {
             Alert.alert(
                 'Missing Fields',
                 'Please fill in all required fields.',
@@ -91,7 +92,7 @@ function NewTbt({ navigation }: NewEventProps) {
     const textStyle = generateStyle('fontS', 'pb3');
     const addButtonStyle = generateStyle(
         'border1',
-        'borderPrimary',
+        'borderSecondary',
         'rounded2',
         'wPaddingL',
         'hPaddingL',
@@ -105,16 +106,6 @@ function NewTbt({ navigation }: NewEventProps) {
         'fontS',
         'rounded2',
     );
-    const pickerStyle = generateStyle(
-        'border1',
-        'wPaddingL',
-        'hPaddingL',
-        'borderPrimary',
-        'hMarginS',
-        'fontS',
-        'rounded2',
-    );
-    const pickerItemStyle = generateStyle('fontS');
 
     const getPlatformSpecificType = () => {
         // iOS uses UTIs, Android uses MIME types
@@ -171,29 +162,33 @@ function NewTbt({ navigation }: NewEventProps) {
                 <Spacer />
 
                 <Text style={textStyle}>Icon Type *</Text>
-                <View style={pickerStyle}>
-                    <Picker
-                        selectedValue={selectedIcon}
-                        onValueChange={setSelectedIcon}
-                        itemStyle={pickerItemStyle}
+                <View style={styles.flexView}>
+                    <Text style={textStyle}>
+                        {selectedIcon ?? 'Select type...'}
+                    </Text>
+                    <TouchableOpacity
+                        onPress={() => setOpenModal(true)}
+                        style={{
+                            ...styles.pickerStyle,
+                            borderColor: colors.third,
+                        }}
                     >
-                        {Object.entries(record).map(([key, value]) => (
-                            <Picker.Item
-                                label={key.toLocaleUpperCase()}
-                                value={value}
-                                key={key}
-                            />
-                        ))}
-                    </Picker>
+                        <Text style={textStyle}>Change Type...</Text>
+                    </TouchableOpacity>
                 </View>
-                <Spacer />
+
+                <ResourceTypeModal
+                    open={openModal}
+                    onClose={() => setOpenModal(false)}
+                    setValue={(value: string) => setSelectedIcon(value)}
+                />
 
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
                         onPress={handleSubmit}
                         style={addButtonStyle}
                     >
-                        <Text style={{ ...textStyle, color: colors.orange }}>
+                        <Text style={{ ...textStyle, color: colors.primary }}>
                             Add Event
                         </Text>
                     </TouchableOpacity>
@@ -213,6 +208,20 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         marginTop: 30,
+    },
+    flexView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+    },
+    pickerStyle: {
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingTop: 6,
+        paddingBottom: 2,
+        paddingHorizontal: 20,
+        textAlign: 'center',
+        alignContent: 'center',
     },
 });
 
