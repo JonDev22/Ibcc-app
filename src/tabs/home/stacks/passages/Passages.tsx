@@ -10,6 +10,7 @@ import {
     TextInput,
     Alert,
     Platform,
+    ScrollView,
 } from 'react-native';
 import { Timestamp } from '@react-native-firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -24,6 +25,7 @@ import { userGroups } from '../../../../constants/userGroups';
 import addItemToDatabase from '../../../../functions/database/addItemToDatabase';
 import deleteItem from '../../../../functions/database/deleteItem';
 import Spacer from '../../../../components/Spacer';
+import AddButton from '../../../../components/AddButton';
 
 function Passages() {
     const { passages, setPassages } = resourcesStorage();
@@ -62,10 +64,7 @@ function Passages() {
                                 passages.filter(p => p.id !== passage.id),
                             );
                         } else {
-                            Alert.alert(
-                                'Error',
-                                'Could not delete passage',
-                            );
+                            Alert.alert('Error', 'Could not delete passage');
                         }
                     },
                     style: 'destructive',
@@ -287,29 +286,23 @@ function Passages() {
                 </View>
             </Modal>
 
-            <FlatList
-                data={passages}
-                keyExtractor={item => item.id}
-                renderItem={renderItem}
-                contentContainerStyle={flatListStyle}
-                ItemSeparatorComponent={Separator}
-            />
+            <ScrollView>
+                <FlatList
+                    data={passages}
+                    keyExtractor={item => item.id}
+                    renderItem={renderItem}
+                    contentContainerStyle={flatListStyle}
+                    ItemSeparatorComponent={Separator}
+                    scrollEnabled={false}
+                />
 
-            {hasUserRole(user, [userGroups.ADMIN]) && (
-                <TouchableOpacity
-                    onPress={() => setIsModalVisible(true)}
-                    style={{
-                        ...styles.fab,
-                        backgroundColor: colorMap.secondary,
-                    }}
-                >
-                    <FontAwesome
-                        name="plus"
-                        size={20}
-                        color={colorMap.lightGray}
+                {hasUserRole(user, [userGroups.ADMIN]) && (
+                    <AddButton
+                        handleAddEvent={() => setIsModalVisible(true)}
+                        buttonLabel="Add Passage"
                     />
-                </TouchableOpacity>
-            )}
+                )}
+            </ScrollView>
         </View>
     );
 }

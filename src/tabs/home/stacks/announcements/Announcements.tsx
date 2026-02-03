@@ -6,6 +6,7 @@ import {
     FlatList,
     StyleSheet,
     TouchableOpacity,
+    ScrollView,
 } from 'react-native';
 import { IAnnouncement } from '../../../../interfaces/IAnnouncement';
 import Separator from '../../../../functions/Separator';
@@ -15,6 +16,8 @@ import useStyle from '../../../../hooks/useStyle';
 import useColorMap from '../../../../hooks/useColorMap';
 import resourcesStorage from '../../../../storage/resourcesStorage';
 import userSettings from '../../../../storage/userSettings';
+import hasUserRole from '../../../../functions/hasUserRole';
+import AddButton from '../../../../components/AddButton';
 
 function Announcements() {
     const navigation =
@@ -81,25 +84,23 @@ function Announcements() {
 
     return (
         <View style={viewStyle}>
-            <FlatList
-                data={announcements}
-                keyExtractor={item => item.id}
-                renderItem={renderItem}
-                contentContainerStyle={flatListStyle}
-                ItemSeparatorComponent={Separator}
-            />
+            <ScrollView>
+                <FlatList
+                    data={announcements}
+                    keyExtractor={item => item.id}
+                    renderItem={renderItem}
+                    contentContainerStyle={flatListStyle}
+                    ItemSeparatorComponent={Separator}
+                    scrollEnabled={false}
+                />
 
-            {user && (
-                <TouchableOpacity
-                    style={{
-                        ...styles.fab,
-                        backgroundColor: colorMap.secondary,
-                    }}
-                    onPress={handleAddAnnouncement}
-                >
-                    <Text style={{ color: colorMap.color }}>+</Text>
-                </TouchableOpacity>
-            )}
+                {hasUserRole(user, ['admin']) && (
+                    <AddButton
+                        handleAddEvent={handleAddAnnouncement}
+                        buttonLabel="Add Announcement"
+                    />
+                )}
+            </ScrollView>
         </View>
     );
 }

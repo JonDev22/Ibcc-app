@@ -1,36 +1,42 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import useColorMap from '../hooks/useColorMap';
 
 interface AddButtonProps {
     handleAddEvent: () => void;
+    buttonLabel?: string;
 }
 
-function AddButton({ handleAddEvent }: AddButtonProps) {
+function AddButton({ handleAddEvent, buttonLabel }: AddButtonProps) {
     const colorMap = useColorMap();
 
     return (
-        <TouchableOpacity
-            style={{
-                ...styles.fab,
-                backgroundColor: colorMap.secondary,
-            }}
-            onPress={handleAddEvent}
-        >
-            <Text style={{ color: colorMap.color }}>+</Text>
-        </TouchableOpacity>
+        <View style={styles.paddedView}>
+            <TouchableOpacity style={styles.fab} onPress={handleAddEvent}>
+                <Text
+                    style={{
+                        color: colorMap.primary,
+                    }}
+                >
+                    {buttonLabel ?? '#'}
+                </Text>
+            </TouchableOpacity>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    paddedView: {
+        paddingHorizontal: 24,
+        paddingBottom: 20,
+    },
     fab: {
-        position: 'absolute',
-        bottom: 30,
-        right: 30,
-        width: 50,
-        height: 50,
         borderRadius: 30,
         justifyContent: 'center',
         alignItems: 'center',
+        borderColor: '#a70000',
+        borderWidth: 2,
+        paddingHorizontal: 3,
+        paddingVertical: 5,
     },
 });
 

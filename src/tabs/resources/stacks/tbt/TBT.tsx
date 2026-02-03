@@ -113,6 +113,14 @@ function TBT() {
                 />
 
                 <Text style={subHeaderStyle}>Resources</Text>
+
+                {hasUserRole(user, ['admin', 'tbtAtHomeEditor']) && (
+                    <AddButton
+                        handleAddEvent={handleAddEvent}
+                        buttonLabel="Add TBT Resource"
+                    />
+                )}
+
                 <FlatList
                     data={tbt}
                     keyExtractor={item => item.title}
@@ -134,10 +142,6 @@ function TBT() {
                     ItemSeparatorComponent={Spacer}
                 />
             </ScrollView>
-            
-            {hasUserRole(user, ['admin', 'tbtAtHomeEditor']) && (
-                <AddButton handleAddEvent={handleAddEvent} />
-            )}
         </View>
     );
 }
