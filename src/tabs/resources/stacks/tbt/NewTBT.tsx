@@ -21,6 +21,7 @@ import addItemToDatabase from '../../../../functions/database/addItemToDatabase'
 import { ITbtResource } from '../../../../interfaces/ITbtResource';
 import ResourceTypeModal from './ResourceTypeModal';
 import useColorMap from '../../../../hooks/useColorMap';
+import AddButton from '../../../../components/AddButton';
 
 type NewEventProps = {
     navigation: NativeStackNavigationProp<any>;
@@ -90,13 +91,6 @@ function NewTbt({ navigation }: NewEventProps) {
 
     const container = generateStyle('hMinMax');
     const textStyle = generateStyle('fontS', 'pb3');
-    const addButtonStyle = generateStyle(
-        'border1',
-        'borderSecondary',
-        'rounded2',
-        'wPaddingL',
-        'hPaddingL',
-    );
     const inputStyle = generateStyle(
         'border1',
         'wPaddingL',
@@ -183,16 +177,13 @@ function NewTbt({ navigation }: NewEventProps) {
                     setValue={(value: string) => setSelectedIcon(value)}
                 />
 
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        onPress={handleSubmit}
-                        style={addButtonStyle}
-                    >
-                        <Text style={{ ...textStyle, color: colors.primary }}>
-                            Add Event
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                <Spacer />
+                <Spacer />
+
+                <AddButton
+                    handleAddEvent={handleSubmit}
+                    buttonLabel="Add TBT@Home Resource"
+                />
             </ScrollView>
         </View>
     );

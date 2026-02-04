@@ -76,7 +76,13 @@ function SettingsView() {
                     </View>
                     <Spacer />
 
-                    <View style={{...styles.settingsView, flexDirection: 'column', alignItems: 'flex-start'}}>
+                    <View
+                        style={{
+                            ...styles.settingsView,
+                            flexDirection: 'column',
+                            alignItems: 'flex-start',
+                        }}
+                    >
                         <Text style={settingsText}>Text Size:</Text>
                         <View style={styles.buttonView}>
                             {sizes.map(item => (
@@ -113,12 +119,12 @@ function SettingsView() {
                     <View style={styles.settingsView}>
                         <Text style={settingsText}>Login:</Text>
                     </View>
-                    <Spacer />
 
                     <Text style={touchableTextSize}>
-                        Login is designed for admins only!
+                        *Login is designed for admins only!
                     </Text>
 
+                    <Spacer />
                     {user ? <Logout user={user} /> : <Login />}
                 </ScrollView>
             </View>

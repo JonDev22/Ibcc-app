@@ -22,6 +22,7 @@ import { ITbtAtHome } from '../../../../interfaces/ITbtAtHome';
 import { pick, DocumentPickerResponse } from '@react-native-documents/picker';
 import uploadTbtAtHomeFile from '../../../../functions/database/uploadTbtAtHomeFile';
 import addItemToDatabase from '../../../../functions/database/addItemToDatabase';
+import AddButton from '../../../../components/AddButton';
 
 type TBTAtHomeDetailRouteProps = RouteProp<
     ResourceNavigationParamList,
@@ -175,17 +176,12 @@ function NewTbtAtHome({ navigation, route }: NewEventProps) {
                     onChangeText={setPassage}
                 />
                 <Spacer />
+                <Spacer />
 
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        onPress={handleSubmit}
-                        style={addButtonStyle}
-                    >
-                        <Text style={{ ...textStyle, color: colors.orange }}>
-                            {tbtAtHome ? 'Edit' : 'Add'} Event
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                <AddButton
+                    handleAddEvent={handleSubmit}
+                    buttonLabel="Add TBT@Home Resource"
+                />
             </ScrollView>
         </View>
     );

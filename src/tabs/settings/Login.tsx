@@ -1,8 +1,10 @@
-import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Text, TextInput, View } from 'react-native';
 import authenticate from '../../functions/database/authenticate';
 import { useState } from 'react';
 import useStyle from '../../hooks/useStyle';
 import useColorMap from '../../hooks/useColorMap';
+import Spacer from '../../components/Spacer';
+import AddButton from '../../components/AddButton';
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -16,16 +18,8 @@ function Login() {
     const textStyle = generateStyle('primary');
     const inputStyle = generateStyle(
         'border1',
-        'hPaddingM',
+        'hPadding2XL',
         'wPaddingM',
-        'rounded2',
-    );
-    const touchableStyle = generateStyle(
-        'border1',
-        'borderPrimary',
-        'hPaddingL',
-        'wPaddingL',
-        'wMarginL',
         'rounded2',
     );
 
@@ -44,7 +38,7 @@ function Login() {
                 placeholder="email"
                 autoCapitalize="none"
                 style={inputStyle}
-                placeholderTextColor={colorMap.secondary}
+                placeholderTextColor={colorMap.third}
                 value={username}
                 onChangeText={setUsername}
             />
@@ -53,13 +47,12 @@ function Login() {
                 placeholder="password"
                 secureTextEntry={true}
                 style={inputStyle}
-                placeholderTextColor={colorMap.secondary}
+                placeholderTextColor={colorMap.third}
                 value={password}
                 onChangeText={setPassword}
             />
-            <TouchableOpacity onPress={authenticateUser} style={touchableStyle}>
-                <Text style={textStyle}>Log In</Text>
-            </TouchableOpacity>
+            <Spacer />
+            <AddButton handleAddEvent={authenticateUser} buttonLabel="Log In" />
         </View>
     );
 }
