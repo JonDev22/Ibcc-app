@@ -83,8 +83,8 @@ android {
         applicationId "ibc.tbt"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 35
-        versionName "2.1.1"
+        versionCode 41
+        versionName "99.2"
     }
     signingConfigs {
         debug {
@@ -120,6 +120,10 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/NOTICE.txt'
+
+        jniLibs {
+            useLegacyPackaging false
+        }
     }
 
     compileOptions {
@@ -142,4 +146,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+}
+
+tasks.withType(com.android.build.gradle.tasks.ExternalNativeBuildTask).configureEach {
+    it.arguments += ["-Wl,-z,max-page-size=16384"]
 }
