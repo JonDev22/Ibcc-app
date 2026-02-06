@@ -136,6 +136,8 @@ function TbtAtHome() {
                     scrollEnabled={false}
                     ItemSeparatorComponent={Spacer}
                 />
+                <Spacer />
+                <Spacer />
             </ScrollView>
         </View>
     );

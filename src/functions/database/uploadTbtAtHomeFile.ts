@@ -1,4 +1,4 @@
-import RNFS from 'react-native-fs';
+import { copyFile, CachesDirectoryPath, exists, unlink } from 'react-native-fs';
 import { PermissionsAndroid, Platform } from 'react-native';
 import { DocumentPickerResponse } from '@react-native-documents/picker';
 import { getApp } from '@react-native-firebase/app';
@@ -12,11 +12,15 @@ async function uploadTbtAtHomeFile(
     const storage = getStorage(app);
 
     const fileName = decodeURIComponent(file.name ?? 'upload_file');
-    const dest = `${RNFS.TemporaryDirectoryPath}/${fileName}`;
-    const decodedSourceUri = decodeURIComponent(file.uri);
+    const dest = `${CachesDirectoryPath}/${fileName}`;
+    let decodedSourceUri = decodeURIComponent(file.uri);
 
     try {
-        await RNFS.copyFile(decodedSourceUri, dest);
+        if (Platform.OS === 'android') {
+            await copyFile(file.uri, dest);
+        } else {
+            await copyFile(decodedSourceUri, dest);
+        }
 
         const reference = ref(storage, path);
 
@@ -26,20 +30,21 @@ async function uploadTbtAtHomeFile(
             );
         }
 
-        console.log(decodedSourceUri);
-
         const uri =
-            Platform.OS === 'ios' ? decodedSourceUri.replace('file://', '') : dest;
+            Platform.OS === 'ios'
+                ? decodedSourceUri.replace('file://', '')
+                : dest;
 
+        console.log('A');
         await putFile(reference, uri);
         return path;
     } catch (error) {
         console.log(error);
         return null;
     } finally {
-        const exists = await RNFS.exists(dest);
-        if (exists) {
-            await RNFS.unlink(dest).catch(() => {
+        const existsFile = await exists(dest);
+        if (existsFile) {
+            await unlink(dest).catch(() => {
                 console.error('Could not delete');
             });
         }

@@ -141,6 +141,9 @@ function TBT() {
                     scrollEnabled={false}
                     ItemSeparatorComponent={Spacer}
                 />
+
+                <Spacer />
+                <Spacer />
             </ScrollView>
         </View>
     );
