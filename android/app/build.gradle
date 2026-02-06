@@ -83,8 +83,8 @@ android {
         applicationId "ibc.tbt"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 41
-        versionName "99.2"
+        versionCode 42
+        versionName "99.7"
     }
     signingConfigs {
         debug {
