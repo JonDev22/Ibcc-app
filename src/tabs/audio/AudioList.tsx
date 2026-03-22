@@ -6,11 +6,13 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import { colors } from '../../theme/colors';
 import { Track } from 'react-native-track-player';
 import Separator from '../../functions/Separator';
 import formatDurationTime from './functions/formatDurationTime';
 import useStyle from '../../hooks/useStyle';
+import AddButton from '../../components/AddButton';
+import { useNavigation } from '@react-navigation/native';
+import { AudioNavigationType } from './types/AudioNavigationType';
 
 interface IPlayerTrack extends Track {
     index: number;
@@ -22,6 +24,8 @@ type Props = {
 };
 
 export default function SongList({ songs, onPressSong }: Props) {
+    const navigation = useNavigation<AudioNavigationType<'Add Audio'>>();
+
     const generateStyle = useStyle();
 
     const containerStyle = generateStyle();
@@ -73,8 +77,16 @@ export default function SongList({ songs, onPressSong }: Props) {
         </TouchableOpacity>
     );
 
+    const handleAddAnnouncement = () => {
+        navigation.navigate('Add Audio');
+    };
+
     return (
         <>
+            <AddButton
+                handleAddEvent={handleAddAnnouncement}
+                buttonLabel="Add Memory Verse"
+            />
             {Object.entries(categorized).map(([album, list]) => (
                 <View key={album} style={containerStyle}>
                     <Text style={headerStyle}>{album}</Text>

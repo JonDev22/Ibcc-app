@@ -26,10 +26,10 @@ async function uploadTbtAtHomeFile(
             );
         }
 
-        console.log(decodedSourceUri);
-
         const uri =
-            Platform.OS === 'ios' ? decodedSourceUri.replace('file://', '') : dest;
+            Platform.OS === 'ios'
+                ? decodedSourceUri.replace('file://', '')
+                : dest;
 
         await putFile(reference, uri);
         return path;
