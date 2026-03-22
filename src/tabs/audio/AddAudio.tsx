@@ -17,6 +17,8 @@ import { IAudioFileFB } from './interfaces/IAudioFile';
 import uploadTbtAtHomeFile from '../../functions/database/uploadTbtAtHomeFile';
 import addItemToDatabase from '../../functions/database/addItemToDatabase';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import resourcesStorage from '../../storage/resourcesStorage';
+import { Track } from 'react-native-track-player';
 
 type AddAudioProps = {
     navigation: NativeStackNavigationProp<any>;
@@ -32,6 +34,8 @@ function AddAudio({ navigation }: AddAudioProps) {
 
     const [selectedFile, setSelectedFile] = useState<DocumentPickerResponse>();
     const [resource, setResource] = useState<string>('');
+
+    const { addAudioTrack } = resourcesStorage();
 
     const containerStyle = generateStyle(
         'hMinMax',
@@ -92,7 +96,16 @@ function AddAudio({ navigation }: AddAudioProps) {
 
         addItemToDatabase(newSong, 'audios').then(res => {
             if (res.status === 'success' && res.id) {
-                // Optionally, you can also upload the file to Firebase Storage here using the resource path.
+                const track: Track = {
+                    url: result,
+                    title,
+                    duration,
+                    artist,
+                    album,
+                    subtitle: subtitle,
+                };
+
+                addAudioTrack(track);
                 navigation.goBack();
             } else {
                 Alert.alert(
@@ -145,7 +158,14 @@ function AddAudio({ navigation }: AddAudioProps) {
                     <Text style={titleStyle}>Audio File*</Text>
                     <TouchableOpacity
                         onPress={() => {
-                            pick(getPlatformSpecificType(['mp3', 'wav', 'aac', 'm4a']))
+                            pick(
+                                getPlatformSpecificType([
+                                    'mp3',
+                                    'wav',
+                                    'aac',
+                                    'm4a',
+                                ]),
+                            )
                                 .then(res => {
                                     if (res && res.length > 0) {
                                         setSelectedFile(res[0]);

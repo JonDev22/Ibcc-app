@@ -13,6 +13,8 @@ import { ITbtAtHome } from '../interfaces/ITbtAtHome';
 import sortByDate from '../functions/sorting/sortByDate';
 import sortByOrder from '../functions/sorting/sortByOrder';
 import sortByAddedDate from '../functions/sorting/sortByAddedDate';
+import { Track } from 'react-native-track-player';
+import sortByBibleBook from '../functions/sortByBibleBook';
 
 export interface IResourceStorage {
     courses: ICourse[];
@@ -39,6 +41,11 @@ export interface IResourceStorage {
 
     addTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
     removeTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
+
+    audioTracks: Track[] | null;
+    addAudioTrack: (track: Track) => void;
+    removeAudioTrack: (track: Track) => void;
+    setAudioTracks: (tracks: Track[]) => void;
 
     setCourses: (courses: ICourse[]) => void;
     setForms: (forms: IForm[]) => void;
@@ -158,6 +165,33 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
             ),
         });
     },
+
+    audioTracks: null,
+    addAudioTrack: (track: Track) => {
+        const audioTracks = get().audioTracks;
+
+        let sortedTracks = [track];
+        if (audioTracks) {
+            sortedTracks = sortByBibleBook([...audioTracks, track], 'subtitle');
+        }
+
+        set({ audioTracks: sortedTracks });
+    },
+    removeAudioTrack: (track: Track) => {
+        set({
+            audioTracks: get().audioTracks
+                ? get().audioTracks!.filter(
+                      item =>
+                          !(
+                              item.url === track.url &&
+                              item.title === track.title &&
+                              item.artist === track.artist
+                          ),
+                  )
+                : null,
+        });
+    },
+    setAudioTracks: (tracks: Track[]) => set({ audioTracks: tracks }),
 
     setCourses: (courses: ICourse[]) =>
         set({ courses: courses.sort(sortByOrder<ICourse>) }),

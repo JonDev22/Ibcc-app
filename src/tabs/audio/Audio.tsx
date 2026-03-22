@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useCallback } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import TrackPlayer, {
     useProgress,
     usePlaybackState,
     State,
-    Track,
     useActiveTrack,
     Capability,
 } from 'react-native-track-player';
@@ -13,6 +13,7 @@ import AudioList from './AudioList';
 import AudioPlayer from './AudioPlayer';
 import sortByBibleBook from '../../functions/sortByBibleBook';
 import useStyle from '../../hooks/useStyle';
+import resourcesStorage from '../../storage/resourcesStorage';
 
 function Audio() {
     const generateStyle = useStyle();
@@ -32,8 +33,7 @@ function Audio() {
     const progress = useProgress();
     const activeTrack = useActiveTrack();
 
-    // Stores current tracks.
-    const [track, setTrack] = useState<Track[] | null>();
+    const { audioTracks, setAudioTracks } = resourcesStorage();
 
     const togglePlayPause = () => {
         playBackState.state === State.Playing
@@ -76,22 +76,7 @@ function Audio() {
                 ],
             });
 
-            fetchAudioFiles()
-                .then(async res => {
-                    if (res) {
-                        const sortedRes = sortByBibleBook(res, 'subtitle');
-                        TrackPlayer.add(sortedRes)
-                            .then(() => {
-                                setTrack(sortedRes);
-                            })
-                            .catch(err => {
-                                Alert.alert(err);
-                            });
-                    }
-                })
-                .catch(err => {
-                    Alert.alert(err);
-                });
+            loadTracks();
         };
 
         setup();
@@ -99,11 +84,37 @@ function Audio() {
         return () => {};
     }, []);
 
+    const loadTracks = async () => {
+        fetchAudioFiles()
+            .then(async res => {
+                if (res) {
+                    const sortedRes = sortByBibleBook(res, 'subtitle');
+                    TrackPlayer.add(sortedRes)
+                        .then(() => {
+                            setAudioTracks(sortedRes);
+                        })
+                        .catch(err => {
+                            Alert.alert(err);
+                        });
+                }
+            })
+            .catch(err => {
+                Alert.alert(err);
+            });
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            loadTracks();
+            return () => {};
+        }, []),
+    );
+
     return (
         <View style={containerStyle}>
             <ScrollView style={styles.listContainer}>
-                {track ? (
-                    <AudioList songs={track} onPressSong={pick} />
+                {audioTracks ? (
+                    <AudioList songs={audioTracks} onPressSong={pick} />
                 ) : (
                     <Text style={loadingTextStyle}>Loading...</Text>
                 )}
