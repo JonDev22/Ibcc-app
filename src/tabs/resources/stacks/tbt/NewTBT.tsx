@@ -53,39 +53,49 @@ function NewTbt({ navigation }: NewEventProps) {
         if (!selectedFile) {
             Alert.alert('No file selected', 'Please select a PDF file.');
         } else {
-            uploadTbtAtHomeFile(selectedFile, resource).then(res => {
-                if (res) {
-                    const newTbtAtHome: Omit<ITbtResource, 'id'> = {
-                        title,
-                        text,
-                        resourceType: selectedIcon,
-                        resource: res,
-                        date: Timestamp.now(),
-                    };
+            try {
+                uploadTbtAtHomeFile(selectedFile, resource).then(res => {
+                    if (res) {
+                        console.log(res);
+                        const newTbtAtHome: Omit<ITbtResource, 'id'> = {
+                            title,
+                            text,
+                            resourceType: selectedIcon,
+                            resource: res,
+                            date: Timestamp.now(),
+                        };
 
-                    addItemToDatabase(newTbtAtHome, 'tbtResources').then(
-                        resp => {
-                            if (resp.status === 'success' && resp.id) {
-                                addTbtResource({
-                                    ...newTbtAtHome,
-                                    id: resp.id,
-                                });
-                                navigation.goBack();
-                            } else {
-                                Alert.alert(
-                                    resp.message ?? 'Could not add Tbt@Home...',
-                                );
-                                // TODO: Delete uploaded file if database addition fails.
-                            }
-                        },
-                    );
-                } else {
-                    Alert.alert(
-                        'Upload Failed',
-                        'There was an error uploading the file. Please try again.',
-                    );
-                }
-            });
+                        addItemToDatabase(newTbtAtHome, 'tbtResources').then(
+                            resp => {
+                                if (resp.status === 'success' && resp.id) {
+                                    addTbtResource({
+                                        ...newTbtAtHome,
+                                        id: resp.id,
+                                    });
+                                    navigation.goBack();
+                                } else {
+                                    Alert.alert(
+                                        resp.message ??
+                                            'Could not add Tbt@Home...',
+                                    );
+                                    // TODO: Delete uploaded file if database addition fails.
+                                }
+                            },
+                        );
+                    } else {
+                        Alert.alert(
+                            'Upload Failed',
+                            'There was an error uploading the file. Please try again.',
+                        );
+                    }
+                });
+            } catch (error) {
+                Alert.alert(
+                    'Upload Failed',
+                    'An unknown error occurred. Please try again later.',
+                );
+                console.log(error);
+            }
         }
     };
 

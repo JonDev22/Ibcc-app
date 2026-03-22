@@ -39,6 +39,7 @@ function ResourceTypeModal({
             <View
                 style={{
                     backgroundColor: colorMap.bgColor,
+                    minHeight: "100%"
                 }}
             >
                 <ScrollView
