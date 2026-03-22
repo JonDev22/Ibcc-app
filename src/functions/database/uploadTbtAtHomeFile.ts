@@ -35,7 +35,6 @@ async function uploadTbtAtHomeFile(
                 ? decodedSourceUri.replace('file://', '')
                 : dest;
 
-        console.log('A');
         await putFile(reference, uri);
         return path;
     } catch (error) {
