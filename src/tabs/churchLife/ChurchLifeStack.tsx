@@ -13,6 +13,7 @@ import { ILeader } from '../../interfaces/ILeader';
 import { IMinistry } from '../../interfaces/IMinistry';
 import { useEffect } from 'react';
 import NewEditLifeGroup from './stacks/lifegroups/NewEditLifeGroup';
+import NewEditLeader from './stacks/leaders/NewEditLeader';
 
 const Stack = createNativeStackNavigator<ChurchNavigationParamList>();
 
@@ -63,6 +64,7 @@ function ChurchLifeStack() {
             <Stack.Screen name="Church Life" component={ChurchLifeHome} />
             <Stack.Screen name="Ministries" component={MinistryList} />
             <Stack.Screen name="Leaders" component={Leaders} />
+            <Stack.Screen name="Leader" component={NewEditLeader} />
             <Stack.Screen name="Lifegroups" component={LifeGroupList} />
             <Stack.Screen name="Life Group" component={NewEditLifeGroup} />
         </Stack.Navigator>

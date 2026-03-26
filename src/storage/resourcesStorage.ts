@@ -43,6 +43,10 @@ export interface IResourceStorage {
     removeLifeGroup: (lifeGroup: ILifeGroup) => void;
     editLifeGroup: (lifeGroup: ILifeGroup) => void;
 
+    addLeader: (leader: ILeader) => void;
+    editLeader: (leader: ILeader) => void;
+    removeLeader: (leader: ILeader) => void;
+
     addTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
     removeTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
 
@@ -173,6 +177,33 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
                         item.id === lifeGroup.id &&
                         item.name === lifeGroup.name &&
                         item.location === lifeGroup.location
+                    ),
+            ),
+        });
+    },
+
+    addLeader: (leader: ILeader) => {
+        set({
+            leaders: [...get().leaders, leader].sort((a, b) =>
+                a.name.localeCompare(b.name),
+            ),
+        });
+    },
+    editLeader: (leader: ILeader) => {
+        set(state => ({
+            leaders: state.leaders
+                .map(item => (item.id === leader.id ? leader : item))
+                .sort((a, b) => a.name.localeCompare(b.name)),
+        }));
+    },
+    removeLeader: (leader: ILeader) => {
+        set({
+            leaders: get().leaders.filter(
+                item =>
+                    !(
+                        item.id === leader.id &&
+                        item.name === leader.name &&
+                        item.position === leader.position
                     ),
             ),
         });
