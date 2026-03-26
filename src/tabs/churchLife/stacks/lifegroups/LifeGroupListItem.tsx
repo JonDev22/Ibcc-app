@@ -4,13 +4,22 @@ import { ILifeGroup } from '../../../../interfaces/ILifeGroup';
 import { colors } from '../../../../theme/colors';
 import useStyle from '../../../../hooks/useStyle';
 import useColorMap from '../../../../hooks/useColorMap';
-import composeMail from '../../../../functions/composeMail';
+import { ChurchNavigationParamList } from '../../types/churchNavigationTypes';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+
+type NavigationProps = NativeStackNavigationProp<
+    ChurchNavigationParamList,
+    'Life Group'
+>;
 
 interface LifeGroupItemProps {
     group: ILifeGroup;
 }
 
 function LifeGroupItem({ group }: LifeGroupItemProps) {
+    const navigate = useNavigation<NavigationProps>();
+
     const generateStyle = useStyle();
     const colorMap = useColorMap();
 
@@ -18,32 +27,41 @@ function LifeGroupItem({ group }: LifeGroupItemProps) {
     const locationStyle = generateStyle('fontM', 'primary', 'weight600');
 
     const handleTouch = () => {
-        composeMail(
-            'admin@ibc-cologne.com',
-            'Life Group',
-            `${group.name}, ${group.contact}, ${group.location}`,
-        );
+        navigate.navigate('Life Group', { group });
     };
 
     return (
-        <TouchableOpacity style={styles.card} onPress={handleTouch}>
-            <Text style={locationStyle}>{group.name}</Text>
-            <View style={styles.customSpacer} />
-            <View style={styles.view}>
-                <FontAwesome name="map-pin" size={14} color={colorMap.third} />
-                <Text style={textStyle}>{group.location}</Text>
+        <TouchableOpacity style={styles.flexContainer} onPress={handleTouch}>
+            <View style={styles.card}>
+                <Text style={locationStyle}>{group.name}</Text>
+                <View style={styles.customSpacer} />
+                <View style={styles.view}>
+                    <FontAwesome
+                        name="map-pin"
+                        size={14}
+                        color={colorMap.third}
+                    />
+                    <Text style={textStyle}>{group.location}</Text>
+                </View>
+                <View style={styles.view}>
+                    <FontAwesome
+                        name="calendar"
+                        size={14}
+                        color={colorMap.primary}
+                    />
+                    <Text style={textStyle}>{group.time}</Text>
+                </View>
+                <View style={styles.view}>
+                    <FontAwesome name="phone" size={14} color={colors.orchid} />
+                    <Text style={textStyle}>Contact: {group.contact}</Text>
+                </View>
             </View>
-            <View style={styles.view}>
+            <View style={{ alignSelf: 'center' }}>
                 <FontAwesome
-                    name="calendar"
-                    size={14}
+                    name="chevron-right"
+                    size={20}
                     color={colorMap.primary}
                 />
-                <Text style={textStyle}>{group.time}</Text>
-            </View>
-            <View style={styles.view}>
-                <FontAwesome name="phone" size={14} color={colors.orchid} />
-                <Text style={textStyle}>Contact: {group.contact}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -52,8 +70,13 @@ function LifeGroupItem({ group }: LifeGroupItemProps) {
 export default LifeGroupItem;
 
 const styles = StyleSheet.create({
-    card: {
+    flexContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignContent: 'center',
         padding: 16,
+    },
+    card: {
         gap: 4,
     },
     view: {

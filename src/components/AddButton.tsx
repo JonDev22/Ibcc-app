@@ -4,14 +4,19 @@ import useColorMap from '../hooks/useColorMap';
 interface AddButtonProps {
     handleAddEvent: () => void;
     buttonLabel?: string;
+    disabled?: boolean;
 }
 
-function AddButton({ handleAddEvent, buttonLabel }: AddButtonProps) {
+function AddButton({ handleAddEvent, buttonLabel, disabled }: AddButtonProps) {
     const colorMap = useColorMap();
 
     return (
         <View style={styles.paddedView}>
-            <TouchableOpacity style={styles.fab} onPress={handleAddEvent}>
+            <TouchableOpacity
+                style={styles.fab}
+                onPress={handleAddEvent}
+                disabled={disabled}
+            >
                 <Text
                     style={{
                         color: colorMap.primary,

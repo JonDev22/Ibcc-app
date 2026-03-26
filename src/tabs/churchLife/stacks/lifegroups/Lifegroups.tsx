@@ -5,8 +5,13 @@ import LifeGroupListItem from './LifeGroupListItem';
 import useStyle from '../../../../hooks/useStyle';
 import resourcesStorage from '../../../../storage/resourcesStorage';
 import Spacer from '../../../../components/Spacer';
+import AddButton from '../../../../components/AddButton';
+import { ChurchNavigationType } from '../../types/churchNavigationProps';
+import { useNavigation } from '@react-navigation/native';
 
 const LifeGroupList: React.FC = () => {
+    const navigate = useNavigation<ChurchNavigationType<'Life Group'>>();
+
     const { lifeGroups } = resourcesStorage();
 
     const weeklyGroups = lifeGroups.filter(group => group.type === 'weekly');
@@ -14,7 +19,13 @@ const LifeGroupList: React.FC = () => {
         group => group.type === 'bi-weekly',
     );
     const monthlyGroups = lifeGroups.filter(group => group.type === 'monthly');
-    const other = lifeGroups.filter(group => group.type === undefined);
+
+    const other = lifeGroups.filter(
+        group =>
+            group.type !== 'weekly' &&
+            group.type !== 'bi-weekly' &&
+            group.type !== 'monthly',
+    );
 
     const groups = [
         { title: 'Weekly', groups: weeklyGroups },
@@ -32,6 +43,7 @@ const LifeGroupList: React.FC = () => {
         <View style={containerStyle}>
             <ScrollView>
                 <Spacer />
+
                 {groups.map(gg => {
                     if (gg.groups.length > 0) {
                         return (
@@ -52,6 +64,12 @@ const LifeGroupList: React.FC = () => {
                         );
                     }
                 })}
+
+                <AddButton
+                    handleAddEvent={() => navigate.navigate('Life Group', {})}
+                    buttonLabel="Add Life Group"
+                />
+                <Spacer />
             </ScrollView>
         </View>
     );

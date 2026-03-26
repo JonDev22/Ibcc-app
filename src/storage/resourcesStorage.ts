@@ -39,6 +39,10 @@ export interface IResourceStorage {
     removeAnnouncement: (event: IAnnouncement) => void;
     editAnnouncement: (event: IAnnouncement) => void;
 
+    addLifeGroup: (lifeGroup: ILifeGroup) => void;
+    removeLifeGroup: (lifeGroup: ILifeGroup) => void;
+    editLifeGroup: (lifeGroup: ILifeGroup) => void;
+
     addTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
     removeTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
 
@@ -143,6 +147,35 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
                 item.id === announcement.id ? announcement : item,
             ),
         }));
+    },
+
+    editLifeGroup: (lifeGroup: ILifeGroup) => {
+        set(state => ({
+            lifeGroups: sortByDay<ILifeGroup>(
+                state.lifeGroups.map(item =>
+                    item.id === lifeGroup.id ? lifeGroup : item,
+                ),
+            ),
+        }));
+    },
+    addLifeGroup: (lifeGroup: ILifeGroup) => {
+        set({
+            lifeGroups: sortByDay<ILifeGroup>(
+                [...get().lifeGroups, lifeGroup].sort(),
+            ),
+        });
+    },
+    removeLifeGroup: (lifeGroup: ILifeGroup) => {
+        set({
+            lifeGroups: get().lifeGroups.filter(
+                item =>
+                    !(
+                        item.id === lifeGroup.id &&
+                        item.name === lifeGroup.name &&
+                        item.location === lifeGroup.location
+                    ),
+            ),
+        });
     },
 
     addTbtAtHome: (tbtAtHome: ITbtAtHome) => {

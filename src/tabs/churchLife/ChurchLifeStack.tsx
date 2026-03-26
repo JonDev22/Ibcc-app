@@ -12,6 +12,7 @@ import { ILifeGroup } from '../../interfaces/ILifeGroup';
 import { ILeader } from '../../interfaces/ILeader';
 import { IMinistry } from '../../interfaces/IMinistry';
 import { useEffect } from 'react';
+import NewEditLifeGroup from './stacks/lifegroups/NewEditLifeGroup';
 
 const Stack = createNativeStackNavigator<ChurchNavigationParamList>();
 
@@ -63,6 +64,7 @@ function ChurchLifeStack() {
             <Stack.Screen name="Ministries" component={MinistryList} />
             <Stack.Screen name="Leaders" component={Leaders} />
             <Stack.Screen name="Lifegroups" component={LifeGroupList} />
+            <Stack.Screen name="Life Group" component={NewEditLifeGroup} />
         </Stack.Navigator>
     );
 }
