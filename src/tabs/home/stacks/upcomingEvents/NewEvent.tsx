@@ -6,18 +6,15 @@ import {
     StyleSheet,
     ScrollView,
     Alert,
-    Modal,
-    Platform,
     TouchableOpacity,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+
 import { Timestamp } from '@react-native-firebase/firestore';
 import { IEvent } from '../../../../interfaces/IEvent';
 
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import addEventToDatabase from '../../../../functions/database/addItemToDatabase';
-import formatFirebaseDate from '../../../../functions/database/formatFirebaseDate';
-import formatFirebaseTime from '../../../../functions/formatFirebaseTime';
+
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
 import resourcesStorage from '../../../../storage/resourcesStorage';
@@ -25,6 +22,7 @@ import { RouteProp } from '@react-navigation/native';
 import { HomeNavigationParamList } from '../../types/navigationTypes';
 import { colors } from '../../../../theme/colors';
 import editItemInDatabase from '../../../../functions/database/editItemInDatabase';
+import DateTimeComp from './DateTimeComp';
 
 type EventsDetailRouteProps = RouteProp<HomeNavigationParamList, 'New Event'>;
 
@@ -47,7 +45,6 @@ function NewEvent({ navigation, route }: NewEventProps) {
     const [date, setDate] = useState<Timestamp>(
         event?.date ?? Timestamp.fromDate(new Date()),
     );
-    const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
 
     const handleSubmit = () => {
         if (!title || !location || !text || !date) {
@@ -103,7 +100,6 @@ function NewEvent({ navigation, route }: NewEventProps) {
 
     const container = generateStyle('hMinMax');
     const textStyle = generateStyle('fontS');
-    const dateTextStyle = generateStyle('fontS', 'secondary');
     const addButtonStyle = generateStyle(
         'border1',
         'borderPrimary',
@@ -120,14 +116,6 @@ function NewEvent({ navigation, route }: NewEventProps) {
         'fontS',
         'rounded2',
     );
-    const modalViewContent = generateStyle(
-        'wPaddingXL',
-        'hPaddingXL',
-        'wMarginXL',
-        'hMarginXL',
-        'rounded2',
-        'selfCenter',
-    );
 
     return (
         <View style={container}>
@@ -140,42 +128,7 @@ function NewEvent({ navigation, route }: NewEventProps) {
                 />
                 <Spacer />
 
-                <Text style={textStyle}>Date *</Text>
-                <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-                    <Text style={dateTextStyle}>{`${formatFirebaseDate(
-                        date,
-                    )}; ${formatFirebaseTime(date)}`}</Text>
-                </TouchableOpacity>
-                {/* {showDatePicker && ( */}
-                <Modal
-                    visible={showDatePicker}
-                    transparent={true}
-                    animationType="slide"
-                >
-                    <View style={styles.modalViewContainer}>
-                        <View style={modalViewContent}>
-                            <DateTimePicker
-                                value={date.toDate()}
-                                mode="datetime"
-                                display={
-                                    Platform.OS === 'ios' ? 'inline' : 'default'
-                                }
-                                onChange={(_, selectedDate) => {
-                                    if (selectedDate)
-                                        setDate(
-                                            Timestamp.fromDate(selectedDate),
-                                        );
-                                }}
-                            />
-                            <TouchableOpacity
-                                onPress={() => setShowDatePicker(false)}
-                                style={addButtonStyle}
-                            >
-                                <Text style={textStyle}>OK</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </Modal>
+                <DateTimeComp date={date} setDate={setDate} />
                 <Spacer />
 
                 <Text style={textStyle}>Location *</Text>
