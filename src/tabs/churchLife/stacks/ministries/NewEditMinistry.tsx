@@ -11,7 +11,6 @@ import { RouteProp } from '@react-navigation/native';
 import { ChurchNavigationParamList } from '../../types/churchNavigationTypes';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import useStyle from '../../../../hooks/useStyle';
-import { ILifeGroup } from '../../../../interfaces/ILifeGroup';
 import AddButton from '../../../../components/AddButton';
 import Spacer from '../../../../components/Spacer';
 import userSettings from '../../../../storage/userSettings';
@@ -21,41 +20,41 @@ import addItemToDatabase from '../../../../functions/database/addItemToDatabase'
 import editItemInDatabase from '../../../../functions/database/editItemInDatabase';
 import deleteItem from '../../../../functions/database/deleteItem';
 import resourcesStorage from '../../../../storage/resourcesStorage';
+import { IMinistry } from '../../../../interfaces/IMinistry';
 
-type LifeGroupDetailRoutes = RouteProp<ChurchNavigationParamList, 'Life Group'>;
+type MinistryDetailRoutes = RouteProp<ChurchNavigationParamList, 'Ministry'>;
 
-type LifeGroupProps = {
-    route: LifeGroupDetailRoutes;
+type MinistryProps = {
+    route: MinistryDetailRoutes;
     navigation: NativeStackNavigationProp<any>;
 };
 
-function NewEditLifeGroup({ navigation, route }: LifeGroupProps) {
-    const { group } = route.params;
+function NewEditMinistry({ navigation, route }: MinistryProps) {
+    const { ministry } = route.params;
     const generateStyle = useStyle();
 
     const { user } = userSettings();
-    const { addLifeGroup, editLifeGroup, removeLifeGroup } = resourcesStorage();
+    const { addMinistry, editMinistry, removeMinistry } = resourcesStorage();
 
-    const [name, setName] = useState<string>(group?.name ?? '');
-    const [location, setLocation] = useState<string>(group?.location ?? '');
-    const [contact, setContact] = useState<string>(group?.contact ?? '');
-    const [time, setTime] = useState<string>(group?.time ?? '');
-    const [day, setDay] = useState<string>(group?.day ?? '');
-    const [type, setType] = useState<string>(group?.type ?? '');
+    const [name, setName] = useState<string>(ministry?.name ?? '');
+    const [icon, setIcon] = useState<string>(ministry?.icon ?? '');
+    const [leader, setLeader] = useState<string>(ministry?.leader ?? '');
+    const [time, setTime] = useState<string>(ministry?.time ?? '');
+    const [task, setTask] = useState<string>(ministry?.task ?? '');
     const [loading, setLoading] = useState<boolean>(false);
 
     const userCanEdit = hasUserRole(user, ['admin']);
 
-    const handleTouchMail = (lifeGroup: ILifeGroup) => {
+    const handleTouchMail = (ministry: IMinistry) => {
         composeMail(
             'admin@ibc-cologne.com',
-            'Life Group',
-            `${lifeGroup.name}, ${lifeGroup.contact}, ${lifeGroup.location}`,
+            'Ministry',
+            `${ministry.name}, ${ministry.leader}, ${ministry.time}, ${ministry.task}`,
         );
     };
 
-    const handleCreateLifeGroup = () => {
-        if (!name || !location || !contact || !time || !day || !type) {
+    const handleCreateMinistry = () => {
+        if (!name || !icon || !leader || !time || !task) {
             Alert.alert(
                 'Missing Fields',
                 'Please fill in all required fields to create a life group.',
@@ -63,34 +62,33 @@ function NewEditLifeGroup({ navigation, route }: LifeGroupProps) {
             return;
         }
 
-        const newLifeGroup: Omit<ILifeGroup, 'id'> = {
+        const newMinistry: Omit<IMinistry, 'id'> = {
             name,
-            location,
-            contact,
+            icon,
+            leader,
             time,
-            day,
-            type,
+            task,
         };
 
-        if (group) {
-            const editedLifeGroup: ILifeGroup = {
-                ...newLifeGroup,
-                id: group.id,
+        if (ministry) {
+            const editedLifeGroup: IMinistry = {
+                ...newMinistry,
+                id: ministry.id,
             };
 
-            editItemInDatabase<ILifeGroup>(editedLifeGroup, 'lifegroups')
+            editItemInDatabase<IMinistry>(editedLifeGroup, 'ministries')
                 .then(res => {
                     if (res.status === 'success' && res.id) {
-                        editLifeGroup(editedLifeGroup);
+                        editMinistry(editedLifeGroup);
                         navigation.goBack();
                     } else {
-                        Alert.alert('Error', 'Failed to edit life group.');
+                        Alert.alert('Error', 'Failed to edit ministry.');
                     }
                 })
                 .catch(() => {
                     Alert.alert(
                         'Error',
-                        'An error occurred while editing the life group.',
+                        'An error occurred while editing the ministry.',
                     );
                 });
             return;
@@ -98,38 +96,38 @@ function NewEditLifeGroup({ navigation, route }: LifeGroupProps) {
 
         setLoading(true);
 
-        addItemToDatabase<ILifeGroup>(newLifeGroup, 'lifegroups')
+        addItemToDatabase<IMinistry>(newMinistry, 'ministries')
             .then(res => {
                 if (res.status === 'success' && res.id) {
-                    addLifeGroup({ ...newLifeGroup, id: res.id });
+                    addMinistry({ ...newMinistry, id: res.id });
                     navigation.goBack();
                 } else {
-                    Alert.alert('Error', 'Failed to create life group.');
+                    Alert.alert('Error', 'Failed to create ministry.');
                 }
             })
             .catch(() => {
                 Alert.alert(
                     'Error',
-                    'An error occurred while creating the life group.',
+                    'An error occurred while creating the ministry.',
                 );
             })
             .finally(() => setLoading(false));
     };
 
-    const handleDeleteItem = (groupToDelete: ILifeGroup) => {
-        deleteItem<ILifeGroup>(groupToDelete, 'lifegroups')
+    const handleDeleteItem = (groupToDelete: IMinistry) => {
+        deleteItem<IMinistry>(groupToDelete, 'ministries')
             .then(res => {
                 if (res === 'success') {
-                    removeLifeGroup(groupToDelete);
+                    removeMinistry(groupToDelete);
                     navigation.goBack();
                 } else {
-                    Alert.alert('Error', 'Failed to delete life group.');
+                    Alert.alert('Error', 'Failed to delete ministry.');
                 }
             })
             .catch(() => {
                 Alert.alert(
                     'Error',
-                    'An error occurred while deleting the life group.',
+                    'An error occurred while deleting the ministry.',
                 );
             });
     };
@@ -182,52 +180,90 @@ function NewEditLifeGroup({ navigation, route }: LifeGroupProps) {
                 <Spacer />
 
                 {generateInputComponent('Name', name, setName, true)}
-                {generateInputComponent(
-                    'Location',
-                    location,
-                    setLocation,
-                    true,
-                )}
-                {generateInputComponent('Contact', contact, setContact, true)}
+                {generateInputComponent('Leader', leader, setLeader, true)}
+                {generateInputComponent('Icon', icon, setIcon, true)}
                 {generateInputComponent('Time', time, setTime, true)}
-                {generateInputComponent('Day', day, setDay, true)}
-                {generateInputComponent('Type', type, setType, true)}
+
+                <View>
+                    <Text
+                        style={{
+                            ...textStyle,
+                            fontWeight: '800',
+                        }}
+                    >
+                        Tasks*
+                    </Text>
+                    {userCanEdit ? (
+                        <TextInput
+                            style={{
+                                height: 100,
+                                ...inputStyle,
+                                borderWidth: userCanEdit ? 1 : 0,
+                                paddingHorizontal: userCanEdit ? 10 : 0,
+                            }}
+                            value={task}
+                            onChangeText={setTask}
+                            multiline={true}
+                            numberOfLines={4}
+                            textAlignVertical="top"
+                            editable={userCanEdit}
+                        />
+                    ) : (
+                        <Text style={{ ...textStyle, minHeight: 10 }}>
+                            {task}
+                        </Text>
+                    )}
+                </View>
 
                 <Spacer />
 
-                {group && (
+                {ministry && (
                     <>
                         <AddButton
-                            handleAddEvent={() => handleTouchMail(group)}
-                            buttonLabel="Contact Life Group"
+                            handleAddEvent={() => handleTouchMail(ministry)}
+                            buttonLabel="Contact Ministry Leader"
                             disabled={loading}
                         />
                         {userCanEdit && (
                             <>
                                 <AddButton
                                     handleAddEvent={() =>
-                                        handleCreateLifeGroup()
+                                        handleCreateMinistry()
                                     }
                                     buttonLabel="Save Changes"
                                     disabled={loading}
                                 />
                                 <AddButton
                                     handleAddEvent={() =>
-                                        handleDeleteItem(group)
+                                        handleDeleteItem(ministry)
                                     }
-                                    buttonLabel="Delete Life Group"
+                                    buttonLabel="Delete Ministry"
                                     disabled={loading}
                                 />
                             </>
                         )}
                     </>
                 )}
-                {!group && (
-                    <AddButton
-                        handleAddEvent={() => handleCreateLifeGroup()}
-                        buttonLabel="Create Life Group"
-                        disabled={loading}
-                    />
+                {!ministry && userCanEdit && (
+                    <>
+                        <AddButton
+                            handleAddEvent={() => handleCreateMinistry()}
+                            buttonLabel="Create Ministry"
+                            disabled={loading}
+                        />
+                        <Text style={textStyle}>
+                            *As icon, please enter the name of a FontAwesome
+                            icon.
+                        </Text>
+                        <Text style={textStyle}>
+                            Possible icons include: "users", "child", "book",
+                            "music", "heart", "home", "cogs", "paint-brush",
+                            "dumbbell", "globe", "leaf", "paw", "camera",
+                            "gamepad", "laptop-code", "file", and many more.
+                        </Text>
+                        <Spacer />
+                        <Spacer />
+                    </>
                 )}
             </ScrollView>
         </View>
@@ -240,4 +276,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default NewEditLifeGroup;
+export default NewEditMinistry;

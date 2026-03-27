@@ -47,6 +47,10 @@ export interface IResourceStorage {
     editLeader: (leader: ILeader) => void;
     removeLeader: (leader: ILeader) => void;
 
+    addMinistry: (ministry: IMinistry) => void;
+    editMinistry: (ministry: IMinistry) => void;
+    removeMinistry: (ministry: IMinistry) => void;
+
     addTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
     removeTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
 
@@ -204,6 +208,33 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
                         item.id === leader.id &&
                         item.name === leader.name &&
                         item.position === leader.position
+                    ),
+            ),
+        });
+    },
+
+    addMinistry: (ministry: IMinistry) => {
+        set({
+            ministries: [...get().ministries, ministry].sort((a, b) =>
+                a.name.localeCompare(b.name),
+            ),
+        });
+    },
+    editMinistry: (ministry: IMinistry) => {
+        set(state => ({
+            ministries: state.ministries
+                .map(item => (item.id === ministry.id ? ministry : item))
+                .sort((a, b) => a.name.localeCompare(b.name)),
+        }));
+    },
+    removeMinistry: (ministry: IMinistry) => {
+        set({
+            ministries: get().ministries.filter(
+                item =>
+                    !(
+                        item.id === ministry.id &&
+                        item.name === ministry.name &&
+                        item.leader === ministry.leader
                     ),
             ),
         });
