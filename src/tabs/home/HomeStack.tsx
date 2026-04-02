@@ -17,6 +17,7 @@ import { IPassage } from '../../interfaces/IPassage';
 import { IAnnouncement } from '../../interfaces/IAnnouncement';
 import { Timestamp, where } from '@react-native-firebase/firestore';
 import Passages from './stacks/passages/Passages';
+import { IChurchInfo } from '../../interfaces/IChurchInfo';
 
 const Stack = createNativeStackNavigator<HomeNavigationParamList>();
 
@@ -27,9 +28,11 @@ function HomeStack() {
         passages,
         events,
         announcements,
+        serviceInformation,
         setPassages,
         setAnnouncements,
         setEvents,
+        setServiceInfo,
     } = resourcesStorage();
 
     useEffect(() => {
@@ -49,13 +52,23 @@ function HomeStack() {
                 res ? setAnnouncements(res) : null,
             );
         }
+
+        if (!serviceInformation) {
+            getCollectionData<IChurchInfo>('service_information').then(res => {
+                if (res && res.length > 0) {
+                    setServiceInfo(res[0]);
+                }
+            });
+        }
     }, [
         announcements.length,
         events.length,
         passages.length,
+        serviceInformation,
         setAnnouncements,
         setEvents,
         setPassages,
+        setServiceInfo,
     ]);
 
     return (

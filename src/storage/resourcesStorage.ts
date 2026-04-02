@@ -15,6 +15,7 @@ import sortByOrder from '../functions/sorting/sortByOrder';
 import sortByAddedDate from '../functions/sorting/sortByAddedDate';
 import { Track } from 'react-native-track-player';
 import sortByBibleBook from '../functions/sortByBibleBook';
+import { IChurchInfo } from '../interfaces/IChurchInfo';
 
 export interface IResourceStorage {
     courses: ICourse[];
@@ -27,6 +28,7 @@ export interface IResourceStorage {
     tbt: ITbtResource[];
     tbtAtHome: ITbtAtHome[];
     announcements: IAnnouncement[];
+    serviceInformation: IChurchInfo | undefined;
 
     addTbtResource: (tbtResource: ITbtResource) => void;
     removeTbtResource: (tbtResource: ITbtResource) => void;
@@ -69,6 +71,8 @@ export interface IResourceStorage {
     setTbt: (tbtResources: ITbtResource[]) => void;
     setTbtAtHome: (tbtAtHome: ITbtAtHome[]) => void;
     setAnnouncements: (announcements: IAnnouncement[]) => void;
+
+    setServiceInfo: (info: IChurchInfo) => void;
 }
 
 const resourcesStorage = create<IResourceStorage>((set, get) => ({
@@ -82,6 +86,8 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
     tbt: [],
     tbtAtHome: [],
     announcements: [],
+    serviceInformation: undefined,
+    setServiceInfo: (info: IChurchInfo) => set({ serviceInformation: info }),
 
     addTbtResource: (tbtResource: ITbtResource) => {
         set({

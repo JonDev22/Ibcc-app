@@ -7,6 +7,7 @@ import InfoCard from '../../../../components/InfoCard';
 import { useNavigation } from '@react-navigation/native';
 import { HomeNavigationType } from '../../types/homeNavigationProp';
 import useStyle from '../../../../hooks/useStyle';
+import Spacer from '../../../../components/Spacer';
 
 function Home() {
     const navigate = useNavigation<HomeNavigationType<'Announcements'>>();
@@ -15,6 +16,10 @@ function Home() {
 
     return (
         <ScrollView style={generateStyle()}>
+            <VisitUs />
+
+            <Spacer />
+
             <VerseViewer navigate={() => navigate.navigate('Passages')} />
 
             <TopUpcomingEvents />
@@ -31,8 +36,6 @@ function Home() {
             </View>
 
             <OnlineResources />
-
-            <VisitUs />
 
             <View style={styles.breather} />
         </ScrollView>
