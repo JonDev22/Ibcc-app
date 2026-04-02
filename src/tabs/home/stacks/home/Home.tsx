@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { HomeNavigationType } from '../../types/homeNavigationProp';
 import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
+import TopAnnouncements from './components/TopAnnouncements';
 
 function Home() {
     const navigate = useNavigation<HomeNavigationType<'Announcements'>>();
@@ -22,18 +23,15 @@ function Home() {
 
             <VerseViewer navigate={() => navigate.navigate('Passages')} />
 
+            <Spacer />
+
             <TopUpcomingEvents />
 
-            <View style={styles.announcementView}>
-                <InfoCard
-                    image="bullhorn"
-                    text="Be part of the journey — explore the newest updates and announcements from our church family."
-                    onPress={() => navigate.navigate('Announcements')}
-                    header="Announcements"
-                    headerLeft
-                    buttonText="See announcements"
-                />
-            </View>
+            <Spacer />
+
+            <TopAnnouncements />
+
+            <Spacer />
 
             <OnlineResources />
 
