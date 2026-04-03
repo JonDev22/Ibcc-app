@@ -31,7 +31,12 @@ function VisitUs() {
     );
     const valueStyle = generateStyle('fontS', 'wMarginS', 'bgTransparent');
     const touchableStyle = generateStyle('bgTransparent');
-    const touchableText = generateStyle('primary', 'bgTransparent', 'fontS', 'pb1');
+    const touchableText = generateStyle(
+        'primary',
+        'bgTransparent',
+        'fontS',
+        'pb1',
+    );
     const viewStyle = generateStyle(
         'flexRow',
         'itemsCenter',
@@ -41,7 +46,9 @@ function VisitUs() {
     );
 
     return (
-        <View style={{ ...containerStyle, backgroundColor: '#f1f1f1' }}>
+        <View
+            style={{ ...containerStyle, backgroundColor: colors.bgSecondary }}
+        >
             <View style={{ alignSelf: 'flex-start', paddingTop: 10 }}>
                 <Text style={headingStyle}>IBC Cologne</Text>
                 <Text

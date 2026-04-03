@@ -103,7 +103,12 @@ function TopUpcomingEvents() {
                     scrollEnabled={false}
                     ItemSeparatorComponent={() => <Spacer />}
                     renderItem={({ item }) => (
-                        <View
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate('Upcoming Events Details', {
+                                    id: item.id,
+                                })
+                            }
                             style={{
                                 ...cardStyle,
                                 borderColor: colorMap.lightGray,
@@ -171,7 +176,7 @@ function TopUpcomingEvents() {
                                     </View>
                                 </View>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     )}
                 />
             </View>

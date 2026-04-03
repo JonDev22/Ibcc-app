@@ -10,7 +10,8 @@ import Spacer from '../../../../../components/Spacer';
 
 type NavigationProps = NativeStackNavigationProp<
     HomeNavigationParamList,
-    'Upcoming Events'
+    'Upcoming Events',
+    'Announcements Details'
 >;
 
 function TopAnnouncements() {
@@ -79,9 +80,14 @@ function TopAnnouncements() {
                         .slice(0, 2)}
                     keyExtractor={item => item.id}
                     scrollEnabled={false}
-                    ItemSeparatorComponent={() =>  <Spacer />}
+                    ItemSeparatorComponent={() => <Spacer />}
                     renderItem={({ item }) => (
-                        <View
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate('Announcements Details', {
+                                    id: item.id,
+                                })
+                            }
                             style={{
                                 ...cardStyle,
                                 borderColor: colorMap.lightGray,
@@ -97,7 +103,7 @@ function TopAnnouncements() {
                                     </Text>
                                 )}
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     )}
                 />
             </View>
