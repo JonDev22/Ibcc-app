@@ -58,7 +58,13 @@ function TopUpcomingEvents() {
         'bgTransparent',
     );
     const dayStyle = generateStyle(
-        'fontL',
+        'fontXL',
+        'weight700',
+        'primary',
+        'bgTransparent',
+    );
+    const yearStyle = generateStyle(
+        'fontS',
         'weight700',
         'primary',
         'bgTransparent',
@@ -128,6 +134,9 @@ function TopUpcomingEvents() {
                                 </Text>
                                 <Text style={dayStyle}>
                                     {item.date.toDate().getUTCDate()}
+                                </Text>
+                                <Text style={yearStyle}>
+                                    {item.date.toDate().getUTCFullYear()}
                                 </Text>
                             </View>
 

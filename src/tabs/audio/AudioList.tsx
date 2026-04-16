@@ -13,6 +13,8 @@ import useStyle from '../../hooks/useStyle';
 import AddButton from '../../components/AddButton';
 import { useNavigation } from '@react-navigation/native';
 import { AudioNavigationType } from './types/AudioNavigationType';
+import hasUserRole from '../../functions/hasUserRole';
+import userSettings from '../../storage/userSettings';
 
 interface IPlayerTrack extends Track {
     index: number;
@@ -24,6 +26,7 @@ type Props = {
 };
 
 export default function SongList({ songs, onPressSong }: Props) {
+    const { user } = userSettings();
     const navigation = useNavigation<AudioNavigationType<'Add Audio'>>();
 
     const generateStyle = useStyle();
@@ -83,10 +86,12 @@ export default function SongList({ songs, onPressSong }: Props) {
 
     return (
         <>
-            <AddButton
-                handleAddEvent={handleAddAnnouncement}
-                buttonLabel="Add Memory Verse"
-            />
+            {hasUserRole(user, ['admin']) && (
+                <AddButton
+                    handleAddEvent={handleAddAnnouncement}
+                    buttonLabel="Add Memory Verse"
+                />
+            )}
             {Object.entries(categorized).map(([album, list]) => (
                 <View key={album} style={containerStyle}>
                     <Text style={headerStyle}>{album}</Text>

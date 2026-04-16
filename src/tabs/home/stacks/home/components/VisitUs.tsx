@@ -59,7 +59,7 @@ function VisitUs() {
                         fontStyle: 'italic',
                     }}
                 >
-                    Join our services
+                    Join our service
                 </Text>
             </View>
 

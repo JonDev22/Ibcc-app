@@ -3,7 +3,6 @@ import VerseViewer from './components/VerseViewer';
 import TopUpcomingEvents from './components/TopUpcomingEvents';
 import OnlineResources from './components/OnlineResources';
 import VisitUs from './components/VisitUs';
-import InfoCard from '../../../../components/InfoCard';
 import { useNavigation } from '@react-navigation/native';
 import { HomeNavigationType } from '../../types/homeNavigationProp';
 import useStyle from '../../../../hooks/useStyle';
@@ -17,10 +16,6 @@ function Home() {
 
     return (
         <ScrollView style={generateStyle()}>
-            <VisitUs />
-
-            <Spacer />
-
             <VerseViewer navigate={() => navigate.navigate('Passages')} />
 
             <Spacer />
@@ -30,6 +25,10 @@ function Home() {
             <Spacer />
 
             <TopAnnouncements />
+
+            <Spacer />
+
+            <VisitUs />
 
             <Spacer />
 
