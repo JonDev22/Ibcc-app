@@ -2,7 +2,6 @@ import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { ILeader } from '../../../../interfaces/ILeader';
 import LeaderListItem from './LeadersListItem';
 import Separator from '../../../../functions/Separator';
-import { colors } from '../../../../theme/colors';
 import useStyle from '../../../../hooks/useStyle';
 
 function LeaderSection({ title, data }: { title: string; data: ILeader[] }) {

@@ -7,7 +7,6 @@ import {
     ScrollView,
     Alert,
     TouchableOpacity,
-    Platform,
 } from 'react-native';
 import { Timestamp } from '@react-native-firebase/firestore';
 
@@ -16,12 +15,13 @@ import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
 import resourcesStorage from '../../../../storage/resourcesStorage';
 import { RouteProp } from '@react-navigation/native';
-import { colors } from '../../../../theme/colors';
 import { ResourceNavigationParamList } from '../../types/navigationTypes';
 import { ITbtAtHome } from '../../../../interfaces/ITbtAtHome';
 import { pick, DocumentPickerResponse } from '@react-native-documents/picker';
 import uploadTbtAtHomeFile from '../../../../functions/database/uploadTbtAtHomeFile';
 import addItemToDatabase from '../../../../functions/database/addItemToDatabase';
+import AddButton from '../../../../components/AddButton';
+import getPlatformSpecificType from '../../../../functions/getPlatformSpecificType';
 
 type TBTAtHomeDetailRouteProps = RouteProp<
     ResourceNavigationParamList,
@@ -122,15 +122,6 @@ function NewTbtAtHome({ navigation, route }: NewEventProps) {
         'rounded2',
     );
 
-    const getPlatformSpecificType = () => {
-        // iOS uses UTIs, Android uses MIME types
-        if (Platform.OS === 'ios') {
-            return { type: 'com.adobe.pdf' };
-        } else {
-            return { type: 'application/pdf' };
-        }
-    };
-
     return (
         <View style={container}>
             <ScrollView contentContainerStyle={styles.container}>
@@ -175,17 +166,12 @@ function NewTbtAtHome({ navigation, route }: NewEventProps) {
                     onChangeText={setPassage}
                 />
                 <Spacer />
+                <Spacer />
 
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        onPress={handleSubmit}
-                        style={addButtonStyle}
-                    >
-                        <Text style={{ ...textStyle, color: colors.orange }}>
-                            {tbtAtHome ? 'Edit' : 'Add'} Event
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                <AddButton
+                    handleAddEvent={handleSubmit}
+                    buttonLabel="Add TBT@Home Resource"
+                />
             </ScrollView>
         </View>
     );

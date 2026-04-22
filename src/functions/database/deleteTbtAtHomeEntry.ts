@@ -1,4 +1,3 @@
-import { ITbtAtHome } from '../../interfaces/ITbtAtHome';
 import { getApp } from '@react-native-firebase/app';
 import {
     getFirestore,
@@ -9,20 +8,22 @@ import {
 import { getStorage, ref, deleteObject } from '@react-native-firebase/storage';
 
 async function deleteTbtAtHomeEntry(
-    tbtAtHome: ITbtAtHome,
+    id: string,
+    resource: string,
+    colId: string,
 ): Promise<string | null> {
     try {
         const app = getApp();
         const firestore = getFirestore(app);
-        const collectionRef = collection(firestore, 'tbtAtHome');
+        const collectionRef = collection(firestore, colId);
         const storage = getStorage(app);
 
         // Delete the Firestore document
-        const docRef = doc(collectionRef, tbtAtHome.id);
+        const docRef = doc(collectionRef, id);
 
         return deleteDoc(docRef)
-            .then(() => {
-                const storageRef = ref(storage, tbtAtHome.resource);
+            .then(async () => {
+                const storageRef = ref(storage, resource);
                 return deleteObject(storageRef)
                     .then(() => {
                         return 'success';

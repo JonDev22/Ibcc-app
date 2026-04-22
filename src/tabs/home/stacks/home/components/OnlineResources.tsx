@@ -68,14 +68,14 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ subHeader, items }) => {
 function OnlineResources() {
     const generateStyle = useStyle();
 
-    const headingStyle = generateStyle('fontXL', 'bold', 'textCenter');
+    const headingStyle = generateStyle('font2XL', 'bold', 'textCenter');
     return (
         <View style={styles.container}>
-            <Text style={headingStyle}>Get Connected:</Text>
+            <Text style={headingStyle}>Connect with us:</Text>
             <Spacer />
             <FlatList
                 data={data}
-                keyExtractor={item => item.subHeader}
+                keyExtractor={(item: ServiceCardProps) => item.subHeader}
                 scrollEnabled={false}
                 renderItem={({ item }) => <ServiceCard {...item} />}
             />

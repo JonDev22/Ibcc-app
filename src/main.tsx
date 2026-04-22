@@ -21,14 +21,12 @@ import {
     getToken,
     onMessage,
     requestPermission,
+    registerDeviceForRemoteMessages,
     subscribeToTopic,
 } from '@react-native-firebase/messaging';
-import { Alert, Platform } from 'react-native';
+import { Alert, Platform, PermissionsAndroid } from 'react-native';
 import { getApp } from '@react-native-firebase/app';
-// import { IAnnouncement } from './interfaces/IAnnouncement';
-// import { IEvent } from './interfaces/IEvent';
-// import { subscribeToCollection } from './hooks/subscribeToCollection';
-import resourcesStorage from './storage/resourcesStorage';
+import getUserFromDatabase from './functions/database/getUserFromDatabase';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,12 +41,16 @@ function Main() {
     const [tempUser, setTempUser] = useState<FirebaseAuthTypes.User | null>(
         null,
     );
-    const { setAnnouncements, setEvents } = resourcesStorage();
+
+    const fetchAndSetUser = async (userInput: FirebaseAuthTypes.User) => {
+        const databaseUser = await getUserFromDatabase(userInput);
+        setUser(databaseUser);
+    }
 
     useEffect(() => {
         const auth = getAuth();
         const authStateSetup = onAuthStateChanged(auth, user => {
-            if (user?.email) {
+            if (user?.uid) {
                 setTempUser(user);
             } else {
                 setTempUser(null);
@@ -63,7 +65,7 @@ function Main() {
     // Necessary effect call - Seemingly obsolete, but setting the user in onAuthStateChanged method causes the app to rerender forever. To prevent this, an extra state for this component needed to be set.
     useEffect(() => {
         if (tempUser?.email) {
-            setUser(tempUser);
+            fetchAndSetUser(tempUser);
         } else {
             removeUser();
         }
@@ -76,24 +78,70 @@ function Main() {
         const setupFCM = async () => {
             try {
                 if (Platform.OS === 'ios') {
-                    const authStatus = await requestPermission(
-                        messagingInstance,
-                    );
+                    // Ensure the native side registers device for remote messages (APNs)
+                    try {
+                        await registerDeviceForRemoteMessages(messagingInstance);
+                    } catch (regErr) {
+                        console.warn('registerDeviceForRemoteMessages error', regErr);
+                    }
+
+                    const authStatus =
+                        await requestPermission(messagingInstance);
                     const enable =
                         authStatus === AuthorizationStatus.AUTHORIZED ||
                         authStatus === AuthorizationStatus.PROVISIONAL;
 
                     if (!enable) {
+                        console.log('iOS: notification permission not granted');
                         return;
+                    }
+                } else if (Platform.OS === 'android') {
+                    // Request POST_NOTIFICATIONS for Android 13+
+                    try {
+                        const sdkInt = Platform.Version as number;
+                        if (sdkInt >= 33) {
+                            const granted = await PermissionsAndroid.request(
+                                PermissionsAndroid.PERMISSIONS
+                                    .POST_NOTIFICATIONS,
+                            );
+                            if (
+                                granted !== PermissionsAndroid.RESULTS.GRANTED
+                            ) {
+                                console.log(
+                                    'Android: POST_NOTIFICATIONS not granted',
+                                );
+                                // We continue to get token but notifications won't be shown
+                            }
+                        }
+                    } catch (permErr) {
+                        console.warn(
+                            'Error requesting Android notification permission',
+                            permErr,
+                        );
                     }
                 }
 
                 const token = await getToken(messagingInstance);
-                console.log('FCM Token:', token);
+                // console.log('FCM token:', token);
 
-                await subscribeToTopic(messagingInstance, 'events');
-                await subscribeToTopic(messagingInstance, 'announcements');
-                console.log('Subscribed to topics: events, announcements');
+                // Subscribe to topics if a token exists
+                if (token) {
+                    try {
+                        await subscribeToTopic(messagingInstance, 'events');
+                        await subscribeToTopic(
+                            messagingInstance,
+                            'announcements',
+                        );
+                        await subscribeToTopic(messagingInstance, 'audios');
+                        await subscribeToTopic(messagingInstance, 'tbtAtHome');
+                    } catch (topicErr) {
+                        console.warn('Subscribe to topic failed', topicErr);
+                    }
+                } else {
+                    console.warn(
+                        'No FCM token available; skipping topic subscription',
+                    );
+                }
             } catch (error) {
                 console.error('FCM Setup Error:', error);
             }
@@ -104,50 +152,18 @@ function Main() {
         // Handle foreground messages
         const unsubscribe = onMessage(messagingInstance, remoteMessage => {
             console.log('FCM Foreground Message:', remoteMessage);
-            
+
             const title = remoteMessage.notification?.title || 'New Message';
-            const body = remoteMessage.notification?.body || 'You have a new notification';
-            
+            const body =
+                remoteMessage.notification?.body ||
+                'You have a new notification';
+
             Alert.alert(title, body);
         });
 
         return () => unsubscribe();
     }, []);
 
-    useEffect(() => {
-        // const subToAnnouncements = subscribeToCollection<IAnnouncement>(
-        //     'announcements',
-        //     doc => {
-        //         const data = doc.data();
-        //         return {
-        //             id: doc.id,
-        //             ...data,
-        //         } as IAnnouncement;
-        //     },
-        //     items => {
-        //         setAnnouncements(items);
-        //     },
-        // );
-
-        // const subToEvents = subscribeToCollection<IEvent>(
-        //     'events',
-        //     doc => {
-        //         const data = doc.data();
-        //         return {
-        //             id: doc.id,
-        //             ...data,
-        //         } as IEvent;
-        //     },
-        //     items => {
-        //         setEvents(items);
-        //     },
-        // );
-
-        return () => {
-            // subToAnnouncements();
-            // subToEvents();
-        };
-    }, [setAnnouncements, setEvents]);
 
     return (
         <Tab.Navigator

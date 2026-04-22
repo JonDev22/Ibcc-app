@@ -1,6 +1,6 @@
 import { FontAwesomeIconName } from '@react-native-vector-icons/fontawesome';
 
-const record: Record<string, FontAwesomeIconName> = {
+export const record: Record<string, FontAwesomeIconName> = {
     music: 'music',
     home: 'home',
     user: 'user',

@@ -13,6 +13,9 @@ import { ITbtAtHome } from '../interfaces/ITbtAtHome';
 import sortByDate from '../functions/sorting/sortByDate';
 import sortByOrder from '../functions/sorting/sortByOrder';
 import sortByAddedDate from '../functions/sorting/sortByAddedDate';
+import { Track } from 'react-native-track-player';
+import sortByBibleBook from '../functions/sortByBibleBook';
+import { IChurchInfo } from '../interfaces/IChurchInfo';
 
 export interface IResourceStorage {
     courses: ICourse[];
@@ -25,6 +28,10 @@ export interface IResourceStorage {
     tbt: ITbtResource[];
     tbtAtHome: ITbtAtHome[];
     announcements: IAnnouncement[];
+    serviceInformation: IChurchInfo | undefined;
+
+    addTbtResource: (tbtResource: ITbtResource) => void;
+    removeTbtResource: (tbtResource: ITbtResource) => void;
 
     addEvent: (event: IEvent) => void;
     removeEvent: (event: IEvent) => void;
@@ -34,8 +41,25 @@ export interface IResourceStorage {
     removeAnnouncement: (event: IAnnouncement) => void;
     editAnnouncement: (event: IAnnouncement) => void;
 
+    addLifeGroup: (lifeGroup: ILifeGroup) => void;
+    removeLifeGroup: (lifeGroup: ILifeGroup) => void;
+    editLifeGroup: (lifeGroup: ILifeGroup) => void;
+
+    addLeader: (leader: ILeader) => void;
+    editLeader: (leader: ILeader) => void;
+    removeLeader: (leader: ILeader) => void;
+
+    addMinistry: (ministry: IMinistry) => void;
+    editMinistry: (ministry: IMinistry) => void;
+    removeMinistry: (ministry: IMinistry) => void;
+
     addTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
     removeTbtAtHome: (tbtAtHome: ITbtAtHome) => void;
+
+    audioTracks: Track[] | null;
+    addAudioTrack: (track: Track) => void;
+    removeAudioTrack: (track: Track) => void;
+    setAudioTracks: (tracks: Track[]) => void;
 
     setCourses: (courses: ICourse[]) => void;
     setForms: (forms: IForm[]) => void;
@@ -47,6 +71,8 @@ export interface IResourceStorage {
     setTbt: (tbtResources: ITbtResource[]) => void;
     setTbtAtHome: (tbtAtHome: ITbtAtHome[]) => void;
     setAnnouncements: (announcements: IAnnouncement[]) => void;
+
+    setServiceInfo: (info: IChurchInfo) => void;
 }
 
 const resourcesStorage = create<IResourceStorage>((set, get) => ({
@@ -60,6 +86,28 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
     tbt: [],
     tbtAtHome: [],
     announcements: [],
+    serviceInformation: undefined,
+    setServiceInfo: (info: IChurchInfo) => set({ serviceInformation: info }),
+
+    addTbtResource: (tbtResource: ITbtResource) => {
+        set({
+            tbt: [...get().tbt, tbtResource].sort((a, b) =>
+                sortByDate<ITbtResource>(a, b, 'desc'),
+            ),
+        });
+    },
+    removeTbtResource: (tbtResource: ITbtResource) => {
+        set({
+            tbt: get().tbt.filter(
+                item =>
+                    !(
+                        item.id === tbtResource.id &&
+                        item.title === tbtResource.title &&
+                        item.date === tbtResource.date
+                    ),
+            ),
+        });
+    },
 
     addEvent: (event: IEvent) => {
         set({
@@ -115,6 +163,89 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
         }));
     },
 
+    editLifeGroup: (lifeGroup: ILifeGroup) => {
+        set(state => ({
+            lifeGroups: sortByDay<ILifeGroup>(
+                state.lifeGroups.map(item =>
+                    item.id === lifeGroup.id ? lifeGroup : item,
+                ),
+            ),
+        }));
+    },
+    addLifeGroup: (lifeGroup: ILifeGroup) => {
+        set({
+            lifeGroups: sortByDay<ILifeGroup>(
+                [...get().lifeGroups, lifeGroup].sort(),
+            ),
+        });
+    },
+    removeLifeGroup: (lifeGroup: ILifeGroup) => {
+        set({
+            lifeGroups: get().lifeGroups.filter(
+                item =>
+                    !(
+                        item.id === lifeGroup.id &&
+                        item.name === lifeGroup.name &&
+                        item.location === lifeGroup.location
+                    ),
+            ),
+        });
+    },
+
+    addLeader: (leader: ILeader) => {
+        set({
+            leaders: [...get().leaders, leader].sort((a, b) =>
+                a.name.localeCompare(b.name),
+            ),
+        });
+    },
+    editLeader: (leader: ILeader) => {
+        set(state => ({
+            leaders: state.leaders
+                .map(item => (item.id === leader.id ? leader : item))
+                .sort((a, b) => a.name.localeCompare(b.name)),
+        }));
+    },
+    removeLeader: (leader: ILeader) => {
+        set({
+            leaders: get().leaders.filter(
+                item =>
+                    !(
+                        item.id === leader.id &&
+                        item.name === leader.name &&
+                        item.position === leader.position
+                    ),
+            ),
+        });
+    },
+
+    addMinistry: (ministry: IMinistry) => {
+        set({
+            ministries: [...get().ministries, ministry].sort((a, b) =>
+                a.name.localeCompare(b.name),
+            ),
+        });
+    },
+    editMinistry: (ministry: IMinistry) => {
+        set(state => ({
+            ministries: state.ministries
+                .map(item => (item.id === ministry.id ? ministry : item))
+                .sort((a, b) => a.name.localeCompare(b.name)),
+        }));
+    },
+    removeMinistry: (ministry: IMinistry) => {
+        set({
+            ministries: get().ministries.filter(
+                item =>
+                    !(
+                        item.id === ministry.id &&
+                        item.name === ministry.name &&
+                        item.leader === ministry.leader
+                    ),
+            ),
+        });
+    },
+
     addTbtAtHome: (tbtAtHome: ITbtAtHome) => {
         set({
             tbtAtHome: [...get().tbtAtHome, tbtAtHome].sort(
@@ -136,6 +267,33 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
         });
     },
 
+    audioTracks: null,
+    addAudioTrack: (track: Track) => {
+        const audioTracks = get().audioTracks;
+
+        let sortedTracks = [track];
+        if (audioTracks) {
+            sortedTracks = sortByBibleBook([...audioTracks, track], 'subtitle');
+        }
+
+        set({ audioTracks: sortedTracks });
+    },
+    removeAudioTrack: (track: Track) => {
+        set({
+            audioTracks: get().audioTracks
+                ? get().audioTracks!.filter(
+                      item =>
+                          !(
+                              item.url === track.url &&
+                              item.title === track.title &&
+                              item.artist === track.artist
+                          ),
+                  )
+                : null,
+        });
+    },
+    setAudioTracks: (tracks: Track[]) => set({ audioTracks: tracks }),
+
     setCourses: (courses: ICourse[]) =>
         set({ courses: courses.sort(sortByOrder<ICourse>) }),
     setForms: (forms: IForm[]) => set({ forms }),
@@ -148,7 +306,7 @@ const resourcesStorage = create<IResourceStorage>((set, get) => ({
         set({ events: events.sort((a, b) => sortByDate<IEvent>(a, b, 'asc')) }),
     setTbt: (tbt: ITbtResource[]) =>
         set({
-            tbt: tbt.sort((a, b) => sortByDate<ITbtResource>(a, b, 'asc')),
+            tbt: tbt.sort((a, b) => sortByDate<ITbtResource>(a, b, 'desc')),
         }),
     setTbtAtHome: (tbtAtHome: ITbtAtHome[]) =>
         set({ tbtAtHome: tbtAtHome.sort(sortByAddedDate<ITbtAtHome>) }),

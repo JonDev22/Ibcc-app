@@ -1,16 +1,15 @@
 import React from 'react';
-import {
-    View,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    Linking,
-} from 'react-native';
+import { View, Text, TouchableOpacity, Linking } from 'react-native';
 import appUrls from '../../../../../utils/appUrls';
 import useStyle from '../../../../../hooks/useStyle';
 import Spacer from '../../../../../components/Spacer';
+import resourcesStorage from '../../../../../storage/resourcesStorage';
+import FontAwesome from '@react-native-vector-icons/fontawesome';
+import useColorMap from '../../../../../hooks/useColorMap';
 
 function VisitUs() {
+    const { serviceInformation } = resourcesStorage();
+    const colors = useColorMap();
     const generateStyle = useStyle();
 
     const containerStyle = generateStyle(
@@ -19,48 +18,92 @@ function VisitUs() {
         'border1',
         'borderPrimary',
         'wPadding3XL',
-        'hPadding3XL',
+        'hPadding4XL',
         'hMargin3XL',
         'rounded6',
     );
-    const headingStyle = generateStyle('fontXL', 'weight700', 'secondary');
-    const labelStyle = generateStyle('fontM', 'weight600', 'secondary');
-    const valueStyle = generateStyle('fontS', 'wMarginS');
-    const touchableStyle = generateStyle(
-        'wPadding3XL',
-        'hPadding3XL',
-        'border1',
-        'rounded2',
-        'borderPrimary',
+    const headingStyle = generateStyle(
+        'fontXL',
+        'weight700',
+        'secondary',
+        'textLeft',
+        'bgTransparent',
     );
-    const touchableText = generateStyle('primary');
+    const valueStyle = generateStyle('fontS', 'wMarginS', 'bgTransparent');
+    const touchableStyle = generateStyle('bgTransparent');
+    const touchableText = generateStyle(
+        'primary',
+        'bgTransparent',
+        'fontS',
+        'pb1',
+    );
+    const viewStyle = generateStyle(
+        'flexRow',
+        'itemsCenter',
+        'gap2',
+        'itemsCenter',
+        'bgTransparent',
+    );
 
     return (
-        <View style={containerStyle}>
-            <Text style={headingStyle}>Sunday Service</Text>
-
-            <View>
-                <Spacer />
-                <Text style={labelStyle}>Time of Service:</Text>
-                <Text style={valueStyle}>Sundays at 14:00 (2 pm)</Text>
-
-                <Spacer />
-                <Text style={labelStyle}>Location:</Text>
-                <Text style={valueStyle}>
-                    Herbigstraße 18-20, 50825 Cologne
+        <View
+            style={{ ...containerStyle, backgroundColor: colors.bgSecondary }}
+        >
+            <View style={{ alignSelf: 'flex-start', paddingTop: 10 }}>
+                <Text style={headingStyle}>IBC Cologne</Text>
+                <Text
+                    style={{
+                        ...valueStyle,
+                        fontSize: 16,
+                        color: colors.secondary,
+                        fontStyle: 'italic',
+                    }}
+                >
+                    Join our service
                 </Text>
+            </View>
+
+            <View style={{ alignSelf: 'flex-start' }}>
+                <Spacer />
+
+                <View style={viewStyle}>
+                    <FontAwesome
+                        name="clock-o"
+                        size={13}
+                        color={colors.third}
+                    />
+                    <Text style={valueStyle}>
+                        {serviceInformation?.time ?? 'N/A'}
+                    </Text>
+                </View>
+
+                <View style={viewStyle}>
+                    <FontAwesome
+                        name="map-marker"
+                        size={17}
+                        color={colors.third}
+                    />
+                    <Text style={valueStyle}>
+                        {serviceInformation?.location ?? 'N/A'}
+                    </Text>
+                </View>
             </View>
 
             <Spacer />
             <TouchableOpacity
                 onPress={() => Linking.openURL(appUrls.IBC)}
-                style={touchableStyle}
+                style={{ ...touchableStyle, alignSelf: 'flex-start' }}
             >
-                <Text style={touchableText}>Visit our website</Text>
+                <View style={viewStyle}>
+                    <Text style={touchableText}>Visit our website</Text>
+                    <FontAwesome
+                        name="chevron-right"
+                        size={12}
+                        color={colors.third}
+                    />
+                </View>
             </TouchableOpacity>
         </View>
     );
 }
 export default VisitUs;
-
-const styles = StyleSheet.create({});

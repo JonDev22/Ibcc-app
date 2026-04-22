@@ -5,7 +5,6 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    TouchableOpacity,
     View,
 } from 'react-native';
 import Separator from '../../../../functions/Separator';
@@ -15,10 +14,12 @@ import useStyle from '../../../../hooks/useStyle';
 import Spacer from '../../../../components/Spacer';
 import resourcesStorage from '../../../../storage/resourcesStorage';
 import userSettings from '../../../../storage/userSettings';
-import useColorMap from '../../../../hooks/useColorMap';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationType } from '../../types/navigationProps';
 import deleteTbtAtHomeEntry from '../../../../functions/database/deleteTbtAtHomeEntry';
+import hasUserRole from '../../../../functions/hasUserRole';
+import { userGroups } from '../../../../constants/userGroups';
+import AddButton from '../../../../components/AddButton';
 
 function ListItem({ item }: { item: { text: string } }) {
     const generateStyle = useStyle();
@@ -29,7 +30,6 @@ function ListItem({ item }: { item: { text: string } }) {
 function TbtAtHome() {
     const { tbtAtHome, removeTbtAtHome } = resourcesStorage();
     const { user } = userSettings();
-    const colorMap = useColorMap();
 
     const navigation = useNavigation<NavigationType<'TBT@Home'>>();
 
@@ -77,6 +77,14 @@ function TbtAtHome() {
                 />
 
                 <Text style={subHeaderStyle}>Resources</Text>
+
+                {hasUserRole(user, ['admin', 'tbtAtHomeEditor']) && (
+                    <AddButton
+                        handleAddEvent={handleAddEvent}
+                        buttonLabel="Add TBT@Home Resource"
+                    />
+                )}
+
                 <FlatList
                     data={tbtAtHome}
                     keyExtractor={item => item.title}
@@ -88,7 +96,10 @@ function TbtAtHome() {
                             onPress={() => handlePress(item.resource)}
                             headerLeft
                             buttonText="Download"
-                            deletable={user !== null}
+                            deletable={hasUserRole(user, [
+                                userGroups.tbtAtHomeEditor,
+                                userGroups.ADMIN,
+                            ])}
                             deletableAction={() => {
                                 Alert.alert(
                                     'Delete Resource',
@@ -102,19 +113,19 @@ function TbtAtHome() {
                                             text: 'Delete',
                                             style: 'destructive',
                                             onPress: () => {
-                                                deleteTbtAtHomeEntry(item).then(
-                                                    res => {
-                                                        if (res) {
-                                                            removeTbtAtHome(
-                                                                item,
-                                                            );
-                                                        } else {
-                                                            Alert.alert(
-                                                                'Error deleting resource',
-                                                            );
-                                                        }
-                                                    },
-                                                );
+                                                deleteTbtAtHomeEntry(
+                                                    item.id,
+                                                    item.resource,
+                                                    'tbtAtHome',
+                                                ).then(res => {
+                                                    if (res) {
+                                                        removeTbtAtHome(item);
+                                                    } else {
+                                                        Alert.alert(
+                                                            'Error deleting resource',
+                                                        );
+                                                    }
+                                                });
                                             },
                                         },
                                     ],
@@ -125,19 +136,9 @@ function TbtAtHome() {
                     scrollEnabled={false}
                     ItemSeparatorComponent={Spacer}
                 />
+                <Spacer />
+                <Spacer />
             </ScrollView>
-
-            {user && (
-                <TouchableOpacity
-                    style={{
-                        ...styles.fab,
-                        backgroundColor: colorMap.secondary,
-                    }}
-                    onPress={handleAddEvent}
-                >
-                    <Text style={{ color: colorMap.color }}>+</Text>
-                </TouchableOpacity>
-            )}
         </View>
     );
 }
@@ -155,14 +156,4 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     list: { padding: 15 },
-    fab: {
-        position: 'absolute',
-        bottom: 30,
-        right: 30,
-        width: 50,
-        height: 50,
-        borderRadius: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
 });

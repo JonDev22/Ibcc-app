@@ -3,10 +3,11 @@ import VerseViewer from './components/VerseViewer';
 import TopUpcomingEvents from './components/TopUpcomingEvents';
 import OnlineResources from './components/OnlineResources';
 import VisitUs from './components/VisitUs';
-import InfoCard from '../../../../components/InfoCard';
 import { useNavigation } from '@react-navigation/native';
 import { HomeNavigationType } from '../../types/homeNavigationProp';
 import useStyle from '../../../../hooks/useStyle';
+import Spacer from '../../../../components/Spacer';
+import TopAnnouncements from './components/TopAnnouncements';
 
 function Home() {
     const navigate = useNavigation<HomeNavigationType<'Announcements'>>();
@@ -15,24 +16,23 @@ function Home() {
 
     return (
         <ScrollView style={generateStyle()}>
-            <VerseViewer />
+            <VerseViewer navigate={() => navigate.navigate('Passages')} />
+
+            <Spacer />
 
             <TopUpcomingEvents />
 
-            <View style={styles.announcementView}>
-                <InfoCard
-                    image="bullhorn"
-                    text="Be part of the journey — explore the newest updates and announcements from our church family."
-                    onPress={() => navigate.navigate('Announcements')}
-                    header="Announcements"
-                    headerLeft
-                    buttonText="See announcements"
-                />
-            </View>
+            <Spacer />
 
-            <OnlineResources />
+            <TopAnnouncements />
+
+            <Spacer />
 
             <VisitUs />
+
+            <Spacer />
+
+            <OnlineResources />
 
             <View style={styles.breather} />
         </ScrollView>

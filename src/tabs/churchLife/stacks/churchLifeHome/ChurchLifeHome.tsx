@@ -32,7 +32,7 @@ function ChurchLifeHome() {
         },
     ];
 
-    const containerStyle = generateStyle('hMinMax', 'hPaddingM', 'wPaddingM');
+    const containerStyle = generateStyle('hMinMax', 'hPaddingXL', 'wPaddingM');
 
     return (
         <View style={containerStyle}>

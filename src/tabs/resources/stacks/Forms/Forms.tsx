@@ -39,7 +39,7 @@ const Forms: React.FC = () => {
                     style={styles.touchableElement}
                 >
                     <Text style={touchableTextStyle}>
-                        Can't fine the form you were looking for? Please click
+                        Can't find the form you were looking for? Please click
                         here to check our website for more information
                     </Text>
                 </TouchableOpacity>

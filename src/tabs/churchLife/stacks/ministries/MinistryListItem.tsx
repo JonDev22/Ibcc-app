@@ -4,11 +4,14 @@ import { IMinistry } from '../../../../interfaces/IMinistry';
 import getIconFromString from '../../../../functions/getIconFromString';
 import useStyle from '../../../../hooks/useStyle';
 import useColorMap from '../../../../hooks/useColorMap';
-import composeMail from '../../../../functions/composeMail';
+import { useNavigation } from '@react-navigation/native';
+import { ChurchNavigationType } from '../../types/churchNavigationProps';
 
 function MinistryListItem({ ministry }: { ministry: IMinistry }) {
     const generateStyle = useStyle();
     const colorMap = useColorMap();
+
+    const navigation = useNavigation<ChurchNavigationType<"Ministry">>();
 
     const cardStyle = generateStyle(
         'rounded6',
@@ -18,12 +21,12 @@ function MinistryListItem({ ministry }: { ministry: IMinistry }) {
         'wPadding4XL',
         'gap2',
     );
-    const titleStyle = generateStyle('fontM', 'weight700');
-    const subTitleStyle = generateStyle('fontXS', 'weight500');
+    const titleStyle = generateStyle('fontM', 'weight700', 'secondary');
+    const subTitleStyle = generateStyle('fontXS', 'weight500', 'third');
     const textStyle = generateStyle('fontXS');
 
     const handleTouch = () => {
-        composeMail('admin@ibc-cologne.com', ministry.name, ministry.name);
+        navigation.navigate('Ministry', { ministry });
     };
 
     return (
@@ -37,8 +40,19 @@ function MinistryListItem({ ministry }: { ministry: IMinistry }) {
                 <Text style={titleStyle}>{ministry.name}</Text>
             </View>
             <Text style={subTitleStyle}>Leader: {ministry.leader}</Text>
-            <Text style={textStyle}>Time: {ministry.time}</Text>
-            <Text style={textStyle}>Responsibility: {ministry.task}</Text>
+            <View style={styles.centeredView}>
+                <FontAwesome
+                    name={'calendar'}
+                    size={15}
+                    color={colorMap.primary}
+                />
+                <Text style={textStyle}>{ministry.time}</Text>
+            </View>
+            {/* <Text style={textStyle}>Responsibility: {ministry.task}</Text> */}
+            <View style={styles.centeredView}>
+                <Text style={textStyle}>Learn More</Text>
+                <FontAwesome name="chevron-right" size={15} />
+            </View>
         </TouchableOpacity>
     );
 }

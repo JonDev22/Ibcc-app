@@ -113,7 +113,6 @@ export default InfoCard;
 
 const styles = StyleSheet.create({
     container: {
-        margin: 8,
         borderRadius: 12,
         borderColor: colors.petrolBlue,
         borderWidth: 0.5,
@@ -127,11 +126,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignSelf: 'flex-start',
         width: '100%',
+        maxWidth: '100%',
     },
     headerLeftView: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
+        maxWidth: '90%',
     },
     button: {
         backgroundColor: colors.petrolBlue,

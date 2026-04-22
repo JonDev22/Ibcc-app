@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     Text,
     StyleSheet,
+    ScrollView,
 } from 'react-native';
 import EventsDisplayCard from './EventsDisplayCard';
 import Separator from '../../../../functions/Separator';
@@ -14,6 +15,9 @@ import { HomeNavigationType } from '../../types/homeNavigationProp';
 import useColorMap from '../../../../hooks/useColorMap';
 import resourcesStorage from '../../../../storage/resourcesStorage';
 import userSettings from '../../../../storage/userSettings';
+import AddButton from '../../../../components/AddButton';
+import hasUserRole from '../../../../functions/hasUserRole';
+import Spacer from '../../../../components/Spacer';
 
 function UpcomingEventsList() {
     const { events } = resourcesStorage();
@@ -37,28 +41,29 @@ function UpcomingEventsList() {
 
     return (
         <View style={containerStyle}>
-            <FlatList
-                data={events}
-                keyExtractor={item =>
-                    `${item.date.toDate().toDateString()}; ${item.title}; ${
-                        item.id
-                    }`
-                }
-                renderItem={({ item }) => <EventsDisplayCard {...item} />}
-                ItemSeparatorComponent={Separator}
-            />
+            <ScrollView>
+                <FlatList
+                    data={events}
+                    keyExtractor={item =>
+                        `${item.date.toDate().toDateString()}; ${item.title}; ${
+                            item.id
+                        }`
+                    }
+                    renderItem={({ item }) => <EventsDisplayCard {...item} />}
+                    ItemSeparatorComponent={Separator}
+                    scrollEnabled={false}
+                />
 
-            {user && (
-                <TouchableOpacity
-                    style={{
-                        ...styles.fab,
-                        backgroundColor: colorMap.secondary,
-                    }}
-                    onPress={handleAddEvent}
-                >
-                    <Text style={{ color: colorMap.color }}>+</Text>
-                </TouchableOpacity>
-            )}
+                {hasUserRole(user, ['admin']) && (
+                    <View>
+                        <Spacer />
+                        <AddButton
+                            handleAddEvent={handleAddEvent}
+                            buttonLabel="Add Event"
+                        />
+                    </View>
+                )}
+            </ScrollView>
         </View>
     );
 }

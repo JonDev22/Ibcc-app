@@ -22,6 +22,8 @@ import resourcesStorage from '../../../../storage/resourcesStorage';
 import userSettings from '../../../../storage/userSettings';
 import useItemById from '../../../../hooks/useItemById';
 import { IEvent } from '../../../../interfaces/IEvent';
+import hasUserRole from '../../../../functions/hasUserRole';
+import { userGroups } from '../../../../constants/userGroups';
 
 type EventsDetailRouteProp = RouteProp<
     HomeNavigationParamList,
@@ -140,7 +142,7 @@ function UpcomingEventsDetails({ route, navigation }: EventsDetailProps) {
                     </Text>
                 </View>
 
-                {user && (
+                {hasUserRole(user, [userGroups.ADMIN]) && (
                     <>
                         <Spacer />
                         <TouchableOpacity
